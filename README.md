@@ -58,7 +58,7 @@ This means
  - alive mutants mean that either
     - a test is missing
     - or the code is equivalent (for example, if the extraction is on dead code)
-    - or the refactoring precondition is more conservative than it should (the refactoring is actually ok to perform but was being cancelled by a very conservative precondition)
+    - or the refactoring precondition is more conservative than it should (the refactoring is actually ok to perform but was being cancelled by a very conservative precondition) => this was actually a semantic-preserving transformation at the end
  - killed mutants mean that preconditions protect us from a runtime mis-behavior. *the refactoring precondition is ok and prevents breaking the code in this way*
  - terminated mutant (the mutant could not be installed and run) protect us from a compile-time mis-behavior. *the refactoring precondition is ok and prevents breaking the code in this way*
 
