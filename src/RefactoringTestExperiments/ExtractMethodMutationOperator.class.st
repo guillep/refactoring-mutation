@@ -1,56 +1,32 @@
 Class {
 	#name : 'ExtractMethodMutationOperator',
-	#superclass : 'MTPredicateBasedMutantOperator',
+	#superclass : 'SubMethodRefactoringMutationOperator',
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
 }
 
 { #category : 'instance creation' }
-ExtractMethodMutationOperator >> affectedNodesFor: aParseTree [
-	"Redefine to only affect nodes in the body"
+ExtractMethodMutationOperator >> applyMutation: aMutation [
 
-	| selected statementSubsequences |
-	selected := aParseTree body allChildren select: [ :aNode |
-		            self appliesToNode: aNode ].
-	(self appliesToNode: aParseTree body) ifTrue: [
-		selected add: aParseTree body ].
+	| refactoring options |
+	refactoring := RBExtractMethodRefactoring
+		               extract: aMutation data
+		               from: aMutation originalMethod selector
+		               in: aMutation originalMethod methodClass name.
+	options := refactoring options copy.
+	options at: #methodName put: [ :aMethodName :ref |
+		aMethodName
+			selector: #foo , ('' join: (ref parameters collect: [ :e | '_:' ]));
+			yourself ].
+	options at: #extractAssignment put: [ :a :b | true ].
+	refactoring options: options.
 
-	statementSubsequences := OrderedCollection new.
-	selected select: [ :e | e isSequence ] thenDo: [ :seq |
-		2 to: seq statements size do: [ :size |
-			0 to: size - 1 do: [ :delta |
-				| subsequences |
-				subsequences := ((seq statements allButFirst: delta) groupsOf:
-					                 size)
-					                select: [ :e | e size = size ]
-					                thenCollect: [ :statementSubsequence |
-						                statementSubsequence first parent copy
-							                statements:
-							                (statementSubsequence collect: #copy) ].
-				subsequences
-					select: [ :each | self appliesToNode: each ]
-					thenDo: [ :each | statementSubsequences add: each ] ] ] ].
-
-	^ selected , statementSubsequences
-]
-
-{ #category : 'instance creation' }
-ExtractMethodMutationOperator >> appliesToNode: aNode [
-
-	(aNode methodNode compiledMethod origin isKindOf: TraitedMetaclass)
-		ifTrue: [ ^ false ].
-	(aNode methodNode compiledMethod origin isKindOf: TraitedClass class)
-		ifTrue: [ ^ false ].
-	(aNode methodNode compiledMethod origin isKindOf: TraitedClass)
-		ifTrue: [ ^ false ].
-	aNode methodNode compiledMethod origin isTrait ifTrue: [ ^ false ].
-	aNode sourceInterval ifEmpty: [ ^ false ].
-
-	1 haltIf: [
-		aNode methodNode compiledMethod origin isKindOf: TraitedClass ].
-
-	^ self canRefactor: aNode
+	refactoring prepareForExecution.
+	aMutation shouldApplyPreconditions ifTrue: [
+		refactoring applicabilityPreconditions check ifFalse: [ self error ] ].
+	refactoring privateTransform.
+	refactoring performChanges
 ]
 
 { #category : 'instance creation' }
@@ -102,26 +78,10 @@ ExtractMethodMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree 
 
 	affectedNodes := self affectedNodesFor: aParseTree.
 	^ affectedNodes collectWithIndex: [ :affectedNode :index |
-		  ExtractMethodMutation
+		  RefactoringMutation
 			  for: aCompiledMethod
 			  using: self
 			  nodeNumber: index
 			  ofClass: aCompiledMethod methodClass
 			  withData: affectedNode sourceInterval ]
-]
-
-{ #category : 'private' }
-ExtractMethodMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree number: nodeIndex storeIn: accumulator [
-
-	| affectedNode |
-	self error.
-	affectedNode := self affectedNodeFor: aParseTree at: nodeIndex.
-
-	accumulator add: (ExtractMethodMutation
-			 for: aCompiledMethod
-			 using: self
-			 nodeNumber: nodeIndex
-			 ofClass: aCompiledMethod methodClass
-			 withData: affectedNode sourceInterval).
-	^ accumulator
 ]
