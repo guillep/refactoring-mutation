@@ -57,7 +57,8 @@ RenameMethodMutationOperator >> canRefactor: aNode [
 		               permutation: #(  ).
 
 	refactoring prepareForExecution.
-	failing := refactoring failedApplicabilityPreconditions.
+	failing := refactoring failedApplicabilityPreconditions asOrderedCollection.
+	failing addAll: refactoring failedBreakingChangePreconditions.
 	^ failing isEmpty
 ]
 
