@@ -81,7 +81,6 @@ RenameMethodMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
 		 aCompiledMethod hasPragmaNamed: #ignoreForCoverage ]) ifTrue: [
 		^ #(  ) ].
 
-1halt.
 	affectedNodes := self affectedNodesFor: aParseTree.
 	^ affectedNodes collectWithIndex: [ :affectedNode :index |
 		  RefactoringMutation
