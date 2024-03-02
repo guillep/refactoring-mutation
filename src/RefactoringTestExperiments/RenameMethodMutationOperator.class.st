@@ -28,18 +28,18 @@ RenameMethodMutationOperator >> appliesToNode: aNode [
 { #category : 'instance creation' }
 RenameMethodMutationOperator >> applyMutation: aMutation [
 
-	| refactoring failing |
-	refactoring := ReRenameMethodRefactoring
-		               renameMethod: (aMutation originalMethod sourceCode
+	| refactoring failing parsedExpression |
+	parsedExpression := RBParser parseExpression: (aMutation originalMethod sourceCode
 				                copyFrom: aMutation data first
-				                to: aMutation data last)
+				                to: aMutation data last).
+	refactoring := ReRenameMethodRefactoring
+		               renameMethod: parsedExpression selector
 		               in: aMutation originalMethod methodClass name
-		               to: #foo
+		               to: 'new' , parsedExpression selector
 		               permutation: #(  ).
 
 	refactoring prepareForExecution.
-	failing := refactoring applicabilityPreconditions reject: [ :cond |
-		           cond check ].
+	failing := refactoring failedApplicabilityPreconditions.
 	failing ifNotEmpty: [ RBRefactoringError signal ].
 	refactoring privateTransform.
 	refactoring performChanges
@@ -50,14 +50,13 @@ RenameMethodMutationOperator >> canRefactor: aNode [
 
 	| refactoring failing |
 	refactoring := ReRenameMethodRefactoring
-		               renameMethod: aNode sourceCode
+		               renameMethod: aNode selector
 		               in: aNode methodNode methodClass name
-		               to: #foo
+		               to: 'new' , aNode selector
 		               permutation: #(  ).
 
 	refactoring prepareForExecution.
-	failing := refactoring applicabilityPreconditions reject: [ :cond |
-		           cond check ].
+	failing := refactoring failedApplicabilityPreconditions.
 	^ failing isEmpty
 ]
 
