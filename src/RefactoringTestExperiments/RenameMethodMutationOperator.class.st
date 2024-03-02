@@ -18,6 +18,14 @@ RenameMethodMutationOperator >> affectedNodesFor: aParseTree [
 ]
 
 { #category : 'instance creation' }
+RenameMethodMutationOperator >> appliesToNode: aNode [
+
+	(aNode isMessage or: [ aNode isMethod ]) ifFalse: [ ^ false ].
+
+	^ super appliesToNode: aNode
+]
+
+{ #category : 'instance creation' }
 RenameMethodMutationOperator >> applyMutation: aMutation [
 
 	| refactoring failing |
