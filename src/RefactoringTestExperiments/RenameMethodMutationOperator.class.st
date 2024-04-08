@@ -18,20 +18,28 @@ RenameMethodMutationOperator >> affectedNodesFor: aParseTree [
 ]
 
 { #category : 'instance creation' }
+RenameMethodMutationOperator >> appliesToNode: aNode [
+
+	(aNode isMessage or: [ aNode isMethod ]) ifFalse: [ ^ false ].
+
+	^ super appliesToNode: aNode
+]
+
+{ #category : 'instance creation' }
 RenameMethodMutationOperator >> applyMutation: aMutation [
 
-	| refactoring failing |
-	refactoring := ReRenameMethodRefactoring
-		               renameMethod: (aMutation originalMethod sourceCode
+	| refactoring failing parsedExpression |
+	parsedExpression := RBParser parseExpression: (aMutation originalMethod sourceCode
 				                copyFrom: aMutation data first
-				                to: aMutation data last)
+				                to: aMutation data last).
+	refactoring := ReRenameMethodRefactoring
+		               renameMethod: parsedExpression selector
 		               in: aMutation originalMethod methodClass name
-		               to: #foo
+		               to: 'new' , parsedExpression selector
 		               permutation: #(  ).
 
 	refactoring prepareForExecution.
-	failing := refactoring applicabilityPreconditions reject: [ :cond |
-		           cond check ].
+	failing := refactoring failedApplicabilityPreconditions.
 	failing ifNotEmpty: [ RBRefactoringError signal ].
 	refactoring privateTransform.
 	refactoring performChanges
@@ -41,15 +49,16 @@ RenameMethodMutationOperator >> applyMutation: aMutation [
 RenameMethodMutationOperator >> canRefactor: aNode [
 
 	| refactoring failing |
+	({ #size . #new . #initialize } includes: aNode selector) ifTrue: [ ^ false ].
 	refactoring := ReRenameMethodRefactoring
-		               renameMethod: aNode sourceCode
+		               renameMethod: aNode selector
 		               in: aNode methodNode methodClass name
-		               to: #foo
+		               to: 'new' , aNode selector
 		               permutation: #(  ).
 
 	refactoring prepareForExecution.
-	failing := refactoring applicabilityPreconditions reject: [ :cond |
-		           cond check ].
+	failing := refactoring failedApplicabilityPreconditions asOrderedCollection.
+	failing addAll: refactoring failedBreakingChangePreconditions.
 	^ failing isEmpty
 ]
 
@@ -74,7 +83,6 @@ RenameMethodMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
 		 aCompiledMethod hasPragmaNamed: #ignoreForCoverage ]) ifTrue: [
 		^ #(  ) ].
 
-1halt.
 	affectedNodes := self affectedNodesFor: aParseTree.
 	^ affectedNodes collectWithIndex: [ :affectedNode :index |
 		  RefactoringMutation
