@@ -55,8 +55,8 @@ RenameMethodMutationOperator >> applyMutation: aMutation [
 RenameMethodMutationOperator >> canRefactor: aNode [
 
 	| refactoring failing |
-	({ #size . #new . #initialize } includes: aNode selector) ifTrue: [ ^ false ].
 	refactoring := ReRenameMethodRefactoring
+						 model: model
 		               renameMethod: aNode selector
 		               in: aNode methodNode methodClass name
 		               to: 'new' , aNode selector
@@ -72,6 +72,18 @@ RenameMethodMutationOperator >> canRefactor: aNode [
 RenameMethodMutationOperator >> description [
 	
 	^ 'Rename a method'
+]
+
+{ #category : 'accessing' }
+RenameMethodMutationOperator >> model [
+
+	^ model ifNil: [ model := nil ]
+]
+
+{ #category : 'accessing' }
+RenameMethodMutationOperator >> model: anObject [
+
+	model := anObject
 ]
 
 { #category : 'instance creation' }
