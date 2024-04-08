@@ -1,6 +1,9 @@
 Class {
 	#name : 'RenameMethodMutationOperator',
 	#superclass : 'SubMethodRefactoringMutationOperator',
+	#instVars : [
+		'model'
+	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
@@ -28,15 +31,18 @@ RenameMethodMutationOperator >> appliesToNode: aNode [
 { #category : 'instance creation' }
 RenameMethodMutationOperator >> applyMutation: aMutation [
 
-	| refactoring failing parsedExpression |
+	| refactoring failing parsedExpression selector permutations |
 	parsedExpression := RBParser parseExpression: (aMutation originalMethod sourceCode
 				                copyFrom: aMutation data first
 				                to: aMutation data last).
+	selector := parsedExpression selector.
+	permutations := selector count: [ :c | c = $: ].
 	refactoring := ReRenameMethodRefactoring
-		               renameMethod: parsedExpression selector
+						 model: model
+		               renameMethod: selector
 		               in: aMutation originalMethod methodClass name
-		               to: 'new' , parsedExpression selector
-		               permutation: #(  ).
+		               to: 'new' , selector
+		               permutation: (1 to: permutations).
 
 	refactoring prepareForExecution.
 	failing := refactoring failedApplicabilityPreconditions.
