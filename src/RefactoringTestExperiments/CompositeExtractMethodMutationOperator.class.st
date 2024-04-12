@@ -12,7 +12,7 @@ CompositeExtractMethodMutationOperator >> applyMutation: aMutation [
 	| refactoring |
 	refactoring := ReCompositeExtractMethodRefactoring 
 						 model: model
-		               extract: aMutation data
+		               extractInterval: aMutation data
 		               from: aMutation originalMethod selector
 						  to: #foo
 		               in: aMutation originalMethod methodClass name.
@@ -34,7 +34,7 @@ CompositeExtractMethodMutationOperator >> canRefactor: aNode [
 	| refactoring |
 	refactoring := ReCompositeExtractMethodRefactoring
 						 model: model
-		               extract: aNode sourceCode
+		               extractInterval: aNode sourceInterval
 		               from: aNode methodNode selector
 						  to: #foo
 		               in: aNode methodNode methodClass name.
@@ -53,12 +53,10 @@ CompositeExtractMethodMutationOperator >> description [
 	^ 'Extract an expression/statement from the method into a separate method'
 ]
 
-{ #category : 'instance creation' }
+{ #category : 'private' }
 CompositeExtractMethodMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseTree number: aNumber newExpression: aNode [
 
-	| start |
-	start := aCompiledMethod sourceCode findString: aNode.
-	^ aCompiledMethod sourceCode copyReplaceFrom: start to: start + aNode size - 1 with: ' EXTRACTED '
+	^ aCompiledMethod sourceCode copyReplaceFrom: aNode start to: aNode last with: ' EXTRACTED '
 ]
 
 { #category : 'mutant generation' }
@@ -76,5 +74,5 @@ CompositeExtractMethodMutationOperator >> mutationsFor: aCompiledMethod with: aP
 			  using: self
 			  nodeNumber: index
 			  ofClass: aCompiledMethod methodClass
-			  withData: affectedNode sourceCode ]
+			  withData: affectedNode sourceInterval ]
 ]
