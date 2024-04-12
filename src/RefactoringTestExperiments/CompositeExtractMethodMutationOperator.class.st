@@ -1,9 +1,6 @@
 Class {
 	#name : 'CompositeExtractMethodMutationOperator',
 	#superclass : 'SubMethodRefactoringMutationOperator',
-	#instVars : [
-		'model'
-	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
@@ -54,11 +51,6 @@ CompositeExtractMethodMutationOperator >> canRefactor: aNode [
 CompositeExtractMethodMutationOperator >> description [
 	
 	^ 'Extract an expression/statement from the method into a separate method'
-]
-
-{ #category : 'accessing' }
-CompositeExtractMethodMutationOperator >> model: aRBNamespace [ 
-	model := aRBNamespace 
 ]
 
 { #category : 'instance creation' }
