@@ -56,7 +56,7 @@ CompositeExtractMethodMutationOperator >> description [
 { #category : 'private' }
 CompositeExtractMethodMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseTree number: aNumber newExpression: aNode [
 
-	^ aCompiledMethod sourceCode copyReplaceFrom: aNode start to: aNode last with: ' EXTRACTED '
+	^ aCompiledMethod sourceCode copyReplaceFrom: aNode first to: aNode last with: ' EXTRACTED '
 ]
 
 { #category : 'mutant generation' }
