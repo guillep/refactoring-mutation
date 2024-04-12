@@ -1,9 +1,6 @@
 Class {
 	#name : 'RenameMethodMutationOperator',
 	#superclass : 'SubMethodRefactoringMutationOperator',
-	#instVars : [
-		'model'
-	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
@@ -78,12 +75,6 @@ RenameMethodMutationOperator >> description [
 RenameMethodMutationOperator >> model [
 
 	^ model ifNil: [ model := nil ]
-]
-
-{ #category : 'accessing' }
-RenameMethodMutationOperator >> model: anObject [
-
-	model := anObject
 ]
 
 { #category : 'instance creation' }

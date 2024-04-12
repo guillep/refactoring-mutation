@@ -1,6 +1,9 @@
 Class {
 	#name : 'SubMethodRefactoringMutationOperator',
 	#superclass : 'MTPredicateBasedMutantOperator',
+	#instVars : [
+		'model'
+	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
@@ -58,4 +61,10 @@ SubMethodRefactoringMutationOperator >> appliesToNode: aNode [
 		aNode methodNode compiledMethod origin isKindOf: TraitedClass ].
 
 	^ self canRefactor: aNode
+]
+
+{ #category : 'accessing' }
+SubMethodRefactoringMutationOperator >> model: anObject [
+
+	model := anObject
 ]
