@@ -1,6 +1,9 @@
 Class {
 	#name : 'RenameMethodMutationOperator',
 	#superclass : 'SubMethodRefactoringMutationOperator',
+	#instVars : [
+		'model'
+	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
@@ -28,15 +31,18 @@ RenameMethodMutationOperator >> appliesToNode: aNode [
 { #category : 'instance creation' }
 RenameMethodMutationOperator >> applyMutation: aMutation [
 
-	| refactoring failing parsedExpression |
+	| refactoring failing parsedExpression selector permutations |
 	parsedExpression := RBParser parseExpression: (aMutation originalMethod sourceCode
 				                copyFrom: aMutation data first
 				                to: aMutation data last).
+	selector := parsedExpression selector.
+	permutations := selector count: [ :c | c = $: ].
 	refactoring := ReRenameMethodRefactoring
-		               renameMethod: parsedExpression selector
+						 model: model
+		               renameMethod: selector
 		               in: aMutation originalMethod methodClass name
-		               to: 'new' , parsedExpression selector
-		               permutation: #(  ).
+		               to: 'new' , selector
+		               permutation: (1 to: permutations).
 
 	refactoring prepareForExecution.
 	failing := refactoring failedApplicabilityPreconditions.
@@ -49,8 +55,8 @@ RenameMethodMutationOperator >> applyMutation: aMutation [
 RenameMethodMutationOperator >> canRefactor: aNode [
 
 	| refactoring failing |
-	({ #size . #new . #initialize } includes: aNode selector) ifTrue: [ ^ false ].
 	refactoring := ReRenameMethodRefactoring
+						 model: model
 		               renameMethod: aNode selector
 		               in: aNode methodNode methodClass name
 		               to: 'new' , aNode selector
@@ -66,6 +72,18 @@ RenameMethodMutationOperator >> canRefactor: aNode [
 RenameMethodMutationOperator >> description [
 	
 	^ 'Rename a method'
+]
+
+{ #category : 'accessing' }
+RenameMethodMutationOperator >> model [
+
+	^ model ifNil: [ model := nil ]
+]
+
+{ #category : 'accessing' }
+RenameMethodMutationOperator >> model: anObject [
+
+	model := anObject
 ]
 
 { #category : 'instance creation' }
