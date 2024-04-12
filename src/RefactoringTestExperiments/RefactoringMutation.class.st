@@ -38,5 +38,5 @@ RefactoringMutation >> shouldApplyPreconditions [
 RefactoringMutation >> uninstall [
 
 	"super uninstall."
-	RBRefactoryChangeManager undoLastRefactoring
+	RBRefactoryChangeManager instance undoLastRefactoring
 ]
