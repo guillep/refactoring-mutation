@@ -68,3 +68,9 @@ SubMethodRefactoringMutationOperator >> model: anObject [
 
 	model := anObject
 ]
+
+{ #category : 'hook' }
+SubMethodRefactoringMutationOperator >> reinitializeModel [
+
+	model reinitialize 
+]
