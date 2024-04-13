@@ -1,5 +1,14 @@
 # refactoring-mutation
 
+Loading the project:
+
+```smalltalk
+Metacello new
+  baseline: 'RefactoringTestExperiments';
+  repository: 'github://guillep/refactoring-mutation:main/src';
+  load
+```
+
 ## Examples
 
 You can use `ExtractMethodMutationOperator` and `ExtractMethodNoPreconditionMutationOperator` as follows.
