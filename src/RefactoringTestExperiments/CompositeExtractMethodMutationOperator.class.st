@@ -9,7 +9,8 @@ Class {
 { #category : 'instance creation' }
 CompositeExtractMethodMutationOperator >> applyMutation: aMutation [
 
-	| refactoring |
+	| refactoring model |
+	model := RBNamespace onEnvironment: environment.
 	refactoring := ReCompositeExtractMethodRefactoring 
 						 model: model
 		               extractInterval: aMutation data
@@ -33,7 +34,6 @@ CompositeExtractMethodMutationOperator >> canRefactor: aNode [
 
 	| refactoring |
 	refactoring := ReCompositeExtractMethodRefactoring
-						 model: model
 		               extractInterval: aNode sourceInterval
 		               from: aNode methodNode selector
 						  to: #foo

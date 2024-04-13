@@ -1,6 +1,9 @@
 Class {
 	#name : 'RenameMethodMutationOperator',
 	#superclass : 'SubMethodRefactoringMutationOperator',
+	#instVars : [
+		'model'
+	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
@@ -52,6 +55,7 @@ RenameMethodMutationOperator >> applyMutation: aMutation [
 RenameMethodMutationOperator >> canRefactor: aNode [
 
 	| refactoring failing |
+	model := RBNamespace onEnvironment: environment.
 	refactoring := ReRenameMethodRefactoring
 						 model: model
 		               renameMethod: aNode selector
@@ -69,12 +73,6 @@ RenameMethodMutationOperator >> canRefactor: aNode [
 RenameMethodMutationOperator >> description [
 	
 	^ 'Rename a method'
-]
-
-{ #category : 'accessing' }
-RenameMethodMutationOperator >> model [
-
-	^ model ifNil: [ model := nil ]
 ]
 
 { #category : 'instance creation' }

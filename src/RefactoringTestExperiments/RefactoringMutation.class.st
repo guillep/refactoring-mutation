@@ -39,6 +39,4 @@ RefactoringMutation >> uninstall [
 
 	"super uninstall."
 	RBRefactoryChangeManager instance undoLastRefactoring.
-	"since we reuse the same model between refactorings, we need to clean it on uninstall"
-	operator reinitializeModel
 ]

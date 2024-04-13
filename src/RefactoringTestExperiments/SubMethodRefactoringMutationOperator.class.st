@@ -2,7 +2,7 @@ Class {
 	#name : 'SubMethodRefactoringMutationOperator',
 	#superclass : 'MTPredicateBasedMutantOperator',
 	#instVars : [
-		'model'
+		'environment'
 	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
@@ -64,13 +64,7 @@ SubMethodRefactoringMutationOperator >> appliesToNode: aNode [
 ]
 
 { #category : 'accessing' }
-SubMethodRefactoringMutationOperator >> model: anObject [
+SubMethodRefactoringMutationOperator >> environment: anObject [
 
-	model := anObject
-]
-
-{ #category : 'hook' }
-SubMethodRefactoringMutationOperator >> reinitializeModel [
-
-	model reinitialize 
+	environment := anObject
 ]
