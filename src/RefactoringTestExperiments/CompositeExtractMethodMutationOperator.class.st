@@ -11,20 +11,23 @@ CompositeExtractMethodMutationOperator >> applyMutation: aMutation [
 
 	| refactoring model |
 	model := RBNamespace onEnvironment: environment.
-	refactoring := ReCompositeExtractMethodRefactoring 
-						 model: model
+	refactoring := ReCompositeExtractMethodRefactoring
+		               model: model
 		               extractInterval: aMutation data
 		               from: aMutation originalMethod selector
-						  to: #foo
+		               to: #foo
 		               in: aMutation originalMethod methodClass name.
 
 	refactoring prepareForExecution.
-	
-	refactoring selector: #foo , ('' join: (refactoring arguments collect: [ :e | '_:' ])).
-	
+
+	refactoring newSelector:
+		#foo , ('' join: (refactoring arguments collect: [ :e | '_:' ])).
+
 	aMutation shouldApplyPreconditions ifTrue: [
-		refactoring applicabilityPreconditions check ifFalse: [ self error ] ].
-	
+		[ refactoring checkApplicabilityPreconditions ]
+			on: RBRefactoringError
+			do: [ self error ] ].
+
 	refactoring privateTransform.
 	refactoring performChanges
 ]
@@ -36,13 +39,11 @@ CompositeExtractMethodMutationOperator >> canRefactor: aNode [
 	refactoring := ReCompositeExtractMethodRefactoring
 		               extractInterval: aNode sourceInterval
 		               from: aNode methodNode selector
-						  to: #foo
+		               to: #foo
 		               in: aNode methodNode methodClass name.
 
-	[
-	refactoring prepareForExecution.
-	refactoring checkPreconditions ]
-		on: RBRefactoringError , RBRefactoringWarning
+	[ refactoring prepareForExecution; checkPreconditions ]
+		on: RBRefactoringError
 		do: [ ^ false ].
 	^ true
 ]

@@ -63,6 +63,11 @@ SubMethodRefactoringMutationOperator >> appliesToNode: aNode [
 	^ self canRefactor: aNode
 ]
 
+{ #category : 'printing' }
+SubMethodRefactoringMutationOperator >> description [
+	^ 'Sub method refactoring mutation operator'
+]
+
 { #category : 'accessing' }
 SubMethodRefactoringMutationOperator >> environment: anObject [
 
