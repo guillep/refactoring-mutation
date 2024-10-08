@@ -63,7 +63,7 @@ AddArgumentMutationOperator >> createRefactoringWith: aNode on: aModel [
 	| permutations |
 	permutations := (1 to: aNode arguments size) asOrderedCollection.
 	permutations add: -1.
-1haltIf:[aNode selector = #closeMe].
+	
 	^ RBAddParameterRefactoring 
 		  model: aModel
 		  addParameterToMethod: aNode selector
@@ -88,7 +88,9 @@ AddArgumentMutationOperator >> environment: aRBEnvironment [
 { #category : 'private' }
 AddArgumentMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseTree number: aNumber newExpression: aNode [
 
-	^ aCompiledMethod sourceCode copyReplaceFrom: aNode start to: aNode selectorAndArgumentNames size with: aNode selectorAndArgumentNames , 'foo: aFoo'
+	| sep |
+	sep := aCompiledMethod selector isUnary ifTrue: [ '' ] ifFalse: [ ' ' ].
+	^ aCompiledMethod sourceCode copyReplaceFrom: aNode start to: aNode selectorAndArgumentNames size with: aNode selectorAndArgumentNames , sep , 'foo: aFoo'
 ]
 
 { #category : 'mutant generation' }
