@@ -23,7 +23,7 @@ AddArgumentMutationTestingScript class >> reloadMicrodown [
 			onConflict: [ :e | e useIncoming ];
 			onUpgrade: [ :e | e useIncoming ];
 			ignoreImage;
-			load ]
+			load: 'Tests' ]
 			on: MCMergeOrLoadWarning
 			do: [ :e | e load ] ]
 ]
