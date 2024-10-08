@@ -1,5 +1,5 @@
 Class {
-	#name : 'RenameTempMutationOperator',
+	#name : 'RenameArgumentOrTemporaryMutationOperator',
 	#superclass : 'SubMethodRefactoringMutationOperator',
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
@@ -7,18 +7,18 @@ Class {
 }
 
 { #category : 'instance creation' }
-RenameTempMutationOperator >> appliesToNode: aNode [
+RenameArgumentOrTemporaryMutationOperator >> appliesToNode: aNode [
 
 	| model |
 	aNode methodNode compiledMethod isExtension ifTrue: [ ^ false ].
-	aNode isTempVariable ifFalse: [ ^ false ].
+	(aNode isTempVariable or: [ aNode isArgumentVariable ]) ifFalse: [ ^ false ].
 	model := RBNamespace onEnvironment: environment.
 
 	^ self canRefactor: aNode in: model
 ]
 
 { #category : 'instance creation' }
-RenameTempMutationOperator >> applyMutation: aMutation [
+RenameArgumentOrTemporaryMutationOperator >> applyMutation: aMutation [
 
 	| refactoring |
 	refactoring := self createRefactoringWith: aMutation data on: (RBNamespace onEnvironment: environment).
@@ -27,7 +27,7 @@ RenameTempMutationOperator >> applyMutation: aMutation [
 ]
 
 { #category : 'testing' }
-RenameTempMutationOperator >> canRefactor: aNode in: aModel [
+RenameArgumentOrTemporaryMutationOperator >> canRefactor: aNode in: aModel [
 
 	| refactoring |
 	"Check if class is in environment."
@@ -43,7 +43,7 @@ RenameTempMutationOperator >> canRefactor: aNode in: aModel [
 ]
 
 { #category : 'as yet unclassified' }
-RenameTempMutationOperator >> createRefactoringWith: aNode on: aModel [
+RenameArgumentOrTemporaryMutationOperator >> createRefactoringWith: aNode on: aModel [
 
 	^ RBRenameArgumentOrTemporaryRefactoring
 		  model: aModel
@@ -54,25 +54,25 @@ RenameTempMutationOperator >> createRefactoringWith: aNode on: aModel [
 ]
 
 { #category : 'printing' }
-RenameTempMutationOperator >> description [
+RenameArgumentOrTemporaryMutationOperator >> description [
 	
-	^ 'Rename all temporaries found in method body mutation testing'
+	^ 'Rename all arguments and temporaries found in method body mutation testing'
 ]
 
 { #category : 'accessing' }
-RenameTempMutationOperator >> environment: aRBEnvironment [
+RenameArgumentOrTemporaryMutationOperator >> environment: aRBEnvironment [
 
 	environment := aRBEnvironment 
 ]
 
 { #category : 'private' }
-RenameTempMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseTree number: aNumber newExpression: aNode [
+RenameArgumentOrTemporaryMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseTree number: aNumber newExpression: aNode [
 
 	^ aCompiledMethod sourceCode copyReplaceFrom: aNode start to: aNode stop with: 'foo' , aNode name
 ]
 
 { #category : 'mutant generation' }
-RenameTempMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
+RenameArgumentOrTemporaryMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
 
 	| affectedNodes |
 	((aCompiledMethod hasPragmaNamed: #ignoreForMutations) or: [
