@@ -19,7 +19,6 @@ SubMethodRefactoringMutationOperator >> affectedNodesFor: aParseTree [
 	(self appliesToNode: aParseTree body) ifTrue: [
 		selected add: aParseTree body ].
 
-
 	^ selected , (self allSubsequencesOf: selected)
 ]
 
