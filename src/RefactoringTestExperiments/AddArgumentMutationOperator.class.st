@@ -4,10 +4,29 @@ Class {
 	#instVars : [
 		'environment'
 	],
+	#classInstVars : [
+		'blackListClasses',
+		'blackListMethodNames'
+	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
 }
+
+{ #category : 'as yet unclassified' }
+AddArgumentMutationOperator class >> blackListClasses [
+
+	^ blackListClasses ifNil: [ blackListClasses := { Object . Collection withAllSubclasses . Boolean withAllSubclasses . DateAndTime withAllSubclasses . SystemVersion } ]
+	
+]
+
+{ #category : 'as yet unclassified' }
+AddArgumentMutationOperator class >> blackListMethodNames [
+
+	^ blackListMethodNames ifNil: [ 
+		blackListMethodNames := self blackListClasses flatCollectAsSet: 
+			[ :cls |  cls selectors , cls class selectors ] ]
+]
 
 { #category : 'instance creation' }
 AddArgumentMutationOperator >> affectedNodesFor: aParseTree [
@@ -29,6 +48,7 @@ AddArgumentMutationOperator >> appliesToNode: aNode [
 	aNode methodNode compiledMethod isExtension ifTrue: [ ^ false ].
 	aNode isMethod ifFalse: [ ^ false ].
 	aNode selector = #initialize ifTrue: [ ^ false ].
+	(self class blackListMethodNames includes: aNode selector) ifTrue: [ ^ false ].
 	model := RBNamespace onEnvironment: environment.
 
 	^ self canRefactor: aNode in: model
