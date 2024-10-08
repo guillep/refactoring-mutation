@@ -17,7 +17,7 @@ RenameMethodMutationOperator >> affectedNodesFor: aParseTree [
 	selected := aParseTree allChildren select: [ :aNode |
 		            self appliesToNode: aNode ].
 
-	^ selected , (self allSubsequencesOf: selected)
+	^ selected
 ]
 
 { #category : 'instance creation' }
