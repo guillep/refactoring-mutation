@@ -1,9 +1,6 @@
 Class {
 	#name : 'RenameClassMutationOperator',
 	#superclass : 'SubMethodRefactoringMutationOperator',
-	#instVars : [
-		'model'
-	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
@@ -12,35 +9,40 @@ Class {
 { #category : 'instance creation' }
 RenameClassMutationOperator >> appliesToNode: aNode [
 
-	(aNode isGlobalVariable )
-		ifFalse: [ ^ false ].
+	| model |
+	aNode methodNode compiledMethod isExtension ifTrue: [ ^ false ].
+	aNode isGlobalVariable ifFalse: [ ^ false ].
+	model := RBNamespace onEnvironment: environment.
+	(model classNamed: aNode name) ifNil: [ ^ false ].
 
-	^ self canRefactor: aNode
+	^ self canRefactor: aNode in: model
 ]
 
 { #category : 'instance creation' }
 RenameClassMutationOperator >> applyMutation: aMutation [
 
 	| refactoring |
-	refactoring := ReRenameClassRefactoring 
-						model: model 
-						rename: aMutation data name
-						to: 'Foo' , aMutation data name.
-	refactoring execute.
+	refactoring := ReRenameClassRefactoring
+		               model: (RBNamespace onEnvironment: environment)
+		               rename: aMutation data name
+		               to: 'Foo' , aMutation data name.
+	refactoring execute
 ]
 
 { #category : 'testing' }
-RenameClassMutationOperator >> canRefactor: aNode [
+RenameClassMutationOperator >> canRefactor: aNode in: aModel [
 
 	| refactoring |
-	model := RBNamespace onEnvironment: environment.
 	"Check if class is in environment."
-	(model classNamed: aNode name) ifNil: [ ^ false ].
-	refactoring := ReRenameClassRefactoring 
-		               model: model
-		rename: aNode name to: 'Foo' , aNode name.
+	refactoring := ReRenameClassRefactoring
+		               model: aModel
+		               rename: aNode name
+		               to: 'Foo' , aNode name.
 
-	[ refactoring prepareForExecution; checkPreconditions ]
+	[
+	refactoring
+		prepareForExecution;
+		checkPreconditions ]
 		on: RBRefactoringError
 		do: [ ^ false ].
 	^ true
@@ -53,15 +55,15 @@ RenameClassMutationOperator >> description [
 ]
 
 { #category : 'accessing' }
-RenameClassMutationOperator >> environment: anEnvironment [
+RenameClassMutationOperator >> environment: aRBEnvironment [
 
-	environment := anEnvironment 
+	environment := aRBEnvironment 
 ]
 
 { #category : 'private' }
 RenameClassMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseTree number: aNumber newExpression: aNode [
 
-	^ aCompiledMethod sourceCode copyReplaceFrom: aNode first to: aNode last with: 'Foo' , aNode name
+	^ aCompiledMethod sourceCode copyReplaceFrom: aNode start to: aNode stop with: 'Foo' , aNode name
 ]
 
 { #category : 'mutant generation' }
