@@ -28,6 +28,12 @@ RefactoringMutationOperator class >> blackListMethodNames [
 			[ :cls |  cls selectors , cls class selectors ] ]
 ]
 
+{ #category : 'testing' }
+RefactoringMutationOperator class >> isAbstract [
+
+	^ self == RefactoringMutationOperator
+]
+
 { #category : 'class initialization' }
 RefactoringMutationOperator class >> reset [
 	<script>
