@@ -29,6 +29,32 @@ RefactoringMutationTestingScripts class >> reloadMicrodown [
 ]
 
 { #category : 'running' }
+RefactoringMutationTestingScripts class >> runAddArgument [
+	<script>
+	| testClasses classesToMutate classEnvironment analysis collector coverage |
+	self reloadMicrodown.
+	testClasses := ((PackageOrganizer default packageNamed: 'Microdown-Tests') definedClasses select: [ :cls | cls isTestCase ]) asArray.
+	classesToMutate := ((PackageOrganizer default packageNamed: 'Microdown') definedClasses reject: [ :cls | cls isManifest ]) asArray.
+	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
+	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
+
+	analysis := MTAnalysis new
+		            classesToMutate: classesToMutate;
+		            testClasses: testClasses;
+		            operators: { AddArgumentMutationOperator new classEnvironment: classEnvironment }.
+
+	collector := DTCoverageCollector new. "Instantiate"
+	collector methods: RBAddParameterRefactoring methods.  "Configure with the methods to watch."
+	coverage := collector runOn: [ analysis run ].  "Setup, execute and teardown."
+	coverage inspect.
+	"a DTCoverageResult methods: 8 (67%) nodes: 18 (45%)"
+
+	"To inspect the results"
+	analysis generalResult inspect
+	"596 mutants, 19 killed, 577 alive, 0 terminated. Mutation Score: 3%."
+]
+
+{ #category : 'running' }
 RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	<script>
 	| testClasses classesToMutate classEnvironment analysis collector coverage |
