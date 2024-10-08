@@ -1,6 +1,6 @@
 Class {
 	#name : 'SubMethodRefactoringMutationOperator',
-	#superclass : 'MTPredicateBasedMutantOperator',
+	#superclass : 'RefactoringMutationOperator',
 	#instVars : [
 		'environment'
 	],

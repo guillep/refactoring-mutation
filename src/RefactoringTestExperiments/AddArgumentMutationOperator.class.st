@@ -1,39 +1,13 @@
 Class {
 	#name : 'AddArgumentMutationOperator',
-	#superclass : 'MTPredicateBasedMutantOperator',
+	#superclass : 'RefactoringMutationOperator',
 	#instVars : [
 		'environment'
-	],
-	#classInstVars : [
-		'blackListClasses',
-		'blackListMethodNames'
 	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
 }
-
-{ #category : 'as yet unclassified' }
-AddArgumentMutationOperator class >> blackListClasses [
-
-	^ blackListClasses ifNil: [ blackListClasses := { Object . Collection withAllSubclasses . Boolean withAllSubclasses . DateAndTime withAllSubclasses . SystemVersion } flattened ]
-	
-]
-
-{ #category : 'as yet unclassified' }
-AddArgumentMutationOperator class >> blackListMethodNames [
-
-	^ blackListMethodNames ifNil: [ 
-		blackListMethodNames := self blackListClasses flatCollectAsSet: 
-			[ :cls |  cls selectors , cls class selectors ] ]
-]
-
-{ #category : 'initialization' }
-AddArgumentMutationOperator class >> reset [
-	<script>
-	blackListClasses := nil.
-	blackListMethodNames := nil
-]
 
 { #category : 'instance creation' }
 AddArgumentMutationOperator >> affectedNodesFor: aParseTree [
