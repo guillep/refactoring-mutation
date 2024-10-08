@@ -12,7 +12,7 @@ RenameArgumentOrTemporaryMutationOperator >> appliesToNode: aNode [
 	| model |
 	aNode methodNode compiledMethod isExtension ifTrue: [ ^ false ].
 	(aNode isTempVariable or: [ aNode isArgumentVariable ]) ifFalse: [ ^ false ].
-	model := RBNamespace onEnvironment: environment.
+	model := RBNamespace onEnvironment: classEnvironment.
 
 	^ self canRefactor: aNode in: model
 ]
@@ -21,7 +21,7 @@ RenameArgumentOrTemporaryMutationOperator >> appliesToNode: aNode [
 RenameArgumentOrTemporaryMutationOperator >> applyMutation: aMutation [
 
 	| refactoring |
-	refactoring := self createRefactoringWith: aMutation data on: (RBNamespace onEnvironment: environment).
+	refactoring := self createRefactoringWith: aMutation data on: (RBNamespace onEnvironment: classEnvironment).
 	
 	refactoring execute
 ]
@@ -42,7 +42,7 @@ RenameArgumentOrTemporaryMutationOperator >> canRefactor: aNode in: aModel [
 	^ true
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'mutant generation' }
 RenameArgumentOrTemporaryMutationOperator >> createRefactoringWith: aNode on: aModel [
 
 	^ RBRenameArgumentOrTemporaryRefactoring
@@ -57,12 +57,6 @@ RenameArgumentOrTemporaryMutationOperator >> createRefactoringWith: aNode on: aM
 RenameArgumentOrTemporaryMutationOperator >> description [
 	
 	^ 'Rename all arguments and temporaries found in method body mutation testing'
-]
-
-{ #category : 'accessing' }
-RenameArgumentOrTemporaryMutationOperator >> environment: aRBEnvironment [
-
-	environment := aRBEnvironment 
 ]
 
 { #category : 'private' }

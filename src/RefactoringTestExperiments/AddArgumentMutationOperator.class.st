@@ -1,9 +1,6 @@
 Class {
 	#name : 'AddArgumentMutationOperator',
 	#superclass : 'RefactoringMutationOperator',
-	#instVars : [
-		'environment'
-	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
@@ -30,7 +27,7 @@ AddArgumentMutationOperator >> appliesToNode: aNode [
 	aNode isMethod ifFalse: [ ^ false ].
 	aNode selector = #initialize ifTrue: [ ^ false ].
 	(self class blackListMethodNames includes: aNode selector) ifTrue: [ ^ false ].
-	model := RBNamespace onEnvironment: environment.
+	model := RBNamespace onEnvironment: classEnvironment.
 
 	^ self canRefactor: aNode in: model
 ]
@@ -39,7 +36,7 @@ AddArgumentMutationOperator >> appliesToNode: aNode [
 AddArgumentMutationOperator >> applyMutation: aMutation [
 
 	| refactoring |
-	refactoring := self createRefactoringWith: aMutation data on: (RBNamespace onEnvironment: environment).
+	refactoring := self createRefactoringWith: aMutation data on: (RBNamespace onEnvironment: classEnvironment).
 	
 	refactoring execute
 ]
@@ -78,12 +75,6 @@ AddArgumentMutationOperator >> createRefactoringWith: aNode on: aModel [
 AddArgumentMutationOperator >> description [
 	
 	^ 'Rename all arguments and temporaries found in method body mutation testing'
-]
-
-{ #category : 'accessing' }
-AddArgumentMutationOperator >> environment: aRBEnvironment [
-
-	environment := aRBEnvironment 
 ]
 
 { #category : 'private' }

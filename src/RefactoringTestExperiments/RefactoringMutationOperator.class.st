@@ -1,6 +1,9 @@
 Class {
 	#name : 'RefactoringMutationOperator',
 	#superclass : 'MTPredicateBasedMutantOperator',
+	#instVars : [
+		'classEnvironment'
+	],
 	#classInstVars : [
 		'blackListClasses',
 		'blackListMethodNames'
@@ -30,4 +33,10 @@ RefactoringMutationOperator class >> reset [
 	<script>
 	blackListClasses := nil.
 	blackListMethodNames := nil
+]
+
+{ #category : 'accessing' }
+RefactoringMutationOperator >> classEnvironment: aRBEnvironment [
+
+	classEnvironment := aRBEnvironment 
 ]

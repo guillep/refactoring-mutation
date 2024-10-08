@@ -10,7 +10,7 @@ Class {
 CompositeExtractMethodMutationOperator >> applyMutation: aMutation [
 
 	| refactoring model |
-	model := RBNamespace onEnvironment: environment.
+	model := RBNamespace onEnvironment: classEnvironment.
 	refactoring := ReCompositeExtractMethodRefactoring
 		               model: model
 		               extractInterval: aMutation data

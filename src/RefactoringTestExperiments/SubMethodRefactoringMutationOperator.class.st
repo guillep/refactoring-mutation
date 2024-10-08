@@ -1,9 +1,6 @@
 Class {
 	#name : 'SubMethodRefactoringMutationOperator',
 	#superclass : 'RefactoringMutationOperator',
-	#instVars : [
-		'environment'
-	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
@@ -65,10 +62,4 @@ SubMethodRefactoringMutationOperator >> appliesToNode: aNode [
 { #category : 'printing' }
 SubMethodRefactoringMutationOperator >> description [
 	^ 'Sub method refactoring mutation operator'
-]
-
-{ #category : 'accessing' }
-SubMethodRefactoringMutationOperator >> environment: anObject [
-
-	environment := anObject
 ]

@@ -12,7 +12,7 @@ RenameClassMutationOperator >> appliesToNode: aNode [
 	| model |
 	aNode methodNode compiledMethod isExtension ifTrue: [ ^ false ].
 	aNode isGlobalVariable ifFalse: [ ^ false ].
-	model := RBNamespace onEnvironment: environment.
+	model := RBNamespace onEnvironment: classEnvironment.
 	(model classNamed: aNode name) ifNil: [ ^ false ].
 
 	^ self canRefactor: aNode in: model
@@ -23,7 +23,7 @@ RenameClassMutationOperator >> applyMutation: aMutation [
 
 	| refactoring |
 	refactoring := ReRenameClassRefactoring
-		               model: (RBNamespace onEnvironment: environment)
+		               model: (RBNamespace onEnvironment: classEnvironment)
 		               rename: aMutation data name
 		               to: 'Foo' , aMutation data name.
 	refactoring execute
@@ -52,12 +52,6 @@ RenameClassMutationOperator >> canRefactor: aNode in: aModel [
 RenameClassMutationOperator >> description [
 	
 	^ 'Rename all classes found in method body mutation testing'
-]
-
-{ #category : 'accessing' }
-RenameClassMutationOperator >> environment: aRBEnvironment [
-
-	environment := aRBEnvironment 
 ]
 
 { #category : 'private' }

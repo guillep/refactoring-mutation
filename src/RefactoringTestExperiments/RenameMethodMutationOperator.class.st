@@ -1,9 +1,6 @@
 Class {
 	#name : 'RenameMethodMutationOperator',
 	#superclass : 'SubMethodRefactoringMutationOperator',
-	#instVars : [
-		'model'
-	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
@@ -38,7 +35,7 @@ RenameMethodMutationOperator >> applyMutation: aMutation [
 	selector := parsedExpression selector.
 	permutations := selector count: [ :c | c = $: ].
 	refactoring := ReRenameMethodRefactoring
-						 model: model
+						 model: (RBNamespace onEnvironment: classEnvironment)
 		               renameMethod: selector
 		               in: aMutation originalMethod methodClass name
 		               to: 'new' , selector
@@ -54,8 +51,8 @@ RenameMethodMutationOperator >> applyMutation: aMutation [
 { #category : 'instance creation' }
 RenameMethodMutationOperator >> canRefactor: aNode [
 
-	| refactoring failing |
-	model := RBNamespace onEnvironment: environment.
+	| refactoring failing model |
+	model := RBNamespace onEnvironment: classEnvironment.
 	refactoring := ReRenameMethodRefactoring
 						 model: model
 		               renameMethod: aNode selector
