@@ -42,9 +42,11 @@ CompositeExtractMethodMutationOperator >> canRefactor: aNode [
 		               to: #foo
 		               in: aNode methodNode methodClass name.
 
-	[ refactoring prepareForExecution; checkPreconditions ]
+	[ [ refactoring prepareForExecution; checkPreconditions ]
 		on: RBRefactoringError
-		do: [ ^ false ].
+		do: [ ^ false ] ]
+			on: RBRefactoringWarning
+			do: [ ^ false ].
 	^ true
 ]
 

@@ -20,11 +20,13 @@ ExtractMethodMutationOperator >> applyMutation: aMutation [
 			selector: #foo , ('' join: (ref parameters collect: [ :e | '_:' ]));
 			yourself ].
 	options at: #extractAssignment put: [ :a :b | true ].
+	options at: #existingSelector put: [ :a | nil ].
 	refactoring options: options.
 
 	refactoring prepareForExecution.
-	aMutation shouldApplyPreconditions ifTrue: [
-		refactoring checkApplicabilityPreconditions ].
+	[ refactoring checkApplicabilityPreconditions ]
+		on: RBRefactoringError 
+		do: [ :e | e resume ].
 	refactoring privateTransform.
 	refactoring performChanges
 ]
@@ -40,7 +42,6 @@ ExtractMethodMutationOperator >> canRefactor: aNode [
 
 	options := refactoring options copy.
 	options at: #methodName put: [ :aMethodName :ref |
-		1 halt.
 		aMethodName
 			selector: #foo;
 			yourself ].
