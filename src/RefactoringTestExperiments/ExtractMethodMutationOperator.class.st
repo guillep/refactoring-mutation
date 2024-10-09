@@ -24,7 +24,7 @@ ExtractMethodMutationOperator >> applyMutation: aMutation [
 
 	refactoring prepareForExecution.
 	aMutation shouldApplyPreconditions ifTrue: [
-		refactoring applicabilityPreconditions check ifFalse: [ self error ] ].
+		refactoring checkApplicabilityPreconditions ].
 	refactoring privateTransform.
 	refactoring performChanges
 ]
