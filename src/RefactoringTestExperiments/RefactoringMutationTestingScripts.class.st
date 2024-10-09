@@ -6,6 +6,24 @@ Class {
 	#tag : 'Scripts'
 }
 
+{ #category : 'coverage' }
+RefactoringMutationTestingScripts class >> previewCoverageInDrTests: coverage [
+
+	| dr result notExecuted methodsSize |
+	dr := DrTests open.
+	dr pluginsDropList selectIndex: 2.
+	dr currentPlugin: (dr pluginsDropList selectedItem new).
+	result := DTTestCoverageResult new.
+	notExecuted := coverage uncoveredMethods.
+	methodsSize := coverage methods size + coverage uncoveredMethods size.
+	result
+		percent: 1s2 - (notExecuted size / methodsSize asScaledDecimal: 2);
+		methodList: notExecuted;
+		partiallyCoveredMethods: coverage partiallyCoveredMethods.
+	dr pluginResult: result.
+	dr updateWithPluginResult: result.
+]
+
 { #category : 'cleaning' }
 RefactoringMutationTestingScripts class >> reloadMicrodown [
 
@@ -50,8 +68,10 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 	"a DTCoverageResult methods: 8 (67%) nodes: 18 (45%)"
 
 	"To inspect the results"
-	analysis generalResult inspect
+	analysis generalResult inspect.
 	"596 mutants, 19 killed, 577 alive, 0 terminated. Mutation Score: 3%."
+	
+	self previewCoverageInDrTests: coverage
 ]
 
 { #category : 'running' }
@@ -76,8 +96,9 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	" a DTCoverageResult methods: 8 (67%) nodes: 20 (50%)"
 
 	"To inspect the results"
-	analysis generalResult inspect
+	analysis generalResult inspect.
 	"678 mutants, 231 killed, 446 alive, 1 terminated. Mutation Score: 34%."
+	self previewCoverageInDrTests: coverage.
 ]
 
 { #category : 'running' }
@@ -102,6 +123,7 @@ RefactoringMutationTestingScripts class >> runRenameClass [
 	" a DTCoverageResult methods: 8 (67%) nodes: 20 (50%)"
 
 	"To inspect the results"
-	analysis generalResult inspect
+	analysis generalResult inspect.
 	"678 mutants, 231 killed, 446 alive, 1 terminated. Mutation Score: 34%."
+	self previewCoverageInDrTests: coverage.
 ]
