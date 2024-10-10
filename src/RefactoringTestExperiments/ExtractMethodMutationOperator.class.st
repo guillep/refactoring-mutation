@@ -26,7 +26,7 @@ ExtractMethodMutationOperator >> applyMutation: aMutation [
 	refactoring prepareForExecution.
 	[ refactoring checkApplicabilityPreconditions ]
 		on: RBRefactoringError 
-		do: [ :e | e resume ].
+		do: [ :e | e  ].
 	refactoring privateTransform.
 	refactoring performChanges
 ]
