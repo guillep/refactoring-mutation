@@ -9,19 +9,8 @@ Class {
 { #category : 'instance creation' }
 ExtractMethodMutationOperator >> applyMutation: aMutation [
 
-	| refactoring options |
-	refactoring := RBExtractMethodRefactoring
-		               extract: aMutation data
-		               from: aMutation originalMethod selector
-		               in: aMutation originalMethod methodClass name.
-	options := refactoring options copy.
-	options at: #methodName put: [ :aMethodName :ref |
-		aMethodName
-			selector: #foo , ('' join: (ref parameters collect: [ :e | '_:' ]));
-			yourself ].
-	options at: #extractAssignment put: [ :a :b | false ].
-	options at: #existingSelector put: [ :a | nil ].
-	refactoring options: options.
+	| refactoring |
+	refactoring := self createRefactoringWithInterval: aMutation data andMethodNode: aMutation originalMethod.
 
 	[ refactoring
 		prepareForExecution;
@@ -37,11 +26,25 @@ ExtractMethodMutationOperator >> applyMutation: aMutation [
 { #category : 'instance creation' }
 ExtractMethodMutationOperator >> canRefactor: aNode [
 
+	| refactoring |
+	refactoring := self createRefactoringWithInterval: aNode sourceInterval andMethodNode: aNode methodNode.
+
+	[
+	refactoring prepareForExecution.
+	refactoring checkPreconditions ]
+		on: RBRefactoringError , RBRefactoringWarning
+		do: [ ^ false ].
+	^ true
+]
+
+{ #category : 'private' }
+ExtractMethodMutationOperator >> createRefactoringWithInterval: anInterval andMethodNode: aMethodNode [
+
 	| refactoring options |
 	refactoring := RBExtractMethodRefactoring
-		               extract: aNode sourceInterval
-		               from: aNode methodNode selector
-		               in: aNode methodNode methodClass name.
+		               extract: anInterval
+		               from: aMethodNode selector
+		               in: aMethodNode methodClass name.
 
 	options := refactoring options copy.
 	options at: #methodName put: [ :aMethodName :ref |
@@ -50,13 +53,7 @@ ExtractMethodMutationOperator >> canRefactor: aNode [
 			yourself ].
 	options at: #extractAssignment put: [ :a :b | true ].
 	refactoring options: options.
-
-	[
-	refactoring prepareForExecution.
-	refactoring checkPreconditions ]
-		on: RBRefactoringError , RBRefactoringWarning
-		do: [ ^ false ].
-	^ true
+	^ refactoring
 ]
 
 { #category : 'printing' }
