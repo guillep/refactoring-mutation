@@ -19,15 +19,18 @@ ExtractMethodMutationOperator >> applyMutation: aMutation [
 		aMethodName
 			selector: #foo , ('' join: (ref parameters collect: [ :e | '_:' ]));
 			yourself ].
-	options at: #extractAssignment put: [ :a :b | true ].
+	options at: #extractAssignment put: [ :a :b | false ].
 	options at: #existingSelector put: [ :a | nil ].
 	refactoring options: options.
 
-	refactoring prepareForExecution.
-	[ refactoring checkApplicabilityPreconditions ]
+	[ refactoring
+		prepareForExecution;
+		checkApplicabilityPreconditions;
+		privateTransform
+	] 
 		on: RBRefactoringError 
-		do: [ :e | e  ].
-	refactoring privateTransform.
+	 	do: [ :e | self error ].
+
 	refactoring performChanges
 ]
 

@@ -7,6 +7,30 @@ Class {
 }
 
 { #category : 'instance creation' }
+ExtractMethodNoPreconditionMutationOperator >> applyMutation: aMutation [
+
+	| refactoring options |
+	refactoring := RBExtractMethodRefactoring
+		               extract: aMutation data
+		               from: aMutation originalMethod selector
+		               in: aMutation originalMethod methodClass name.
+	options := refactoring options copy.
+	options at: #methodName put: [ :aMethodName :ref |
+		aMethodName
+			selector: #foo , ('' join: (ref parameters collect: [ :e | '_:' ]));
+			yourself ].
+	options at: #extractAssignment put: [ :a :b | false ].
+	options at: #existingSelector put: [ :a | nil ].
+	refactoring options: options.
+
+	[ refactoring prepareForExecution; checkApplicabilityPreconditions ]
+		on: RBRefactoringError 
+		do: [ :e | "We ignore the fact the exception happened and continue" ].
+	refactoring privateTransform.
+	refactoring performChanges
+]
+
+{ #category : 'instance creation' }
 ExtractMethodNoPreconditionMutationOperator >> canRefactor: aNode [
 
 	^ (super canRefactor: aNode) not
