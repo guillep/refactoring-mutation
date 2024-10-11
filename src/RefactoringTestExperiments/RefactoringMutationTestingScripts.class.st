@@ -120,6 +120,7 @@ RefactoringMutationTestingScripts class >> runCoverage [
 	"Calculate the coverage of the `mutationPackageName` running tests from `testPackageName`."
 
 	| testClasses classesToMutate collector suite coverage |
+	self reload.
 	testClasses := ((PackageOrganizer default packageNamed: self testPackageName) definedClasses select: [ :cls | cls isTestCase ]) asArray.
 	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName ) definedClasses reject: [ :cls | cls isManifest ]) asArray.
 
