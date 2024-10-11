@@ -1,6 +1,9 @@
 Class {
 	#name : 'RenameArgumentOrTemporaryMutationOperator',
 	#superclass : 'SubMethodRefactoringMutationOperator',
+	#instVars : [
+		'sourceIntervalStrategy'
+	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
@@ -47,7 +50,7 @@ RenameArgumentOrTemporaryMutationOperator >> createRefactoringWith: aNode on: aM
 
 	^ RBRenameArgumentOrTemporaryRefactoring
 		  model: aModel
-		  renameTemporaryFrom: aNode sourceInterval 
+		  renameTemporaryFrom: (self sourceIntervalStrategyFor: aNode)
 		  to: 'foo' , aNode name
 		  in: aNode methodNode compiledMethod origin
 		  selector: aNode methodNode selector
@@ -81,4 +84,16 @@ RenameArgumentOrTemporaryMutationOperator >> mutationsFor: aCompiledMethod with:
 			  nodeNumber: index
 			  ofClass: aCompiledMethod methodClass
 			  withData: affectedNode ]
+]
+
+{ #category : 'as yet unclassified' }
+RenameArgumentOrTemporaryMutationOperator >> sourceIntervalStrategy: aStrategy [
+
+	sourceIntervalStrategy := aStrategy 
+]
+
+{ #category : 'as yet unclassified' }
+RenameArgumentOrTemporaryMutationOperator >> sourceIntervalStrategyFor: aNode [
+
+	^ sourceIntervalStrategy forNode: aNode
 ]

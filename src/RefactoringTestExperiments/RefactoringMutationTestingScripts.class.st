@@ -173,7 +173,11 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	analysis := MTAnalysis new
 		            classesToMutate: classesToMutate;
 		            testClasses: testClasses;
-		            operators: { RenameArgumentOrTemporaryMutationOperator new classEnvironment: classEnvironment }.
+		            operators: { 
+		RenameArgumentOrTemporaryMutationOperator new classEnvironment: classEnvironment; sourceIntervalStrategy: NodeSourceIntervalStrategy new .
+		RenameArgOrTempInvalidSourceMutationOperator new classEnvironment: classEnvironment; sourceIntervalStrategy: NegativeIntervalStrategy new .
+		RenameArgOrTempInvalidSourceMutationOperator new classEnvironment: classEnvironment; sourceIntervalStrategy: OutOfBoundsIntervalStrategy new .
+		  }.
 
 	collector := DTCoverageCollector new. "Instantiate"
 	collector methods: RBRenameArgumentOrTemporaryRefactoring methods.  "Configure with the methods to watch."

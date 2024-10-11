@@ -81,3 +81,10 @@ SoupRefactoringMutationTestingScripts class >> testPackageName [
 
 	^ 'Soup-Tests-Core'
 ]
+
+{ #category : 'cleaning' }
+SoupRefactoringMutationTestingScripts class >> unloadAndForget [
+	<script>
+	
+	super unloadAndForget 
+]
