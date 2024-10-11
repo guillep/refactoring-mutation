@@ -53,6 +53,12 @@ RefactoringMutationTestingScripts class >> reload [
 	self unloadAndForget 
 ]
 
+{ #category : 'accessing' }
+RefactoringMutationTestingScripts class >> repositoryName [ 
+
+	^ self subclassResponsibility 
+]
+
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runAddArgument [
 
@@ -216,7 +222,7 @@ RefactoringMutationTestingScripts class >> testPackageName [
 { #category : 'cleaning' }
 RefactoringMutationTestingScripts class >> unloadAndForget [
 
-	(IceRepository repositoryNamed: self mutationPackageName)
+	(IceRepository repositoryNamed: self repositoryName)
 		ifNil: [ self inform: 'Project not found: ' , name ]
 		ifNotNil: [ :found |
 			found

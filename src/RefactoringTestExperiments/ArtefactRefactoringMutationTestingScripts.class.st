@@ -33,6 +33,12 @@ ArtefactRefactoringMutationTestingScripts class >> reload [
 			do: [ :e | e load ] ]
 ]
 
+{ #category : 'accessing' }
+ArtefactRefactoringMutationTestingScripts class >> repositoryName [
+
+	^ 'Artefact'
+]
+
 { #category : 'running' }
 ArtefactRefactoringMutationTestingScripts class >> runAddArgument [
 	<script>

@@ -30,7 +30,16 @@ MicrodownRefactoringMutationTestingScripts class >> reload [
 			ignoreImage;
 			load: 'Tests' ]
 			on: MCMergeOrLoadWarning
-			do: [ :e | e load ] ]
+			do: [ :e | e load ] ].
+	BeautifulComments class compile: 'renderComment: aString of: aClassOrPackage 
+
+    ^ aString' classified: #rendering.
+]
+
+{ #category : 'accessing' }
+MicrodownRefactoringMutationTestingScripts class >> repositoryName [ 
+
+	^ 'Microdown'
 ]
 
 { #category : 'running' }
