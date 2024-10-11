@@ -127,7 +127,7 @@ RefactoringMutationTestingScripts class >> runCoverage [
 	collector := DTCoverageCollector new. "Instantiate"
 	collector methods: (classesToMutate flatCollect: [ :cls | cls methods ]).  "Configure with the methods to watch."
 	suite := TestSuite named: self mutationPackageName.
-	suite addTests: (testClasses flatCollect: [ :cls | cls selectors collect: [ :sel | cls selector: sel ] ]).
+	suite addTests: (testClasses flatCollect: [ :cls | cls methods select: [ :m | m isTestMethod ] thenCollect: [ :m | cls selector: m selector ] ]).
 	coverage := collector runOn: [ suite run ].  "Setup, execute and teardown."
 	coverage inspect.
 ]
