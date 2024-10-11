@@ -81,3 +81,10 @@ AVLRefactoringMutationTestingScripts class >> testPackageName [
 
 	^ 'AVL-Tree-Tests'
 ]
+
+{ #category : 'cleaning' }
+AVLRefactoringMutationTestingScripts class >> unloadAndForget [ 
+	<script>
+	
+	super unloadAndForget 
+]
