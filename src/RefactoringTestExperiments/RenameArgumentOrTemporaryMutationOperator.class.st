@@ -2,7 +2,8 @@ Class {
 	#name : 'RenameArgumentOrTemporaryMutationOperator',
 	#superclass : 'SubMethodRefactoringMutationOperator',
 	#instVars : [
-		'sourceIntervalStrategy'
+		'sourceIntervalStrategy',
+		'nameStrategy'
 	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
@@ -48,12 +49,16 @@ RenameArgumentOrTemporaryMutationOperator >> canRefactor: aNode in: aModel [
 { #category : 'mutant generation' }
 RenameArgumentOrTemporaryMutationOperator >> createRefactoringWith: aNode on: aModel [
 
-	^ RBRenameArgumentOrTemporaryRefactoring
+	| refactoring name |
+	refactoring := RBRenameArgumentOrTemporaryRefactoring
 		  model: aModel
 		  renameTemporaryFrom: (self sourceIntervalStrategyFor: aNode)
-		  to: 'foo' , aNode name
+		  to: ''
 		  in: aNode methodNode compiledMethod origin
-		  selector: aNode methodNode selector
+		  selector: aNode methodNode selector.
+	name := self nameStrategyFor: aNode and: refactoring.
+	refactoring newName: name.
+	^ refactoring
 ]
 
 { #category : 'printing' }
@@ -84,6 +89,18 @@ RenameArgumentOrTemporaryMutationOperator >> mutationsFor: aCompiledMethod with:
 			  nodeNumber: index
 			  ofClass: aCompiledMethod methodClass
 			  withData: affectedNode ]
+]
+
+{ #category : 'as yet unclassified' }
+RenameArgumentOrTemporaryMutationOperator >> nameStrategy: aStrategy [
+
+	nameStrategy := aStrategy 
+]
+
+{ #category : 'as yet unclassified' }
+RenameArgumentOrTemporaryMutationOperator >> nameStrategyFor: aNode and: aRefactoring [
+
+	^ nameStrategy forNode: aNode and: aRefactoring 
 ]
 
 { #category : 'as yet unclassified' }
