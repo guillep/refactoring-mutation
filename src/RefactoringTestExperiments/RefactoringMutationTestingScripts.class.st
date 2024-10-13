@@ -250,7 +250,8 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 		            testClasses: testClasses;
 		            operators: {
 		RenameMethodMutationOperator new
-			classEnvironment: classEnvironment
+			classEnvironment: classEnvironment;
+			nameStrategy: UniqueMethodNameStrategy new .
 
 		  }.
 
