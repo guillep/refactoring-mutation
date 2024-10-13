@@ -252,13 +252,20 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 		RenameMethodMutationOperator new
 			classEnvironment: classEnvironment;
 			nameStrategy: UniqueMethodNameStrategy new .
+		RenameMethodMutationOperator new
+			classEnvironment: classEnvironment;
+			nameStrategy: MethodNameDifferentArityStrategy new .
+		RenameMethodMultipleNamesMutationOperator new
+			classEnvironment: classEnvironment;
+			nameStrategy: SuperClassMethodNameStrategy new .
 
 		  }.
 
 	collector := DTCoverageCollector new. "Instantiate"
-	collector methods: ReRenameMethodRefactoring methods.  "Configure with the methods to watch."
+	collector methods: (ReRenameMethodRefactoring methods , RBChangeMethodNameRefactoring methods).  "Configure with the methods to watch."
 	coverage := collector runOn: [ analysis run ].  "Setup, execute and teardown."
-	"coverage inspect."
+	coverage inspect.
+	self previewCoverageInDrTests: coverage.
 
 	"To inspect the results"
 	analysis generalResult inspect.
