@@ -251,13 +251,13 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 		            operators: {
 		RenameMethodMutationOperator new
 			classEnvironment: classEnvironment;
-			nameStrategy: UniqueMethodNameStrategy new .
-		RenameMethodMutationOperator new
+			nameStrategy: SwapMethodArgumentsStrategy new .
+		"RenameMethodMutationOperator new
 			classEnvironment: classEnvironment;
 			nameStrategy: MethodNameDifferentArityStrategy new .
 		RenameMethodMultipleNamesMutationOperator new
 			classEnvironment: classEnvironment;
-			nameStrategy: SuperClassMethodNameStrategy new .
+			nameStrategy: SuperClassMethodNameStrategy new ."
 
 		  }.
 

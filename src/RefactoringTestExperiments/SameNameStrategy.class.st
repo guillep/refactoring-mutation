@@ -1,6 +1,6 @@
 Class {
 	#name : 'SameNameStrategy',
-	#superclass : 'NameStrategy',
+	#superclass : 'MethodNameStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Strategy'

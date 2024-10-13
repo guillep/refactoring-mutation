@@ -48,6 +48,8 @@ RenameMethodMutationOperator >> canRefactor: aNode [
 
 	| refactoring failing |
 	refactoring := self createRefactoringFor: aNode.
+	refactoring ifNil: [ ^ false ].
+	
 	refactoring prepareForExecution.
 	failing := refactoring failedApplicabilityPreconditions
 		           asOrderedCollection.
@@ -58,7 +60,7 @@ RenameMethodMutationOperator >> canRefactor: aNode [
 { #category : 'as yet unclassified' }
 RenameMethodMutationOperator >> createRefactoringFor: aNode [
 
-	| refactoring model newName selector permutations |
+	| refactoring model newName selector permutations permutation |
 	model := RBNamespace onEnvironment: classEnvironment.
 	selector := aNode selector.
 	permutations := selector count: [ :c | c = $: ].
@@ -69,6 +71,9 @@ RenameMethodMutationOperator >> createRefactoringFor: aNode [
 		               to: ''
 		               permutation: (1 to: permutations).
 	newName := nameStrategy forNode: aNode and: refactoring.
+	newName ifNil: [ ^ nil ].
+	permutation := nameStrategy permutationsForNode: aNode.
+	refactoring permutation: permutation.
 	refactoring newName: newName.
 	^ refactoring
 ]
