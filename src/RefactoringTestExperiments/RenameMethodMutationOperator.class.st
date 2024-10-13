@@ -20,7 +20,8 @@ RenameMethodMutationOperator >> affectedNodesFor: aParseTree [
 { #category : 'instance creation' }
 RenameMethodMutationOperator >> appliesToNode: aNode [
 
-	(aNode isMessage or: [ aNode isMethod ]) ifFalse: [ ^ false ].
+	(aNode isMethod) ifFalse: [ ^ false ].
+	(self class blackListMethodNames includes: aNode selector) ifTrue: [ ^ false ].
 
 	^ super appliesToNode: aNode
 ]
@@ -28,11 +29,8 @@ RenameMethodMutationOperator >> appliesToNode: aNode [
 { #category : 'instance creation' }
 RenameMethodMutationOperator >> applyMutation: aMutation [
 
-	| refactoring failing parsedExpression selector permutations |
-	parsedExpression := RBParser parseExpression: (aMutation originalMethod sourceCode
-				                copyFrom: aMutation data first
-				                to: aMutation data last).
-	selector := parsedExpression selector.
+	| refactoring failing selector permutations |
+	selector := aMutation originalMethod selector.
 	permutations := selector count: [ :c | c = $: ].
 	refactoring := ReRenameMethodRefactoring
 						 model: (RBNamespace onEnvironment: classEnvironment)
@@ -51,19 +49,27 @@ RenameMethodMutationOperator >> applyMutation: aMutation [
 { #category : 'instance creation' }
 RenameMethodMutationOperator >> canRefactor: aNode [
 
-	| refactoring failing model |
+	| refactoring failing |
+	refactoring := self createRefactoringFor: aNode.
+	refactoring prepareForExecution.
+	failing := refactoring failedApplicabilityPreconditions
+		           asOrderedCollection.
+	failing addAll: refactoring failedBreakingChangePreconditions.
+	^ failing isEmpty
+]
+
+{ #category : 'as yet unclassified' }
+RenameMethodMutationOperator >> createRefactoringFor: aNode [
+
+	| refactoring model |
 	model := RBNamespace onEnvironment: classEnvironment.
 	refactoring := ReRenameMethodRefactoring
-						 model: model
+		               model: model
 		               renameMethod: aNode selector
 		               in: aNode methodNode methodClass name
 		               to: 'new' , aNode selector
 		               permutation: #(  ).
-
-	refactoring prepareForExecution.
-	failing := refactoring failedApplicabilityPreconditions asOrderedCollection.
-	failing addAll: refactoring failedBreakingChangePreconditions.
-	^ failing isEmpty
+	^ refactoring
 ]
 
 { #category : 'printing' }
@@ -76,7 +82,7 @@ RenameMethodMutationOperator >> description [
 RenameMethodMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseTree number: aNumber newExpression: aNode [
 
 
-	^ aCompiledMethod sourceCode copyReplaceFrom: aNode first to: aNode last with: ' EXTRACTED '
+	^ aCompiledMethod sourceCode copyReplaceFrom: aNode sourceInterval first to: aNode selector size with: 'NEW' , aNode selector
 ]
 
 { #category : 'private' }
@@ -94,5 +100,5 @@ RenameMethodMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
 			  using: self
 			  nodeNumber: index
 			  ofClass: aCompiledMethod methodClass
-			  withData: affectedNode sourceInterval ]
+			  withData: affectedNode ]
 ]

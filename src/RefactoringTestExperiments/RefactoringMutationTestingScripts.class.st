@@ -43,7 +43,7 @@ RefactoringMutationTestingScripts class >> previewCoverageInDrTests: coverage [
 		partiallyCoveredMethods: coverage partiallyCoveredMethods.
 	dr pluginResult: result.
 	dr updateWithPluginResult: result.
-	result inspect.
+	"result inspect."
 ]
 
 { #category : 'cleaning' }
@@ -173,22 +173,39 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	analysis := MTAnalysis new
 		            classesToMutate: classesToMutate;
 		            testClasses: testClasses;
-		            operators: { 
-		RenameArgumentOrTemporaryMutationOperator new classEnvironment: classEnvironment; sourceIntervalStrategy: NodeSourceIntervalStrategy new .
-		RenameArgOrTempInvalidSourceMutationOperator new classEnvironment: classEnvironment; sourceIntervalStrategy: NegativeIntervalStrategy new .
-		RenameArgOrTempInvalidSourceMutationOperator new classEnvironment: classEnvironment; sourceIntervalStrategy: OutOfBoundsIntervalStrategy new .
+		            operators: { "
+		RenameArgumentOrTemporaryMutationOperator new
+			classEnvironment: classEnvironment;
+			sourceIntervalStrategy: NodeSourceIntervalStrategy new;
+			nameStrategy: UniqueTempNameStrategy new .
+		RenameArgOrTempInvalidSourceMutationOperator new
+			classEnvironment: classEnvironment;
+			sourceIntervalStrategy: NegativeIntervalStrategy new;
+			nameStrategy: UniqueTempNameStrategy new .
+		RenameArgOrTempInvalidSourceMutationOperator new
+			classEnvironment: classEnvironment;
+			sourceIntervalStrategy: OutOfBoundsIntervalStrategy new;
+			nameStrategy: UniqueTempNameStrategy new .
+		RenameArgOrTempInvalidSourceMutationOperator new
+			classEnvironment: classEnvironment;
+			sourceIntervalStrategy: NodeSourceIntervalStrategy new;
+			nameStrategy: NameWithSpaceStrategy new ."
+		RenameArgOrTempInvalidSourceMutationOperator new
+			classEnvironment: classEnvironment;
+			sourceIntervalStrategy: NodeSourceIntervalStrategy new;
+			nameStrategy: PseudoVariableAsNameStrategy new .
 		  }.
 
 	collector := DTCoverageCollector new. "Instantiate"
 	collector methods: RBRenameArgumentOrTemporaryRefactoring methods.  "Configure with the methods to watch."
 	coverage := collector runOn: [ analysis run ].  "Setup, execute and teardown."
-	coverage inspect.
+	"coverage inspect."
 	" a DTCoverageResult methods: 8 (67%) nodes: 20 (50%)"
 
 	"To inspect the results"
 	analysis generalResult inspect.
 	"678 mutants, 231 killed, 446 alive, 1 terminated. Mutation Score: 34%."
-	self previewCoverageInDrTests: coverage.
+	"self previewCoverageInDrTests: coverage."
 ]
 
 { #category : 'running' }
@@ -216,6 +233,34 @@ RefactoringMutationTestingScripts class >> runRenameClass [
 	analysis generalResult inspect.
 	"678 mutants, 231 killed, 446 alive, 1 terminated. Mutation Score: 34%."
 	self previewCoverageInDrTests: coverage.
+]
+
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> runRenameMethod [
+
+	| testClasses classesToMutate classEnvironment analysis collector coverage |
+	self reload.
+	testClasses := ((PackageOrganizer default packageNamed: self testPackageName) definedClasses select: [ :cls | cls isTestCase ]) asArray.
+	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName) definedClasses reject: [ :cls | cls isManifest ]) asArray.
+	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
+	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
+
+	analysis := MTAnalysis new
+		            classesToMutate: classesToMutate;
+		            testClasses: testClasses;
+		            operators: {
+		RenameMethodMutationOperator new
+			classEnvironment: classEnvironment
+
+		  }.
+
+	collector := DTCoverageCollector new. "Instantiate"
+	collector methods: ReRenameMethodRefactoring methods.  "Configure with the methods to watch."
+	coverage := collector runOn: [ analysis run ].  "Setup, execute and teardown."
+	"coverage inspect."
+
+	"To inspect the results"
+	analysis generalResult inspect.
 ]
 
 { #category : 'accessing' }

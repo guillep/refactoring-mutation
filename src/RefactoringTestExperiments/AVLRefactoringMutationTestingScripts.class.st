@@ -76,6 +76,13 @@ AVLRefactoringMutationTestingScripts class >> runRenameClass [
 	super runRenameClass
 ]
 
+{ #category : 'running' }
+AVLRefactoringMutationTestingScripts class >> runRenameMethod [
+	<script>
+	
+	super runRenameMethod 
+]
+
 { #category : 'accessing' }
 AVLRefactoringMutationTestingScripts class >> testPackageName [
 
