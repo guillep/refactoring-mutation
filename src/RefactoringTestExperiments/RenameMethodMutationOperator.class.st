@@ -32,17 +32,9 @@ RenameMethodMutationOperator >> appliesToNode: aNode [
 { #category : 'instance creation' }
 RenameMethodMutationOperator >> applyMutation: aMutation [
 
-	| refactoring failing selector permutations newName |
-	selector := aMutation originalMethod selector.
-	permutations := selector count: [ :c | c = $: ].
-	refactoring := ReRenameMethodRefactoring
-						 model: (RBNamespace onEnvironment: classEnvironment)
-		               renameMethod: selector
-		               in: aMutation originalMethod methodClass name
-		               to: ''
-		               permutation: (1 to: permutations).
-	newName := nameStrategy forNode: aMutation data and: refactoring.
-	refactoring newName: newName.
+	| refactoring failing |
+
+	refactoring := self createRefactoringFor: aMutation data.
 
 	refactoring prepareForExecution.
 	failing := refactoring failedApplicabilityPreconditions.
@@ -66,14 +58,18 @@ RenameMethodMutationOperator >> canRefactor: aNode [
 { #category : 'as yet unclassified' }
 RenameMethodMutationOperator >> createRefactoringFor: aNode [
 
-	| refactoring model |
+	| refactoring model newName selector permutations |
 	model := RBNamespace onEnvironment: classEnvironment.
+	selector := aNode selector.
+	permutations := selector count: [ :c | c = $: ].
 	refactoring := ReRenameMethodRefactoring
 		               model: model
 		               renameMethod: aNode selector
 		               in: aNode methodNode methodClass name
-		               to: 'new' , aNode selector
-		               permutation: #(  ).
+		               to: ''
+		               permutation: (1 to: permutations).
+	newName := nameStrategy forNode: aNode and: refactoring.
+	refactoring newName: newName.
 	^ refactoring
 ]
 
@@ -90,7 +86,7 @@ RenameMethodMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseT
 	^ aCompiledMethod sourceCode copyReplaceFrom: aNode sourceInterval first to: aNode selector size with: 'NEW' , aNode selector
 ]
 
-{ #category : 'private' }
+{ #category : 'mutant generation' }
 RenameMethodMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
 
 	| affectedNodes |
