@@ -7,6 +7,12 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+SuperClassMethodNameStrategy >> forNode: aNode and: aRefactoring [ 
+
+	^ self forNode: aNode with: aRefactoring model
+]
+
+{ #category : 'as yet unclassified' }
 SuperClassMethodNameStrategy >> forNode: aMethodNode with: aRBNamespace [ 
 
 	^ aMethodNode methodClass superclass methods 
