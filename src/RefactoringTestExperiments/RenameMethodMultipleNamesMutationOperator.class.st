@@ -27,6 +27,12 @@ RenameMethodMultipleNamesMutationOperator >> applyMutation: aMutation [
 ]
 
 { #category : 'instance creation' }
+RenameMethodMultipleNamesMutationOperator >> canRefactor: aNode [
+
+	^ true
+]
+
+{ #category : 'instance creation' }
 RenameMethodMultipleNamesMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseTree number: aNumber newExpression: aNode [
 
 
