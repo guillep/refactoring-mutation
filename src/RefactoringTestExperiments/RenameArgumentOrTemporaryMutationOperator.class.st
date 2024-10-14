@@ -36,6 +36,7 @@ RenameArgumentOrTemporaryMutationOperator >> canRefactor: aNode in: aModel [
 	| refactoring |
 	"Check if class is in environment."
 	refactoring := self createRefactoringWith: aNode on: aModel.
+	refactoring ifNil: [ ^ false ].
 
 	[
 	refactoring
@@ -57,6 +58,7 @@ RenameArgumentOrTemporaryMutationOperator >> createRefactoringWith: aNode on: aM
 		  in: aNode methodNode compiledMethod origin
 		  selector: aNode methodNode selector.
 	name := self nameStrategyFor: aNode and: refactoring.
+	name ifNil: [ ^ nil ].
 	refactoring newName: name.
 	^ refactoring
 ]
