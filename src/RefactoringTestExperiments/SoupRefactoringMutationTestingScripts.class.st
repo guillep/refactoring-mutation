@@ -10,9 +10,9 @@ Class {
 }
 
 { #category : 'accessing' }
-SoupRefactoringMutationTestingScripts class >> mutationPackageName [
+SoupRefactoringMutationTestingScripts class >> mutationPackageNames [
 
-	^ 'Soup-Core'
+	^ { 'Soup-Core' }
 ]
 
 { #category : 'cleaning' }
@@ -29,9 +29,9 @@ SoupRefactoringMutationTestingScripts class >> reload [
 ]
 
 { #category : 'accessing' }
-SoupRefactoringMutationTestingScripts class >> repositoryName [ 
+SoupRefactoringMutationTestingScripts class >> repositoryNames [ 
 
-	^ 'Soup'
+	^ { 'Soup' }
 ]
 
 { #category : 'running' }
@@ -91,9 +91,9 @@ SoupRefactoringMutationTestingScripts class >> runRenameMethod [
 ]
 
 { #category : 'accessing' }
-SoupRefactoringMutationTestingScripts class >> testPackageName [
+SoupRefactoringMutationTestingScripts class >> testPackageNames [
 
-	^ 'Soup-Tests-Core'
+	^ { 'Soup-Tests-Core' }
 ]
 
 { #category : 'cleaning' }

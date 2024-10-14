@@ -10,9 +10,9 @@ Class {
 }
 
 { #category : 'accessing' }
-AVLRefactoringMutationTestingScripts class >> mutationPackageName [
+AVLRefactoringMutationTestingScripts class >> mutationPackageNames [
 
-	^ 'AVL-Tree'
+	^ { 'AVL-Tree' }
 ]
 
 { #category : 'cleaning' }
@@ -28,9 +28,9 @@ AVLRefactoringMutationTestingScripts class >> reload [
 ]
 
 { #category : 'accessing' }
-AVLRefactoringMutationTestingScripts class >> repositoryName [ 
+AVLRefactoringMutationTestingScripts class >> repositoryNames [
 
-	^ 'AVL'
+	^ { 'AVL' }
 ]
 
 { #category : 'running' }
@@ -90,9 +90,9 @@ AVLRefactoringMutationTestingScripts class >> runRenameMethod [
 ]
 
 { #category : 'accessing' }
-AVLRefactoringMutationTestingScripts class >> testPackageName [
+AVLRefactoringMutationTestingScripts class >> testPackageNames [
 
-	^ 'AVL-Tree-Tests'
+	^ { 'AVL-Tree-Tests' }
 ]
 
 { #category : 'cleaning' }

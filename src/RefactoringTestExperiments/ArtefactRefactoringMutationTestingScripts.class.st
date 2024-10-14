@@ -10,9 +10,9 @@ Class {
 }
 
 { #category : 'accessing' }
-ArtefactRefactoringMutationTestingScripts class >> mutationPackageName [ 
+ArtefactRefactoringMutationTestingScripts class >> mutationPackageNames [ 
 
-	^ 'Artefact-Core'
+	^ { 'Artefact-Core' }
 ]
 
 { #category : 'cleaning' }
@@ -34,9 +34,9 @@ ArtefactRefactoringMutationTestingScripts class >> reload [
 ]
 
 { #category : 'accessing' }
-ArtefactRefactoringMutationTestingScripts class >> repositoryName [
+ArtefactRefactoringMutationTestingScripts class >> repositoryNames [
 
-	^ 'Artefact'
+	^ { 'Artefact' }
 ]
 
 { #category : 'running' }
@@ -96,7 +96,7 @@ ArtefactRefactoringMutationTestingScripts class >> runRenameMethod [
 ]
 
 { #category : 'accessing' }
-ArtefactRefactoringMutationTestingScripts class >> testPackageName [
+ArtefactRefactoringMutationTestingScripts class >> testPackageNames [
 
-	^ 'Artefact-Core-Tests'
+	^ { 'Artefact-Core-Tests' }
 ]

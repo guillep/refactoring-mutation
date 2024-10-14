@@ -10,9 +10,9 @@ Class {
 }
 
 { #category : 'accessing' }
-MicrodownRefactoringMutationTestingScripts class >> mutationPackageName [
+MicrodownRefactoringMutationTestingScripts class >> mutationPackageNames [
 
-	^ 'Microdown'
+	^ { 'Microdown' }
 ]
 
 { #category : 'cleaning' }
@@ -37,9 +37,9 @@ MicrodownRefactoringMutationTestingScripts class >> reload [
 ]
 
 { #category : 'accessing' }
-MicrodownRefactoringMutationTestingScripts class >> repositoryName [ 
+MicrodownRefactoringMutationTestingScripts class >> repositoryNames [ 
 
-	^ 'Microdown'
+	^ { 'Microdown' }
 ]
 
 { #category : 'running' }
@@ -99,7 +99,7 @@ MicrodownRefactoringMutationTestingScripts class >> runRenameMethod [
 ]
 
 { #category : 'accessing' }
-MicrodownRefactoringMutationTestingScripts class >> testPackageName [
+MicrodownRefactoringMutationTestingScripts class >> testPackageNames [
 
-	^ 'Microdown-Tests'
+	^ { 'Microdown-Tests' }
 ]

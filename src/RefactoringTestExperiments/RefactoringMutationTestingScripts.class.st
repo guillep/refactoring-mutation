@@ -21,8 +21,36 @@ Class {
 	#tag : 'Scripts'
 }
 
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refactoringsList [
+
+	| testClasses classesToMutate analysis collector coverage report |
+	self reload.
+	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
+	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
+
+	analysis := MTAnalysis new
+		            classesToMutate: classesToMutate;
+		            testClasses: testClasses;
+		            operators: {
+				InlineMethodMutationOperator new
+
+		  }.
+
+	collector := DTCoverageCollector new.
+	collector methods: (refactoringsList flatCollect: [ :ref | ref methods ]).
+	coverage := collector runOn: [ analysis run ].
+	coverage inspect.
+	
+	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
+	report previewCoverageInDrTests.
+	Transcript traceCr: report.
+
+	analysis generalResult inspect.
+]
+
 { #category : 'accessing' }
-RefactoringMutationTestingScripts class >> mutationPackageName [ 
+RefactoringMutationTestingScripts class >> mutationPackageNames [ 
 
 	^ self subclassResponsibility 
 ]
@@ -34,8 +62,8 @@ RefactoringMutationTestingScripts class >> reload [
 	self unloadAndForget 
 ]
 
-{ #category : 'accessing' }
-RefactoringMutationTestingScripts class >> repositoryName [ 
+{ #category : 'as yet unclassified' }
+RefactoringMutationTestingScripts class >> repositoryNames [
 
 	^ self subclassResponsibility 
 ]
@@ -302,8 +330,8 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 	analysis generalResult inspect.
 ]
 
-{ #category : 'accessing' }
-RefactoringMutationTestingScripts class >> testPackageName [ 
+{ #category : 'tests' }
+RefactoringMutationTestingScripts class >> testPackageNames [
 
 	^ self subclassResponsibility 
 ]
@@ -312,11 +340,13 @@ RefactoringMutationTestingScripts class >> testPackageName [
 RefactoringMutationTestingScripts class >> unloadAndForget [
 
 	EpMonitor disableDuring: [
-		(IceRepository repositoryNamed: self repositoryName)
+		self repositoryNames do: [ :repo |
+		(IceRepository repositoryNamed: repo)
 			ifNil: [ self inform: 'Project not found: ' , name ]
 			ifNotNil: [ :found |
 				found
 					unload;
 					forget ]
+		]
 	]
 ]
