@@ -62,6 +62,13 @@ AVLRefactoringMutationTestingScripts class >> runExtractMethod [
 ]
 
 { #category : 'running' }
+AVLRefactoringMutationTestingScripts class >> runInlineMethod [
+	<script>
+
+	super runInlineMethod 
+]
+
+{ #category : 'running' }
 AVLRefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	<script>
 	

@@ -63,6 +63,13 @@ SoupRefactoringMutationTestingScripts class >> runExtractMethod [
 ]
 
 { #category : 'running' }
+SoupRefactoringMutationTestingScripts class >> runInlineMethod [
+	<script>
+
+	super runInlineMethod 
+]
+
+{ #category : 'running' }
 SoupRefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	<script>
 	
@@ -74,6 +81,13 @@ SoupRefactoringMutationTestingScripts class >> runRenameClass [
 	<script>
 	
 	super runRenameClass
+]
+
+{ #category : 'running' }
+SoupRefactoringMutationTestingScripts class >> runRenameMethod [
+	<script>
+	
+	super runRenameMethod 
 ]
 
 { #category : 'accessing' }

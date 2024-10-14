@@ -71,6 +71,13 @@ MicrodownRefactoringMutationTestingScripts class >> runExtractMethod [
 ]
 
 { #category : 'running' }
+MicrodownRefactoringMutationTestingScripts class >> runInlineMethod [
+	<script>
+
+	super runInlineMethod 
+]
+
+{ #category : 'running' }
 MicrodownRefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	<script>
 	
@@ -82,6 +89,13 @@ MicrodownRefactoringMutationTestingScripts class >> runRenameClass [
 	<script>
 	
 	super runRenameClass
+]
+
+{ #category : 'running' }
+MicrodownRefactoringMutationTestingScripts class >> runRenameMethod [
+	<script>
+	
+	super runRenameMethod 
 ]
 
 { #category : 'accessing' }

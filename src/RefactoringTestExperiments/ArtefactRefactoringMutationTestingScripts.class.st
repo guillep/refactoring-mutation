@@ -68,6 +68,13 @@ ArtefactRefactoringMutationTestingScripts class >> runExtractMethod [
 ]
 
 { #category : 'running' }
+ArtefactRefactoringMutationTestingScripts class >> runInlineMethod [
+	<script>
+
+	super runInlineMethod 
+]
+
+{ #category : 'running' }
 ArtefactRefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	<script>
 	
@@ -79,6 +86,13 @@ ArtefactRefactoringMutationTestingScripts class >> runRenameClass [
 	<script>
 
 	super runRenameClass 
+]
+
+{ #category : 'running' }
+ArtefactRefactoringMutationTestingScripts class >> runRenameMethod [
+	<script>
+	
+	super runRenameMethod 
 ]
 
 { #category : 'accessing' }

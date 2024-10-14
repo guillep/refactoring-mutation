@@ -147,6 +147,39 @@ RefactoringMutationTestingScripts class >> runExtractMethod [
 ]
 
 { #category : 'running' }
+RefactoringMutationTestingScripts class >> runInlineMethod [
+
+	| testClasses classesToMutate analysis collector coverage report traits |
+	self reload.
+	testClasses := ((PackageOrganizer default packageNamed: self testPackageName) definedClasses select: [ :cls | cls isTestCase ]) asArray.
+	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName) definedClasses reject: [ :cls | cls isManifest ]) asArray.
+	traits := (PackageOrganizer default packageNamed: self mutationPackageName) definedClasses.
+	"classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses, { Collection . Object . TStyledElement } ". 
+	"We have to operate on the entire system since Inline Method depends on superclasses which can be Object, Collection, etc."
+	"IF we scope it to a package or list of classes, that scope should include every superclass of every class that you want to inline."
+
+	analysis := MTAnalysis new
+		            classesToMutate: classesToMutate;
+		            testClasses: testClasses;
+		            operators: {
+				InlineMethodMutationOperator new
+
+		  }.
+
+	collector := DTCoverageCollector new. "Instantiate"
+	collector methods: (RBInlineMethodRefactoring methods).  "Configure with the methods to watch."
+	coverage := collector runOn: [ analysis run ].  "Setup, execute and teardown."
+	coverage inspect.
+	
+	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
+	report previewCoverageInDrTests.
+	Transcript traceCr: report.
+	
+	"To inspect the results"
+	analysis generalResult inspect.
+]
+
+{ #category : 'running' }
 RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 
 	| testClasses classesToMutate classEnvironment analysis collector coverage report |
