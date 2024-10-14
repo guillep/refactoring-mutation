@@ -17,19 +17,22 @@ InlineMethodMutationOperator >> affectedNodesFor: aParseTree [
 { #category : 'instance creation' }
 InlineMethodMutationOperator >> applyMutation: aMutation [
 
-	| refactoring options |
+	| refactoring options model |
+	model := RBNamespace new. "We have to operate on the entire system since Inline Method depends on superclasses which can be Object, Collection, etc."
+	"IF we scope it to a package or list of classes, that scope should include every superclass of every class that you want to inline."
 	refactoring := RBInlineMethodRefactoring
+						  model: model
 		               inline: aMutation data
 		               inMethod: aMutation originalMethod selector
 		               forClass: aMutation originalMethod methodClass name.
 
 	options := refactoring options copy.
-	options at: #inlineExpression put: [ :a :b | true ].
+	options at: #shouldNotCreateExtraBindings put: [ :a :b | false ].
 	refactoring options: options.
 
 	refactoring prepareForExecution.
 	aMutation shouldApplyPreconditions ifTrue: [
-		refactoring applicabilityPreconditions check ifFalse: [ self error ] ].
+		refactoring checkApplicabilityPreconditions ].
 	refactoring privateTransform.
 	refactoring performChanges
 ]
@@ -37,8 +40,11 @@ InlineMethodMutationOperator >> applyMutation: aMutation [
 { #category : 'instance creation' }
 InlineMethodMutationOperator >> canRefactor: aNode [
 
-	| refactoring |
+	| refactoring model |	
+	model := RBNamespace new. "We have to operate on the entire system since Inline Method depends on superclasses which can be Object, Collection, etc."
+	"IF we scope it to a package or list of classes, that scope should include every superclass of every class that you want to inline."
 	refactoring := RBInlineMethodRefactoring
+						  model: model
 		               inline: aNode sourceInterval
 		               inMethod: aNode methodNode selector
 		               forClass: aNode methodNode methodClass name.
@@ -46,7 +52,7 @@ InlineMethodMutationOperator >> canRefactor: aNode [
 	[
 	refactoring prepareForExecution.
 	refactoring checkPreconditions ]
-		on: RBRefactoringError , RBRefactoringWarning
+		on: RBRefactoringError , RBRefactoringWarning 
 		do: [ ^ false ].
 	^ true
 ]
