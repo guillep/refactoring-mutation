@@ -22,7 +22,7 @@ Class {
 }
 
 { #category : 'running' }
-RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refactoringsList [
+RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refactoringsList using: operators [
 
 	| testClasses classesToMutate analysis collector coverage report |
 	self reload.
@@ -32,21 +32,15 @@ RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refa
 	analysis := MTAnalysis new
 		            classesToMutate: classesToMutate;
 		            testClasses: testClasses;
-		            operators: {
-				InlineMethodMutationOperator new
+		            operators: operators.
 
-		  }.
-
+	"Calculate coverage of refactoring code while running mutation testing."
 	collector := DTCoverageCollector new.
 	collector methods: (refactoringsList flatCollect: [ :ref | ref methods ]).
 	coverage := collector runOn: [ analysis run ].
-	coverage inspect.
 	
 	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
-	report previewCoverageInDrTests.
-	Transcript traceCr: report.
-
-	analysis generalResult inspect.
+	^ report
 ]
 
 { #category : 'accessing' }
@@ -177,32 +171,14 @@ RefactoringMutationTestingScripts class >> runExtractMethod [
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runInlineMethod [
 
-	| testClasses classesToMutate analysis collector coverage report |
-	self reload.
-	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
-	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
-	"We have to operate on the entire system since Inline Method depends on superclasses which can be Object, Collection, etc."
-	"IF we scope it to a package or list of classes, that scope should include every superclass of every class that you want to inline."
-
-	analysis := MTAnalysis new
-		            classesToMutate: classesToMutate;
-		            testClasses: testClasses;
-		            operators: {
-				InlineMethodMutationOperator new
-
-		  }.
-
-	collector := DTCoverageCollector new. "Instantiate"
-	collector methods: (RBInlineMethodRefactoring methods).  "Configure with the methods to watch."
-	coverage := collector runOn: [ analysis run ].  "Setup, execute and teardown."
-	coverage inspect.
-	
-	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
-	report previewCoverageInDrTests.
-	Transcript traceCr: report.
-	
-	"To inspect the results"
-	analysis generalResult inspect.
+	| operators report |
+	"We have to operate on the entire system since Inline Method depends on superclasses which can be Object, Collection, etc.
+	If we scope it to a package or list of classes, that scope should include every superclass of every class that you want to inline."
+	operators := { InlineMethodMutationOperator new }.
+	report := self
+		calculateRefactoringCoverageFor: { RBInlineMethodRefactoring }
+		using: operators.
+	report previewCoverageInDrTests; inspect
 ]
 
 { #category : 'running' }
