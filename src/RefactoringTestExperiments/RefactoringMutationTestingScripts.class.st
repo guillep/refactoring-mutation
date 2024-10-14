@@ -27,25 +27,6 @@ RefactoringMutationTestingScripts class >> mutationPackageName [
 	^ self subclassResponsibility 
 ]
 
-{ #category : 'coverage' }
-RefactoringMutationTestingScripts class >> previewCoverageInDrTests: coverage [
-
-	| dr result notExecuted methodsSize |
-	dr := DrTests open.
-	dr pluginsDropList selectIndex: 2.
-	dr currentPlugin: (dr pluginsDropList selectedItem new).
-	result := DTTestCoverageResult new.
-	notExecuted := coverage uncoveredMethods.
-	methodsSize := coverage methods size + coverage uncoveredMethods size.
-	result
-		percent: 1s2 - (notExecuted size / methodsSize asScaledDecimal: 2);
-		methodList: notExecuted;
-		partiallyCoveredMethods: coverage partiallyCoveredMethods.
-	dr pluginResult: result.
-	dr updateWithPluginResult: result.
-	"result inspect."
-]
-
 { #category : 'cleaning' }
 RefactoringMutationTestingScripts class >> reload [
 	"Does first part of reload which is unload and forget the repository."
@@ -62,7 +43,7 @@ RefactoringMutationTestingScripts class >> repositoryName [
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runAddArgument [
 
-	| testClasses classesToMutate classEnvironment analysis collector coverage |
+	| testClasses classesToMutate classEnvironment analysis collector coverage report |
 	self reload.
 	testClasses := ((PackageOrganizer default packageNamed: self testPackageName) definedClasses select: [ :cls | cls isTestCase ]) asArray.
 	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName) definedClasses reject: [ :cls | cls isManifest ]) asArray.
@@ -84,13 +65,14 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 	analysis generalResult inspect.
 	"596 mutants, 19 killed, 577 alive, 0 terminated. Mutation Score: 3%."
 	
-	self previewCoverageInDrTests: coverage
+	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
+	report previewCoverageInDrTests.
 ]
 
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 
-	| testClasses classesToMutate classEnvironment analysis collector coverage |
+	| testClasses classesToMutate classEnvironment analysis collector coverage report |
 	self reload.
 	testClasses := ((PackageOrganizer default packageNamed: self testPackageName) definedClasses select: [ :cls | cls isTestCase ]) asArray.
 	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName ) definedClasses reject: [ :cls | cls isManifest ]) asArray.
@@ -112,7 +94,9 @@ RefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 	"To inspect the results"
 	analysis generalResult inspect.
 	"596 mutants, 19 killed, 577 alive, 0 terminated. Mutation Score: 3%."
-	self previewCoverageInDrTests: coverage.
+	
+	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
+	report previewCoverageInDrTests.
 ]
 
 { #category : 'coverage' }
@@ -135,7 +119,7 @@ RefactoringMutationTestingScripts class >> runCoverage [
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runExtractMethod [
 
-	| testClasses classesToMutate classEnvironment analysis collector coverage |
+	| testClasses classesToMutate classEnvironment analysis collector coverage report |
 	self reload.
 	testClasses := ((PackageOrganizer default packageNamed: self testPackageName) definedClasses select: [ :cls | cls isTestCase ]) asArray.
 	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName) definedClasses reject: [ :cls | cls isManifest ]) asArray.
@@ -157,13 +141,15 @@ RefactoringMutationTestingScripts class >> runExtractMethod [
 	"To inspect the results"
 	analysis generalResult inspect.
 	"596 mutants, 19 killed, 577 alive, 0 terminated. Mutation Score: 3%."
-	self previewCoverageInDrTests: coverage.
+	
+	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
+	report previewCoverageInDrTests.
 ]
 
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 
-	| testClasses classesToMutate classEnvironment analysis collector coverage |
+	| testClasses classesToMutate classEnvironment analysis collector coverage report |
 	self reload.
 	testClasses := ((PackageOrganizer default packageNamed: self testPackageName) definedClasses select: [ :cls | cls isTestCase ]) asArray.
 	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName) definedClasses reject: [ :cls | cls isManifest ]) asArray.
@@ -173,45 +159,49 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	analysis := MTAnalysis new
 		            classesToMutate: classesToMutate;
 		            testClasses: testClasses;
-		            operators: { "
+		            operators: { 
 		RenameArgumentOrTemporaryMutationOperator new
 			classEnvironment: classEnvironment;
 			sourceIntervalStrategy: NodeSourceIntervalStrategy new;
 			nameStrategy: UniqueTempNameStrategy new .
-		RenameArgOrTempInvalidSourceMutationOperator new
+		"RenameArgOrTempInvalidSourceMutationOperator new
 			classEnvironment: classEnvironment;
 			sourceIntervalStrategy: NegativeIntervalStrategy new;
 			nameStrategy: UniqueTempNameStrategy new .
 		RenameArgOrTempInvalidSourceMutationOperator new
 			classEnvironment: classEnvironment;
 			sourceIntervalStrategy: OutOfBoundsIntervalStrategy new;
-			nameStrategy: UniqueTempNameStrategy new .
+			nameStrategy: UniqueTempNameStrategy new ."
 		RenameArgOrTempInvalidSourceMutationOperator new
 			classEnvironment: classEnvironment;
 			sourceIntervalStrategy: NodeSourceIntervalStrategy new;
-			nameStrategy: NameWithSpaceStrategy new ."
+			nameStrategy: ExistingTempOrArgNameStrategy new .
+		"RenameArgOrTempInvalidSourceMutationOperator new
+			classEnvironment: classEnvironment;
+			sourceIntervalStrategy: NodeSourceIntervalStrategy new;
+			nameStrategy: NameWithSpaceStrategy new .
 		RenameArgOrTempInvalidSourceMutationOperator new
 			classEnvironment: classEnvironment;
 			sourceIntervalStrategy: NodeSourceIntervalStrategy new;
-			nameStrategy: PseudoVariableAsNameStrategy new .
+			nameStrategy: PseudoVariableAsNameStrategy new ."
 		  }.
 
 	collector := DTCoverageCollector new. "Instantiate"
 	collector methods: RBRenameArgumentOrTemporaryRefactoring methods.  "Configure with the methods to watch."
 	coverage := collector runOn: [ analysis run ].  "Setup, execute and teardown."
-	"coverage inspect."
-	" a DTCoverageResult methods: 8 (67%) nodes: 20 (50%)"
 
 	"To inspect the results"
-	analysis generalResult inspect.
+	"analysis generalResult inspect."
 	"678 mutants, 231 killed, 446 alive, 1 terminated. Mutation Score: 34%."
-	"self previewCoverageInDrTests: coverage."
+	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
+	report previewCoverageInDrTests.
+	Transcript traceCr: report.
 ]
 
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runRenameClass [
 
-	| testClasses classesToMutate classEnvironment analysis collector coverage |
+	| testClasses classesToMutate classEnvironment analysis collector coverage report |
 	self reload.
 	testClasses := ((PackageOrganizer default packageNamed: self testPackageName ) definedClasses select: [ :cls | cls isTestCase ]) asArray.
 	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName ) definedClasses reject: [ :cls | cls isManifest ]) asArray.
@@ -232,13 +222,15 @@ RefactoringMutationTestingScripts class >> runRenameClass [
 	"To inspect the results"
 	analysis generalResult inspect.
 	"678 mutants, 231 killed, 446 alive, 1 terminated. Mutation Score: 34%."
-	self previewCoverageInDrTests: coverage.
+		
+	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
+	report previewCoverageInDrTests.
 ]
 
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runRenameMethod [
 
-	| testClasses classesToMutate classEnvironment analysis collector coverage |
+	| testClasses classesToMutate classEnvironment analysis collector coverage report |
 	self reload.
 	testClasses := ((PackageOrganizer default packageNamed: self testPackageName) definedClasses select: [ :cls | cls isTestCase ]) asArray.
 	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName) definedClasses reject: [ :cls | cls isManifest ]) asArray.
@@ -249,6 +241,9 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 		            classesToMutate: classesToMutate;
 		            testClasses: testClasses;
 		            operators: {
+		"RenameMethodMutationOperator new
+			classEnvironment: classEnvironment;
+			nameStrategy: UniqueMethodNameStrategy new ."
 		RenameMethodMutationOperator new
 			classEnvironment: classEnvironment;
 			nameStrategy: SwapMethodArgumentsStrategy new .
@@ -265,8 +260,11 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 	collector methods: (ReRenameMethodRefactoring methods , RBChangeMethodNameRefactoring methods).  "Configure with the methods to watch."
 	coverage := collector runOn: [ analysis run ].  "Setup, execute and teardown."
 	coverage inspect.
-	self previewCoverageInDrTests: coverage.
-
+	
+	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
+	report previewCoverageInDrTests.
+	Transcript traceCr: report.
+	
 	"To inspect the results"
 	analysis generalResult inspect.
 ]
