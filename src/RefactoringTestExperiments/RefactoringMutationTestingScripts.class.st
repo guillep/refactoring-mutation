@@ -44,6 +44,14 @@ RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refa
 ]
 
 { #category : 'accessing' }
+RefactoringMutationTestingScripts class >> classesToMutate [
+
+	^ self mutationPackageNames flatCollect: [ :package |
+		  (PackageOrganizer default packageNamed: package) definedClasses
+			  reject: [ :cls | cls isManifest ] ]
+]
+
+{ #category : 'accessing' }
 RefactoringMutationTestingScripts class >> mutationPackageNames [ 
 
 	^ self subclassResponsibility 
@@ -65,59 +73,32 @@ RefactoringMutationTestingScripts class >> repositoryNames [
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runAddArgument [
 
-	| testClasses classesToMutate classEnvironment analysis collector coverage report |
+	| testClasses classesToMutate classEnvironment operators report |
 	self reload.
-	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
-	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
+	testClasses := self testClasses.
+	classesToMutate := self classesToMutate.
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
 
-	analysis := MTAnalysis new
-		            classesToMutate: classesToMutate;
-		            testClasses: testClasses;
-		            operators: { AddArgumentMutationOperator new classEnvironment: classEnvironment }.
+	operators := { AddArgumentMutationOperator new classEnvironment: classEnvironment }.
 
-	collector := DTCoverageCollector new. "Instantiate"
-	collector methods: RBAddParameterRefactoring methods.  "Configure with the methods to watch."
-	coverage := collector runOn: [ analysis run ].  "Setup, execute and teardown."
-	coverage inspect.
-	"a DTCoverageResult methods: 8 (67%) nodes: 18 (45%)"
-
-	"To inspect the results"
-	analysis generalResult inspect.
-	"596 mutants, 19 killed, 577 alive, 0 terminated. Mutation Score: 3%."
-	
-	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
+	report := self calculateRefactoringCoverageFor: { RBAddParameterRefactoring } using: operators .
 	report previewCoverageInDrTests.
 ]
 
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 
-	| testClasses classesToMutate classEnvironment analysis collector coverage report |
+	| testClasses classesToMutate classEnvironment operators report |
 	self reload.
-	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
-	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
+	testClasses := self testClasses.
+	classesToMutate := self classesToMutate.
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
 
-	analysis := MTAnalysis new
-		            classesToMutate: classesToMutate;
-		            testClasses: testClasses;
-					  budget: (MTPercentageOfMutantsBudget for: 5);
-		            operators: { CompositeExtractMethodMutationOperator new classEnvironment: classEnvironment }.
+	operators := { CompositeExtractMethodMutationOperator new classEnvironment: classEnvironment }.
 
-	collector := DTCoverageCollector new. "Instantiate"
-	collector methods: ReCompositeExtractMethodRefactoring methods.  "Configure with the methods to watch."
-	coverage := collector runOn: [ analysis run ].  "Setup, execute and teardown."
-	coverage inspect.
-	"a DTCoverageResult methods: 8 (67%) nodes: 18 (45%)"
-
-	"To inspect the results"
-	analysis generalResult inspect.
-	"596 mutants, 19 killed, 577 alive, 0 terminated. Mutation Score: 3%."
-	
-	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
+	report := self calculateRefactoringCoverageFor: { ReCompositeExtractMethodRefactoring } using: operators .
 	report previewCoverageInDrTests.
 ]
 
@@ -127,8 +108,8 @@ RefactoringMutationTestingScripts class >> runCoverage [
 
 	| testClasses classesToMutate collector suite coverage |
 	self reload.
-	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
-	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
+	testClasses := self testClasses.
+	classesToMutate := self classesToMutate.
 
 	collector := DTCoverageCollector new. "Instantiate"
 	collector methods: (classesToMutate flatCollect: [ :cls | cls methods ]).  "Configure with the methods to watch."
@@ -141,30 +122,17 @@ RefactoringMutationTestingScripts class >> runCoverage [
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runExtractMethod [
 
-	| testClasses classesToMutate classEnvironment analysis collector coverage report |
+	| testClasses classesToMutate classEnvironment operators report |
 	self reload.
-	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
-	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
+	testClasses := self testClasses.
+	classesToMutate := self classesToMutate.
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
 
-	analysis := MTAnalysis new
-		            classesToMutate: classesToMutate;
-		            testClasses: testClasses;
-		            operators: { ExtractMethodMutationOperator new classEnvironment: classEnvironment" .
-									 ExtractMethodNoPreconditionMutationOperator new classEnvironment: classEnvironment" }.
+	operators := { ExtractMethodMutationOperator new classEnvironment: classEnvironment" .
+					 ExtractMethodNoPreconditionMutationOperator new classEnvironment: classEnvironment" }.
 
-	collector := DTCoverageCollector new. "Instantiate"
-	collector methods: RBExtractMethodRefactoring methods.  "Configure with the methods to watch."
-	coverage := collector runOn: [ analysis run ].  "Setup, execute and teardown."
-	coverage inspect.
-	"a DTCoverageResult methods: 8 (67%) nodes: 18 (45%)"
-
-	"To inspect the results"
-	analysis generalResult inspect.
-	"596 mutants, 19 killed, 577 alive, 0 terminated. Mutation Score: 3%."
-	
-	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
+	report := self calculateRefactoringCoverageFor: { RBExtractMethodRefactoring } using: operators .
 	report previewCoverageInDrTests.
 ]
 
@@ -184,17 +152,14 @@ RefactoringMutationTestingScripts class >> runInlineMethod [
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 
-	| testClasses classesToMutate classEnvironment analysis collector coverage report |
+	| testClasses classesToMutate classEnvironment operators report |
 	self reload.
-	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
-	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
+	testClasses := self testClasses.
+	classesToMutate := self classesToMutate.
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
 
-	analysis := MTAnalysis new
-		            classesToMutate: classesToMutate;
-		            testClasses: testClasses;
-		            operators: { 
+	operators := { 
 		RenameArgumentOrTemporaryMutationOperator new
 			classEnvironment: classEnvironment;
 			sourceIntervalStrategy: NodeSourceIntervalStrategy new;
@@ -221,61 +186,37 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 			nameStrategy: PseudoVariableAsNameStrategy new ."
 		  }.
 
-	collector := DTCoverageCollector new. "Instantiate"
-	collector methods: RBRenameArgumentOrTemporaryRefactoring methods.  "Configure with the methods to watch."
-	coverage := collector runOn: [ analysis run ].  "Setup, execute and teardown."
-
-	"To inspect the results"
-	"analysis generalResult inspect."
-	"678 mutants, 231 killed, 446 alive, 1 terminated. Mutation Score: 34%."
-	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
+	report := self calculateRefactoringCoverageFor: { RBRenameArgumentOrTemporaryRefactoring } using: operators .
 	report previewCoverageInDrTests.
-	Transcript traceCr: report.
 ]
 
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runRenameClass [
 
-	| testClasses classesToMutate classEnvironment analysis collector coverage report |
+	| testClasses classesToMutate classEnvironment operators report |
 	self reload.
-	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
-	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
+	testClasses := self testClasses.
+	classesToMutate := self classesToMutate.
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
 
-	analysis := MTAnalysis new
-		            classesToMutate: classesToMutate;
-		            testClasses: testClasses;
-		            operators: { RenameClassMutationOperator new classEnvironment: classEnvironment }.
+	operators := { RenameClassMutationOperator new classEnvironment: classEnvironment }.
 
-	collector := DTCoverageCollector new. "Instantiate"
-	collector methods: ReRenameClassRefactoring methods.  "Configure with the methods to watch."
-	coverage := collector runOn: [ analysis run ].  "Setup, execute and teardown."
-	coverage inspect.
-	" a DTCoverageResult methods: 8 (67%) nodes: 20 (50%)"
-
-	"To inspect the results"
-	analysis generalResult inspect.
-	"678 mutants, 231 killed, 446 alive, 1 terminated. Mutation Score: 34%."
-		
-	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
+	report := self calculateRefactoringCoverageFor: { ReRenameClassRefactoring } using: operators .
 	report previewCoverageInDrTests.
 ]
 
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runRenameMethod [
 
-	| testClasses classesToMutate classEnvironment analysis collector coverage report |
+	| testClasses classesToMutate classEnvironment operators report |
 	self reload.
-	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
-	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
+	testClasses := self testClasses.
+	classesToMutate := self classesToMutate.
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
 
-	analysis := MTAnalysis new
-		            classesToMutate: classesToMutate;
-		            testClasses: testClasses;
-		            operators: {
+	operators := {
 		"RenameMethodMutationOperator new
 			classEnvironment: classEnvironment;
 			nameStrategy: UniqueMethodNameStrategy new ."
@@ -291,17 +232,16 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 
 		  }.
 
-	collector := DTCoverageCollector new. "Instantiate"
-	collector methods: (ReRenameMethodRefactoring methods , RBChangeMethodNameRefactoring methods).  "Configure with the methods to watch."
-	coverage := collector runOn: [ analysis run ].  "Setup, execute and teardown."
-	coverage inspect.
-	
-	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
+	report := self calculateRefactoringCoverageFor: { ReRenameMethodRefactoring . RBChangeMethodNameRefactoring } using: operators .
 	report previewCoverageInDrTests.
-	Transcript traceCr: report.
-	
-	"To inspect the results"
-	analysis generalResult inspect.
+]
+
+{ #category : 'tests' }
+RefactoringMutationTestingScripts class >> testClasses [
+
+	^ self testPackageNames flatCollect: [ :package |
+		  (PackageOrganizer default packageNamed: package) definedClasses
+			  select: [ :cls | cls isTestCase ] ]
 ]
 
 { #category : 'tests' }
