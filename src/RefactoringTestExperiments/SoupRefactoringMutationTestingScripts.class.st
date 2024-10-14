@@ -20,12 +20,11 @@ SoupRefactoringMutationTestingScripts class >> reload [
 
 	<script>
 	super reload.
-	"EpMonitor disableDuring: [
-		["
+	EpMonitor disableDuring: [
 		Metacello new
 			baseline: 'Soup';
 			repository: 'github://pharo-contributions/Soup';
-			"] ]"load
+			load ]
 ]
 
 { #category : 'accessing' }
