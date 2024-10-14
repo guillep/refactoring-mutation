@@ -73,8 +73,8 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 
 	| testClasses classesToMutate classEnvironment analysis collector coverage report |
 	self reload.
-	testClasses := ((PackageOrganizer default packageNamed: self testPackageName) definedClasses select: [ :cls | cls isTestCase ]) asArray.
-	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName) definedClasses reject: [ :cls | cls isManifest ]) asArray.
+	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
+	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
 
@@ -102,8 +102,8 @@ RefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 
 	| testClasses classesToMutate classEnvironment analysis collector coverage report |
 	self reload.
-	testClasses := ((PackageOrganizer default packageNamed: self testPackageName) definedClasses select: [ :cls | cls isTestCase ]) asArray.
-	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName ) definedClasses reject: [ :cls | cls isManifest ]) asArray.
+	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
+	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
 
@@ -133,12 +133,12 @@ RefactoringMutationTestingScripts class >> runCoverage [
 
 	| testClasses classesToMutate collector suite coverage |
 	self reload.
-	testClasses := ((PackageOrganizer default packageNamed: self testPackageName) definedClasses select: [ :cls | cls isTestCase ]) asArray.
-	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName ) definedClasses reject: [ :cls | cls isManifest ]) asArray.
+	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
+	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
 
 	collector := DTCoverageCollector new. "Instantiate"
 	collector methods: (classesToMutate flatCollect: [ :cls | cls methods ]).  "Configure with the methods to watch."
-	suite := TestSuite named: self mutationPackageName.
+	suite := TestSuite named: self mutationPackageNames.
 	suite addTests: (testClasses flatCollect: [ :cls | cls methods select: [ :m | m isTestMethod ] thenCollect: [ :m | cls selector: m selector ] ]).
 	coverage := collector runOn: [ suite run ].  "Setup, execute and teardown."
 	coverage inspect.
@@ -149,8 +149,8 @@ RefactoringMutationTestingScripts class >> runExtractMethod [
 
 	| testClasses classesToMutate classEnvironment analysis collector coverage report |
 	self reload.
-	testClasses := ((PackageOrganizer default packageNamed: self testPackageName) definedClasses select: [ :cls | cls isTestCase ]) asArray.
-	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName) definedClasses reject: [ :cls | cls isManifest ]) asArray.
+	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
+	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
 
@@ -177,12 +177,10 @@ RefactoringMutationTestingScripts class >> runExtractMethod [
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runInlineMethod [
 
-	| testClasses classesToMutate analysis collector coverage report traits |
+	| testClasses classesToMutate analysis collector coverage report |
 	self reload.
-	testClasses := ((PackageOrganizer default packageNamed: self testPackageName) definedClasses select: [ :cls | cls isTestCase ]) asArray.
-	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName) definedClasses reject: [ :cls | cls isManifest ]) asArray.
-	traits := (PackageOrganizer default packageNamed: self mutationPackageName) definedClasses.
-	"classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses, { Collection . Object . TStyledElement } ". 
+	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
+	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
 	"We have to operate on the entire system since Inline Method depends on superclasses which can be Object, Collection, etc."
 	"IF we scope it to a package or list of classes, that scope should include every superclass of every class that you want to inline."
 
@@ -212,8 +210,8 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 
 	| testClasses classesToMutate classEnvironment analysis collector coverage report |
 	self reload.
-	testClasses := ((PackageOrganizer default packageNamed: self testPackageName) definedClasses select: [ :cls | cls isTestCase ]) asArray.
-	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName) definedClasses reject: [ :cls | cls isManifest ]) asArray.
+	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
+	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
 
@@ -264,8 +262,8 @@ RefactoringMutationTestingScripts class >> runRenameClass [
 
 	| testClasses classesToMutate classEnvironment analysis collector coverage report |
 	self reload.
-	testClasses := ((PackageOrganizer default packageNamed: self testPackageName ) definedClasses select: [ :cls | cls isTestCase ]) asArray.
-	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName ) definedClasses reject: [ :cls | cls isManifest ]) asArray.
+	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
+	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
 
@@ -293,8 +291,8 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 
 	| testClasses classesToMutate classEnvironment analysis collector coverage report |
 	self reload.
-	testClasses := ((PackageOrganizer default packageNamed: self testPackageName) definedClasses select: [ :cls | cls isTestCase ]) asArray.
-	classesToMutate := ((PackageOrganizer default packageNamed: self mutationPackageName) definedClasses reject: [ :cls | cls isManifest ]) asArray.
+	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
+	classesToMutate := self mutationPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses reject: [ :cls | cls isManifest ])].
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
 
