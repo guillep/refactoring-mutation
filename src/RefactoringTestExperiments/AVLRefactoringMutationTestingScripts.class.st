@@ -20,12 +20,11 @@ AVLRefactoringMutationTestingScripts class >> reload [
 
 	<script>
 	super reload.
-	"EpMonitor disableDuring: [
-		["
+	EpMonitor disableDuring: [
 		Metacello new
 			baseline: 'AVLTree';
 			repository: 'github://pharo-containers/AVL:main';
-			load "] ]"
+			load ]
 ]
 
 { #category : 'accessing' }

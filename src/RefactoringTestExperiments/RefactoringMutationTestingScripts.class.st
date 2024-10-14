@@ -280,10 +280,12 @@ RefactoringMutationTestingScripts class >> testPackageName [
 { #category : 'cleaning' }
 RefactoringMutationTestingScripts class >> unloadAndForget [
 
-	(IceRepository repositoryNamed: self repositoryName)
-		ifNil: [ self inform: 'Project not found: ' , name ]
-		ifNotNil: [ :found |
-			found
-				unload;
-				forget ]
+	EpMonitor disableDuring: [
+		(IceRepository repositoryNamed: self repositoryName)
+			ifNil: [ self inform: 'Project not found: ' , name ]
+			ifNotNil: [ :found |
+				found
+					unload;
+					forget ]
+	]
 ]
