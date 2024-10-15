@@ -1,3 +1,7 @@
+"
+I am a report that contains mutation analysis and refactoring code coverage.
+I implement printOn: to easier document results of the tests.
+"
 Class {
 	#name : 'RefactoringMutationReport',
 	#superclass : 'Object',
