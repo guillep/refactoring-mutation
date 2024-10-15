@@ -64,7 +64,7 @@ RefactoringMutationTestingScripts class >> reload [
 	self unloadAndForget 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 RefactoringMutationTestingScripts class >> repositoryNames [
 
 	^ self subclassResponsibility 
@@ -236,7 +236,7 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 	report previewCoverageInDrTests.
 ]
 
-{ #category : 'tests' }
+{ #category : 'accessing' }
 RefactoringMutationTestingScripts class >> testClasses [
 
 	^ self testPackageNames flatCollect: [ :package |
@@ -244,7 +244,7 @@ RefactoringMutationTestingScripts class >> testClasses [
 			  select: [ :cls | cls isTestCase ] ]
 ]
 
-{ #category : 'tests' }
+{ #category : 'accessing' }
 RefactoringMutationTestingScripts class >> testPackageNames [
 
 	^ self subclassResponsibility 
