@@ -160,23 +160,27 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
 
 	operators := { 
-		RenameArgumentOrTemporaryMutationOperator new
+		"RenameArgumentOrTemporaryMutationOperator new
 			classEnvironment: classEnvironment;
 			sourceIntervalStrategy: NodeSourceIntervalStrategy new;
 			nameStrategy: UniqueTempNameStrategy new .
-		"RenameArgOrTempInvalidSourceMutationOperator new
+		RenameArgOrTempInvalidSourceMutationOperator new
 			classEnvironment: classEnvironment;
 			sourceIntervalStrategy: NegativeIntervalStrategy new;
 			nameStrategy: UniqueTempNameStrategy new .
 		RenameArgOrTempInvalidSourceMutationOperator new
 			classEnvironment: classEnvironment;
 			sourceIntervalStrategy: OutOfBoundsIntervalStrategy new;
-			nameStrategy: UniqueTempNameStrategy new ."
-		RenameArgOrTempInvalidSourceMutationOperator new
+			nameStrategy: UniqueTempNameStrategy new."
+		RenameArgumentOrTemporaryMultipleIntervalsMutationOperator new
+			classEnvironment: classEnvironment;
+			sourceIntervalStrategy: (MultipleNodeIntervalsStrategy new offset: 2);
+			nameStrategy: UniqueTempNameStrategy new.
+		"RenameArgOrTempInvalidSourceMutationOperator new
 			classEnvironment: classEnvironment;
 			sourceIntervalStrategy: NodeSourceIntervalStrategy new;
 			nameStrategy: ExistingTempOrArgNameStrategy new .
-		"RenameArgOrTempInvalidSourceMutationOperator new
+		RenameArgOrTempInvalidSourceMutationOperator new
 			classEnvironment: classEnvironment;
 			sourceIntervalStrategy: NodeSourceIntervalStrategy new;
 			nameStrategy: NameWithSpaceStrategy new .

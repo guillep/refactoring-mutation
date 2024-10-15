@@ -93,25 +93,25 @@ RenameArgumentOrTemporaryMutationOperator >> mutationsFor: aCompiledMethod with:
 			  withData: affectedNode ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 RenameArgumentOrTemporaryMutationOperator >> nameStrategy: aStrategy [
 
 	nameStrategy := aStrategy 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 RenameArgumentOrTemporaryMutationOperator >> nameStrategyFor: aNode and: aRefactoring [
 
 	^ nameStrategy forNode: aNode and: aRefactoring 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 RenameArgumentOrTemporaryMutationOperator >> sourceIntervalStrategy: aStrategy [
 
 	sourceIntervalStrategy := aStrategy 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 RenameArgumentOrTemporaryMutationOperator >> sourceIntervalStrategyFor: aNode [
 
 	^ sourceIntervalStrategy forNode: aNode
