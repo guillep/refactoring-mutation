@@ -39,6 +39,12 @@ RenameArgumentOrTemporaryMultipleIntervalsMutationOperator >> createRefactoringW
 	^ refactoring
 ]
 
+{ #category : 'private' }
+RenameArgumentOrTemporaryMultipleIntervalsMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseTree number: aNumber newExpression: aNode [
+
+	^ aCompiledMethod sourceCode copyReplaceFrom: (aNode at: #interval) first to: (aNode at: #interval) last with: 'foo' , (aNode at: #node) name
+]
+
 { #category : 'mutant generation' }
 RenameArgumentOrTemporaryMultipleIntervalsMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
 
