@@ -52,7 +52,7 @@ RenameMethodMultipleNamesMutationOperator >> mutationsFor: aCompiledMethod with:
 	aParseTree methodClass superclass name = 'Object' ifTrue: [ ^ #() ].
 	model := RBNamespace onEnvironment: classEnvironment.
 	namesList := nameStrategy forNode: aParseTree with: model.
-	namesList reject: [ :name | self class blackListMethodNames includes: name ].
+	namesList := namesList reject: [ :name | self class blackListMethodNames includes: name ].
 	^ namesList collectWithIndex: [ :name :index |
 		  RefactoringMutation
 			  for: aCompiledMethod
