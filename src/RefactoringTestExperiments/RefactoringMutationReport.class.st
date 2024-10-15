@@ -15,9 +15,20 @@ Class {
 }
 
 { #category : 'accessing' }
+RefactoringMutationReport >> coverage [
+	^ coverage
+]
+
+{ #category : 'accessing' }
 RefactoringMutationReport >> coverage: aDTCoverageResult [
 
 	coverage := aDTCoverageResult
+]
+
+{ #category : 'accessing' }
+RefactoringMutationReport >> mutationAnalysis [
+
+	^ mutationAnalysis
 ]
 
 { #category : 'accessing' }
