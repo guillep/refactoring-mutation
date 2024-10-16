@@ -2,7 +2,8 @@ Class {
 	#name : 'RefactoringMutationOperator',
 	#superclass : 'MTPredicateBasedMutantOperator',
 	#instVars : [
-		'classEnvironment'
+		'classEnvironment',
+		'strategies'
 	],
 	#classInstVars : [
 		'blackListClasses',
@@ -45,4 +46,10 @@ RefactoringMutationOperator class >> reset [
 RefactoringMutationOperator >> classEnvironment: aRBEnvironment [
 
 	classEnvironment := aRBEnvironment 
+]
+
+{ #category : 'accessing' }
+RefactoringMutationOperator >> strategies: strategiesList [
+
+	strategies := strategiesList
 ]

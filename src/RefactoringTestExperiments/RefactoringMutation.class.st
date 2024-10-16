@@ -8,12 +8,25 @@ Class {
 	#name : 'RefactoringMutation',
 	#superclass : 'MTMethodMutation',
 	#instVars : [
-		'shouldApplyPreconditions'
+		'shouldApplyPreconditions',
+		'inputs'
 	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
 }
+
+{ #category : 'instance creation' }
+RefactoringMutation class >> for: aMethod using: anOperatorApplied nodeNumber: aNodeNumber ofClass: aClass withData: anObject inputs: inputs [
+
+	^ self new
+		  initializeFor: aMethod
+		  using: anOperatorApplied
+		  nodeNumber: aNodeNumber
+		  ofClass: aClass
+		  withData: anObject;
+		  inputs: inputs
+]
 
 { #category : 'installing' }
 RefactoringMutation >> doNotApplyPreconditions [
@@ -26,6 +39,18 @@ RefactoringMutation >> initialize [
 
 	super initialize.
 	shouldApplyPreconditions := true
+]
+
+{ #category : 'as yet unclassified' }
+RefactoringMutation >> inputFor: aSymbol [ 
+
+	^ inputs at: aSymbol
+]
+
+{ #category : 'accessing' }
+RefactoringMutation >> inputs: aDictionary [
+
+	inputs := aDictionary 
 ]
 
 { #category : 'installing' }

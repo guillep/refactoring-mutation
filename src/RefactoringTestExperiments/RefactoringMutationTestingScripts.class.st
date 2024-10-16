@@ -40,6 +40,8 @@ RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refa
 	coverage := collector runOn: [ analysis run ].
 	
 	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
+	report mutationAnalysis generalResult inspect.
+	report coverage inspect.
 	^ report
 ]
 
@@ -202,9 +204,18 @@ RefactoringMutationTestingScripts class >> runRenameClass [
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
-	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
+	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses , { Object }.
 
-	operators := { RenameClassMutationOperator new classEnvironment: classEnvironment }.
+	operators := { RenameClassWithoutPreconditionsMutationOperator new 
+		classEnvironment: classEnvironment; 
+		strategies: { 
+			ExistingNonClassGlobalNameStrategy new . 
+			UniqueGlobalNameStrategy new .
+			ExistingClassGlobalNameStrategy new .
+			ExistingTraitGlobalNameStrategy new .
+			SubclassGlobalNameStrategy new .
+			SuperclassGlobalNameStrategy new .
+		} }.
 
 	report := self calculateRefactoringCoverageFor: { ReRenameClassRefactoring } using: operators .
 	report previewCoverageInDrTests.
