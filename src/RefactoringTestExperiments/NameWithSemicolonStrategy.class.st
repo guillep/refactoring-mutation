@@ -6,8 +6,8 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 NameWithSemicolonStrategy >> forNode: aNode and: aRefactoring [
 
-	^ 'not;allowed' 
+	^ { 'not;allowed' }
 ]

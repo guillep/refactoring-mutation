@@ -6,8 +6,8 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 SameVariableNameStrategy >> forNode: aNode and: aRefactoring [
 
-	^ aNode name
+	^ { aNode name }
 ]

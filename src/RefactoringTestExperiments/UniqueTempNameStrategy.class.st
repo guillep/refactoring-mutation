@@ -9,5 +9,5 @@ Class {
 { #category : 'as yet unclassified' }
 UniqueTempNameStrategy >> forNode: aNode and: aRefactoring [
 
-	^ aRefactoring safeVariableNameFor: aRefactoring sourceClass temporaries: aNode methodNode allDefinedVariables basedOn: #foo
+	^ { aRefactoring safeVariableNameFor: aRefactoring sourceClass temporaries: aNode methodNode allDefinedVariables basedOn: #foo }
 ]

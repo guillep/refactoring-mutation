@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'accessing' }
+MethodNameStrategy >> key [
+
+	^ #name
+]
+
 { #category : 'as yet unclassified' }
 MethodNameStrategy >> permutationsForNode: aNode [
 

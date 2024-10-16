@@ -1,5 +1,5 @@
 Class {
-	#name : 'NameWithDotStrategy',
+	#name : 'SuperclassGlobalNameStrategy',
 	#superclass : 'NameStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-NameWithDotStrategy >> forNode: aNode and: aRefactoring [
+SuperclassGlobalNameStrategy >> forNode: aNode and: aModel [
 
-	^ { 'not.allowed' }
+	^ { (aModel classNamed: aNode name) superclass name }
 ]

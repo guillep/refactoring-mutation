@@ -6,8 +6,8 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 NameWithSpaceStrategy >> forNode: aNode and: aRefactoring [
 
-	^ 'should not pass'
+	^ { 'should not pass' }
 ]

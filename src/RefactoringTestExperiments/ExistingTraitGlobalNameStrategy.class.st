@@ -1,13 +1,13 @@
 Class {
-	#name : 'ExistingGlobalNameStrategy',
+	#name : 'ExistingTraitGlobalNameStrategy',
 	#superclass : 'NameStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
-ExistingGlobalNameStrategy >> forNode: aNode and: aRefactoring [
+{ #category : 'running' }
+ExistingTraitGlobalNameStrategy >> forNode: aNode and: aRefactoring [
 
-	^ 'Object' 
+	^ { 'RBTDummy' }
 ]

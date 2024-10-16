@@ -6,8 +6,8 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 OutOfBoundsIntervalStrategy >> forNode: aNode [
 
-	^ aNode start to: aNode methodNode sourceCode size + 1
+	^ { aNode start to: aNode methodNode sourceCode size + 1 }
 ]

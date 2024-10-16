@@ -6,8 +6,8 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 NodeSourceIntervalStrategy >> forNode: aNode [
 
-	^ aNode sourceInterval
+	^ { aNode sourceInterval }
 ]

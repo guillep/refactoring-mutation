@@ -1,5 +1,5 @@
 Class {
-	#name : 'NameWithDotStrategy',
+	#name : 'PseudoVariableSelfAsNameStrategy',
 	#superclass : 'NameStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-NameWithDotStrategy >> forNode: aNode and: aRefactoring [
+PseudoVariableSelfAsNameStrategy >> forNode: aNode and: aRefactoring [
 
-	^ { 'not.allowed' }
+	^ { 'self' }
 ]

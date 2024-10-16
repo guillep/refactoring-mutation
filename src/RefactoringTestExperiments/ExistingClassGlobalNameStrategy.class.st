@@ -1,5 +1,5 @@
 Class {
-	#name : 'PseudoVariableAsNameStrategy',
+	#name : 'ExistingClassGlobalNameStrategy',
 	#superclass : 'NameStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-PseudoVariableAsNameStrategy >> forNode: aNode and: aRefactoring [
+ExistingClassGlobalNameStrategy >> forNode: aNode and: aRefactoring [
 
-	^ 'self'
+	^ { 'Object' }
 ]

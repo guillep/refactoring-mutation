@@ -6,8 +6,8 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 NameStartingWithNumberStrategy >> forNode: aNode and: aRefactoring [
 
-	^ '1uniqueName' 
+	^ { '1uniqueName' }
 ]

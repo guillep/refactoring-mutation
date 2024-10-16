@@ -6,10 +6,10 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 MethodNameDifferentArityStrategy >> forNode: aNode and: aRefactoring [
 
-	^ aNode selector isBinary
+	^ { aNode selector isBinary
 		  ifTrue: [ #foo:foo: ]
-		  ifFalse: [ aNode selector , 'foo:' ]
+		  ifFalse: [ aNode selector , 'foo:' ] }
 ]

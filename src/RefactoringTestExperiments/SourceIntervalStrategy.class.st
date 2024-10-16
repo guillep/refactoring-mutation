@@ -11,3 +11,9 @@ SourceIntervalStrategy >> forNode: aNode [
 
 	^ self subclassResponsibility 
 ]
+
+{ #category : 'accessing' }
+SourceIntervalStrategy >> key [
+
+	^ #interval
+]

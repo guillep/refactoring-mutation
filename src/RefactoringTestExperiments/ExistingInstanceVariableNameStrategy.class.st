@@ -9,7 +9,7 @@ Class {
 { #category : 'as yet unclassified' }
 ExistingInstanceVariableNameStrategy >> forNode: aNode and: aRefactoring [
 
-	^ aNode methodNode methodClass instVarNames
+	^ { aNode methodNode methodClass instVarNames
 		  ifEmpty: [ nil ]
-		  ifNotEmpty: [ aNode methodNode methodClass instVarNames first ]
+		  ifNotEmpty: [ aNode methodNode methodClass instVarNames first ] }
 ]

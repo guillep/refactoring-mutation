@@ -6,12 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 SwapMethodArgumentsStrategy >> forNode: aNode and: aRefactoring [
 
-	^ aNode numArgs >= 2
+	^ { aNode numArgs >= 2
 		ifTrue: [ | node| node := aNode copy. ('' join: (node selectorParts swap: 1 with: 2)) asSymbol ]
-		ifFalse: [ nil ]
+		ifFalse: [ nil ] }
 ]
 
 { #category : 'as yet unclassified' }

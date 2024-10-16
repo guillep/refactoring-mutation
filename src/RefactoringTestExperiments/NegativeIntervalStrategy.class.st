@@ -6,8 +6,8 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 NegativeIntervalStrategy >> forNode: aNode [
 
-	^ aNode stop to: aNode start
+	^ { aNode stop to: aNode start }
 ]

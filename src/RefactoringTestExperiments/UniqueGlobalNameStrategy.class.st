@@ -6,8 +6,8 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 UniqueGlobalNameStrategy >> forNode: aNode and: aRefactoring [
 
-	^ 'UniqueNameInTheSystem' 
+	^ { 'UniqueNameInTheSystem' }
 ]

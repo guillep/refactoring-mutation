@@ -9,7 +9,7 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 MultipleNodeIntervalsStrategy >> forNode: aNode [
 
 	| start last |

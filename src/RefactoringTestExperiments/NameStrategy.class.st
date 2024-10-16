@@ -6,8 +6,14 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 NameStrategy >> forNode: aNode and: aRefactoring [
 
-	^ 'self' 
+	^ self subclassResponsibility 
+]
+
+{ #category : 'accessing' }
+NameStrategy >> key [
+
+	^ #name
 ]

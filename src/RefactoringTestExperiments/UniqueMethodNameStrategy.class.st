@@ -9,5 +9,5 @@ Class {
 { #category : 'as yet unclassified' }
 UniqueMethodNameStrategy >> forNode: aNode and: aRefactoirng [
 
-	^ aRefactoirng uniqueMethodNameFor: aNode arguments size
+	^ { aRefactoirng uniqueMethodNameFor: aNode arguments size }
 ]

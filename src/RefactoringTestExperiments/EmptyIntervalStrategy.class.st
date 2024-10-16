@@ -6,8 +6,8 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 EmptyIntervalStrategy >> forNode: aNode [
 
-	^ aNode start to: aNode start
+	^ { aNode start to: aNode start }
 ]

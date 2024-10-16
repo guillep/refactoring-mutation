@@ -6,16 +6,10 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 SuperClassMethodNameStrategy >> forNode: aNode and: aRefactoring [ 
 
-	^ self forNode: aNode with: aRefactoring model
-]
-
-{ #category : 'as yet unclassified' }
-SuperClassMethodNameStrategy >> forNode: aMethodNode with: aRBNamespace [ 
-
-	^ aMethodNode methodClass superclass methods 
-			select: [ :method | aMethodNode numArgs = method numArgs and: [ aMethodNode selector ~= method selector ] ] 
+	^ aNode methodClass superclass methods 
+			select: [ :method | aNode numArgs = method numArgs and: [ aNode selector ~= method selector ] ] 
 			thenCollect: [ :method | method selector ]
 ]
