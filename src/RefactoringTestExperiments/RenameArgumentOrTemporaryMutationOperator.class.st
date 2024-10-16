@@ -1,10 +1,6 @@
 Class {
 	#name : 'RenameArgumentOrTemporaryMutationOperator',
 	#superclass : 'SubMethodRefactoringMutationOperator',
-	#instVars : [
-		'sourceIntervalStrategy',
-		'nameStrategy'
-	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
@@ -25,7 +21,14 @@ RenameArgumentOrTemporaryMutationOperator >> appliesToNode: aNode [
 RenameArgumentOrTemporaryMutationOperator >> applyMutation: aMutation [
 
 	| refactoring |
-	refactoring := self createRefactoringWith: aMutation data on: (RBNamespace onEnvironment: classEnvironment).
+	(aMutation inputFor: #name) ifNil: [ ^ nil ].
+	(aMutation inputFor: #interval) ifNil: [ ^ nil ].
+	refactoring := RBRenameArgumentOrTemporaryRefactoring
+		  model: (RBNamespace onEnvironment: classEnvironment)
+		  renameTemporaryFrom: (aMutation inputFor: #interval) 
+		  to: 'foo' , (aMutation inputFor: #name)
+		  in: aMutation data methodNode compiledMethod origin
+		  selector: aMutation data methodNode selector.
 	
 	refactoring execute
 ]
@@ -50,17 +53,12 @@ RenameArgumentOrTemporaryMutationOperator >> canRefactor: aNode in: aModel [
 { #category : 'mutant generation' }
 RenameArgumentOrTemporaryMutationOperator >> createRefactoringWith: aNode on: aModel [
 
-	| refactoring name |
-	refactoring := RBRenameArgumentOrTemporaryRefactoring
+	^ RBRenameArgumentOrTemporaryRefactoring
 		  model: aModel
-		  renameTemporaryFrom: (self sourceIntervalStrategyFor: aNode)
-		  to: ''
+		  renameTemporaryFrom: aNode sourceInterval 
+		  to: 'foo' , aNode name
 		  in: aNode methodNode compiledMethod origin
-		  selector: aNode methodNode selector.
-	name := self nameStrategyFor: aNode and: refactoring.
-	name ifNil: [ ^ nil ].
-	refactoring newName: name.
-	^ refactoring
+		  selector: aNode methodNode selector
 ]
 
 { #category : 'printing' }
@@ -73,46 +71,4 @@ RenameArgumentOrTemporaryMutationOperator >> description [
 RenameArgumentOrTemporaryMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseTree number: aNumber newExpression: aNode [
 
 	^ aCompiledMethod sourceCode copyReplaceFrom: aNode start to: aNode stop with: 'foo' , aNode name
-]
-
-{ #category : 'mutant generation' }
-RenameArgumentOrTemporaryMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
-
-	| affectedNodes |
-	((aCompiledMethod hasPragmaNamed: #ignoreForMutations) or: [
-		 aCompiledMethod hasPragmaNamed: #ignoreForCoverage ]) ifTrue: [
-		^ #(  ) ].
-
-	affectedNodes := self affectedNodesFor: aParseTree.
-	^ affectedNodes collectWithIndex: [ :affectedNode :index |
-		  RefactoringMutation
-			  for: aCompiledMethod
-			  using: self
-			  nodeNumber: index
-			  ofClass: aCompiledMethod methodClass
-			  withData: affectedNode ]
-]
-
-{ #category : 'accessing' }
-RenameArgumentOrTemporaryMutationOperator >> nameStrategy: aStrategy [
-
-	nameStrategy := aStrategy 
-]
-
-{ #category : 'private' }
-RenameArgumentOrTemporaryMutationOperator >> nameStrategyFor: aNode and: aRefactoring [
-
-	^ nameStrategy forNode: aNode and: aRefactoring 
-]
-
-{ #category : 'accessing' }
-RenameArgumentOrTemporaryMutationOperator >> sourceIntervalStrategy: aStrategy [
-
-	sourceIntervalStrategy := aStrategy 
-]
-
-{ #category : 'private' }
-RenameArgumentOrTemporaryMutationOperator >> sourceIntervalStrategyFor: aNode [
-
-	^ sourceIntervalStrategy forNode: aNode
 ]

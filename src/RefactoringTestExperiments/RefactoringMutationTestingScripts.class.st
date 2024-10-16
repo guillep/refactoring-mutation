@@ -162,35 +162,33 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
 
 	operators := { 
-		"RenameArgumentOrTemporaryMutationOperator new
+		RenameArgumentOrTemporaryMutationOperator new
 			classEnvironment: classEnvironment;
-			sourceIntervalStrategy: NodeSourceIntervalStrategy new;
-			nameStrategy: UniqueTempNameStrategy new .
-		RenameArgOrTempInvalidSourceMutationOperator new
-			classEnvironment: classEnvironment;
-			sourceIntervalStrategy: NegativeIntervalStrategy new;
-			nameStrategy: UniqueTempNameStrategy new .
-		RenameArgOrTempInvalidSourceMutationOperator new
-			classEnvironment: classEnvironment;
-			sourceIntervalStrategy: OutOfBoundsIntervalStrategy new;
-			nameStrategy: UniqueTempNameStrategy new."
-		RenameArgumentOrTemporaryMultipleIntervalsMutationOperator new
-			classEnvironment: classEnvironment;
-			sourceIntervalStrategy: (MultipleNodeIntervalsStrategy new offset: 2);
-			nameStrategy: UniqueTempNameStrategy new.
-		"RenameArgOrTempInvalidSourceMutationOperator new
-			classEnvironment: classEnvironment;
-			sourceIntervalStrategy: NodeSourceIntervalStrategy new;
-			nameStrategy: ExistingTempOrArgNameStrategy new .
-		RenameArgOrTempInvalidSourceMutationOperator new
-			classEnvironment: classEnvironment;
-			sourceIntervalStrategy: NodeSourceIntervalStrategy new;
-			nameStrategy: NameWithSpaceStrategy new .
-		RenameArgOrTempInvalidSourceMutationOperator new
-			classEnvironment: classEnvironment;
-			sourceIntervalStrategy: NodeSourceIntervalStrategy new;
-			nameStrategy: PseudoVariableAsNameStrategy new ."
-		  }.
+			strategies: { 
+				"Interval strategies"
+				NodeSourceIntervalStrategy new .
+				NegativeIntervalStrategy new .
+				EmptyIntervalStrategy new .
+				NodeSourceIntervalStrategy new .
+				OutOfBoundsIntervalStrategy new .
+				MultipleNodeIntervalsStrategy new offset: 2 . 
+				"Name strategies"
+				UniqueTempNameStrategy new .
+				ExistingInstanceVariableNameStrategy new .
+				ExistingClassGlobalNameStrategy new .
+				ExistingNonClassGlobalNameStrategy new .
+				ExistingTempOrArgNameStrategy new .
+				ExistingTraitGlobalNameStrategy new .
+				NameStartingWithNumberStrategy new .
+				NameWithDotStrategy new .
+				NameWithSemicolonStrategy new .
+				NameWithSpaceStrategy new .
+				PseudoVariableSelfAsNameStrategy new .
+				PseudoVariableSuperAsNameStrategy new .
+				SameVariableNameStrategy new .
+				UniqueGlobalNameStrategy new .
+		  }
+	}.
 
 	report := self calculateRefactoringCoverageFor: { RBRenameArgumentOrTemporaryRefactoring } using: operators .
 	report previewCoverageInDrTests.
