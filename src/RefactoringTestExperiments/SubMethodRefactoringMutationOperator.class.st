@@ -53,10 +53,13 @@ SubMethodRefactoringMutationOperator >> appliesToNode: aNode [
 	aNode methodNode compiledMethod origin isTrait ifTrue: [ ^ false ].
 	aNode sourceInterval ifEmpty: [ ^ false ].
 
-	1 haltIf: [
-		aNode methodNode compiledMethod origin isKindOf: TraitedClass ].
-
 	^ self canRefactor: aNode
+]
+
+{ #category : 'testing' }
+SubMethodRefactoringMutationOperator >> canRefactor: aNode [
+
+	^ self subclassResponsibility
 ]
 
 { #category : 'printing' }
