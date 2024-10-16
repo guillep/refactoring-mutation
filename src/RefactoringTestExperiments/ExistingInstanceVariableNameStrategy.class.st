@@ -6,8 +6,8 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
-ExistingInstanceVariableNameStrategy >> forNode: aNode and: aRefactoring [
+{ #category : 'running' }
+ExistingInstanceVariableNameStrategy >> forNode: aNode and: aModel [
 
 	^ { aNode methodNode methodClass instVarNames
 		  ifEmpty: [ nil ]

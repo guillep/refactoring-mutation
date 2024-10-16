@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-PseudoVariableSelfAsNameStrategy >> forNode: aNode and: aRefactoring [
+PseudoVariableSelfAsNameStrategy >> forNode: aNode and: aModel [
 
 	^ { 'self' }
 ]

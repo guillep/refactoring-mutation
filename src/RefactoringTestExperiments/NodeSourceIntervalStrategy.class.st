@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-NodeSourceIntervalStrategy >> forNode: aNode [
+NodeSourceIntervalStrategy >> forNode: aNode and: aModel [
 
 	^ { aNode sourceInterval }
 ]

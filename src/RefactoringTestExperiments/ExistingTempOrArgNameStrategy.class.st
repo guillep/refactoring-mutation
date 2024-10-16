@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-ExistingTempOrArgNameStrategy >> forNode: aNode and: aRefactoring [
+ExistingTempOrArgNameStrategy >> forNode: aNode and: aModel [
 
 	| existingNames |
 	existingNames := aNode methodNode allDefinedVariables reject: [ :var | var = aNode name ].

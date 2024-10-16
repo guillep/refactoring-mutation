@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : 'running' }
-MultipleNodeIntervalsStrategy >> forNode: aNode [
+MultipleNodeIntervalsStrategy >> forNode: aNode and: aModel [
 
 	| start last |
 	start := aNode sourceInterval first.

@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-OutOfBoundsIntervalStrategy >> forNode: aNode [
+OutOfBoundsIntervalStrategy >> forNode: aNode and: aModel [
 
 	^ { aNode start to: aNode methodNode sourceCode size + 1 }
 ]

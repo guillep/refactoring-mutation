@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-ExistingNonClassGlobalNameStrategy >> forNode: aNode and: aRefactoring [
+ExistingNonClassGlobalNameStrategy >> forNode: aNode and: aModel [
 
 	^ { 'SharedVarA' }
 ]

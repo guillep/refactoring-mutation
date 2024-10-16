@@ -11,14 +11,7 @@ Class {
 }
 
 { #category : 'running' }
-NodeIntervalMutateStartAndStopStrategy >> forNode: aNode [
+NodeIntervalMutateStartAndStopStrategy >> forNode: aNode and: aModel [
 
-	^ { aNode sourceInterval first + startOffset to: aNode sourceInterval last + stopOffset }
-]
-
-{ #category : 'initialization' }
-NodeIntervalMutateStartAndStopStrategy >> start: aStartOffset stop: aStopOffset [
-
-	startOffset := aStartOffset.
-	stopOffset := aStopOffset.
+	^ { aNode sourceInterval }
 ]

@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-PseudoVariableSuperAsNameStrategy >> forNode: aNode and: aRefactoring [
+PseudoVariableSuperAsNameStrategy >> forNode: aNode and: aModel [
 
 	^ { 'super' }
 ]

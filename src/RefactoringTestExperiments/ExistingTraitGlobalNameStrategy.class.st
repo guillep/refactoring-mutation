@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-ExistingTraitGlobalNameStrategy >> forNode: aNode and: aRefactoring [
+ExistingTraitGlobalNameStrategy >> forNode: aNode and: aModel [
 
 	^ { 'RBTDummy' }
 ]

@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-NameWithSemicolonStrategy >> forNode: aNode and: aRefactoring [
+NameWithSemicolonStrategy >> forNode: aNode and: aModel [
 
 	^ { 'not;allowed' }
 ]

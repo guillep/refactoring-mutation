@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-NameWithSpaceStrategy >> forNode: aNode and: aRefactoring [
+NameWithSpaceStrategy >> forNode: aNode and: aModel [
 
 	^ { 'should not pass' }
 ]

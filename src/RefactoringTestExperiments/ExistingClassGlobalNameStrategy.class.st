@@ -6,8 +6,8 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
-ExistingClassGlobalNameStrategy >> forNode: aNode and: aRefactoring [
+{ #category : 'running' }
+ExistingClassGlobalNameStrategy >> forNode: aNode and: aModel [
 
 	^ { 'Object' }
 ]

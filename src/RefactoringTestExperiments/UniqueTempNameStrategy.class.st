@@ -6,8 +6,8 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
-UniqueTempNameStrategy >> forNode: aNode and: aRefactoring [
+{ #category : 'running' }
+UniqueTempNameStrategy >> forNode: aNode and: aModel [
 
-	^ { aRefactoring safeVariableNameFor: aRefactoring sourceClass temporaries: aNode methodNode allDefinedVariables basedOn: #foo }
+	^ { #foo , aNode name }
 ]

@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-NameStrategy >> forNode: aNode and: aRefactoring [
+NameStrategy >> forNode: aNode and: aModel [
 
 	^ self subclassResponsibility 
 ]

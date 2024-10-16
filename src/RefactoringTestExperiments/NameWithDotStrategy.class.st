@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-NameWithDotStrategy >> forNode: aNode and: aRefactoring [
+NameWithDotStrategy >> forNode: aNode and: aModel [
 
 	^ { 'not.allowed' }
 ]

@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-SameVariableNameStrategy >> forNode: aNode and: aRefactoring [
+SameVariableNameStrategy >> forNode: aNode and: aModel [
 
 	^ { aNode name }
 ]

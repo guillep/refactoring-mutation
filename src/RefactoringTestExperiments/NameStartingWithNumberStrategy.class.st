@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-NameStartingWithNumberStrategy >> forNode: aNode and: aRefactoring [
+NameStartingWithNumberStrategy >> forNode: aNode and: aModel [
 
 	^ { '1uniqueName' }
 ]

@@ -6,8 +6,8 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
-SourceIntervalStrategy >> forNode: aNode [
+{ #category : 'running' }
+SourceIntervalStrategy >> forNode: aNode and: aModel [
 
 	^ self subclassResponsibility 
 ]

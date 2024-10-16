@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-UniqueGlobalNameStrategy >> forNode: aNode and: aRefactoring [
+UniqueGlobalNameStrategy >> forNode: aNode and: aModel [
 
 	^ { 'UniqueNameInTheSystem' }
 ]

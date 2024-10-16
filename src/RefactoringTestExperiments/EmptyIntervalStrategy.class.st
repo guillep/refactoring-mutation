@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-EmptyIntervalStrategy >> forNode: aNode [
+EmptyIntervalStrategy >> forNode: aNode and: aModel [
 
 	^ { aNode start to: aNode start }
 ]
