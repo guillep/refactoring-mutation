@@ -10,7 +10,7 @@ Class {
 ExtractMethodMutationOperator >> applyMutation: aMutation [
 
 	| refactoring |
-	refactoring := self createRefactoringWithInterval: aMutation data andMethodNode: aMutation originalMethod.
+	refactoring := self createRefactoringWithInterval: (aMutation inputFor: #interval) andMethodNode: aMutation originalMethod.
 
 	[ refactoring
 		prepareForExecution;
@@ -67,22 +67,4 @@ ExtractMethodMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParse
 
 
 	^ aCompiledMethod sourceCode copyReplaceFrom: aNode first to: aNode last with: ' EXTRACTED '
-]
-
-{ #category : 'private' }
-ExtractMethodMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
-
-	| affectedNodes |
-	((aCompiledMethod hasPragmaNamed: #ignoreForMutations) or: [
-		 aCompiledMethod hasPragmaNamed: #ignoreForCoverage ]) ifTrue: [
-		^ #(  ) ].
-
-	affectedNodes := self affectedNodesFor: aParseTree.
-	^ affectedNodes collectWithIndex: [ :affectedNode :index |
-		  RefactoringMutation
-			  for: aCompiledMethod
-			  using: self
-			  nodeNumber: index
-			  ofClass: aCompiledMethod methodClass
-			  withData: affectedNode sourceInterval ]
 ]

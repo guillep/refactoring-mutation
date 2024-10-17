@@ -22,7 +22,7 @@ InlineMethodMutationOperator >> applyMutation: aMutation [
 	"IF we scope it to a package or list of classes, that scope should include every superclass of every class that you want to inline."
 	refactoring := RBInlineMethodRefactoring
 						  model: model
-		               inline: aMutation data
+		               inline: (aMutation inputFor: #interval)
 		               inMethod: aMutation originalMethod selector
 		               forClass: aMutation originalMethod methodClass name.
 
@@ -60,30 +60,12 @@ InlineMethodMutationOperator >> canRefactor: aNode [
 { #category : 'printing' }
 InlineMethodMutationOperator >> description [
 	
-	^ 'Extract an expression/statement from the method into a separate method'
+	^ 'Inline a message send'
 ]
 
 { #category : 'instance creation' }
 InlineMethodMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseTree number: aNumber newExpression: aNode [
 
 
-	^ aCompiledMethod sourceCode copyReplaceFrom: aNode first to: aNode last with: ' EXTRACTED '
-]
-
-{ #category : 'private' }
-InlineMethodMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
-
-	| affectedNodes |
-	((aCompiledMethod hasPragmaNamed: #ignoreForMutations) or: [
-		 aCompiledMethod hasPragmaNamed: #ignoreForCoverage ]) ifTrue: [
-		^ #(  ) ].
-
-	affectedNodes := self affectedNodesFor: aParseTree.
-	^ affectedNodes collectWithIndex: [ :affectedNode :index |
-		  RefactoringMutation
-			  for: aCompiledMethod
-			  using: self
-			  nodeNumber: index
-			  ofClass: aCompiledMethod methodClass
-			  withData: affectedNode sourceInterval ]
+	^ aCompiledMethod sourceCode copyReplaceFrom: aNode sourceInterval first to: aNode sourceInterval last with: ' INLINED '
 ]

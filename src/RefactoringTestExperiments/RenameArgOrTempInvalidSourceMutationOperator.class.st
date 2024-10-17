@@ -10,7 +10,14 @@ Class {
 RenameArgOrTempInvalidSourceMutationOperator >> applyMutation: aMutation [
 
 	| refactoring |
-	refactoring := self createRefactoringWith: aMutation data on: (RBNamespace onEnvironment: classEnvironment).
+	(aMutation inputFor: #name) ifNil: [ ^ nil ].
+	(aMutation inputFor: #interval) ifNil: [ ^ nil ].
+	refactoring := RBRenameArgumentOrTemporaryRefactoring
+		  model: (RBNamespace onEnvironment: classEnvironment)
+		  renameTemporaryFrom: (aMutation inputFor: #interval) 
+		  to: (aMutation inputFor: #name)
+		  in: aMutation data methodNode compiledMethod origin
+		  selector: aMutation data methodNode selector.
 	
 	refactoring prepareForExecution.
 	

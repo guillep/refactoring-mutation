@@ -61,21 +61,3 @@ CompositeExtractMethodMutationOperator >> modifiedSourceFor: aCompiledMethod wit
 
 	^ aCompiledMethod sourceCode copyReplaceFrom: aNode first to: aNode last with: ' EXTRACTED '
 ]
-
-{ #category : 'mutant generation' }
-CompositeExtractMethodMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
-
-	| affectedNodes |
-	((aCompiledMethod hasPragmaNamed: #ignoreForMutations) or: [
-		 aCompiledMethod hasPragmaNamed: #ignoreForCoverage ]) ifTrue: [
-		^ #(  ) ].
-
-	affectedNodes := self affectedNodesFor: aParseTree.
-	^ affectedNodes collectWithIndex: [ :affectedNode :index |
-		  RefactoringMutation
-			  for: aCompiledMethod
-			  using: self
-			  nodeNumber: index
-			  ofClass: aCompiledMethod methodClass
-			  withData: affectedNode sourceInterval ]
-]

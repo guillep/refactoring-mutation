@@ -26,7 +26,7 @@ RenameArgumentOrTemporaryMutationOperator >> applyMutation: aMutation [
 	refactoring := RBRenameArgumentOrTemporaryRefactoring
 		  model: (RBNamespace onEnvironment: classEnvironment)
 		  renameTemporaryFrom: (aMutation inputFor: #interval) 
-		  to: 'foo' , (aMutation inputFor: #name)
+		  to: (aMutation inputFor: #name)
 		  in: aMutation data methodNode compiledMethod origin
 		  selector: aMutation data methodNode selector.
 	

@@ -1,9 +1,6 @@
 Class {
 	#name : 'RenameMethodMutationOperator',
-	#superclass : 'SubMethodRefactoringMutationOperator',
-	#instVars : [
-		'nameStrategy'
-	],
+	#superclass : 'RefactoringMutationOperator',
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
@@ -13,11 +10,7 @@ Class {
 RenameMethodMutationOperator >> affectedNodesFor: aParseTree [
 	"Redefine to only affect nodes in the body"
 
-	| selected |
-	selected := aParseTree allChildren select: [ :aNode |
-		            self appliesToNode: aNode ].
-
-	^ selected
+	^ self appliesToNode: aParseTree methodNode.
 ]
 
 { #category : 'instance creation' }
@@ -32,9 +25,16 @@ RenameMethodMutationOperator >> appliesToNode: aNode [
 { #category : 'instance creation' }
 RenameMethodMutationOperator >> applyMutation: aMutation [
 
-	| refactoring failing |
+	| refactoring failing model selector |
 
-	refactoring := self createRefactoringFor: aMutation data.
+	model := RBNamespace onEnvironment: classEnvironment.
+	selector := aMutation data selector.
+	refactoring := ReRenameMethodRefactoring
+		               model: model
+		               renameMethod: selector
+		               in: aMutation data methodNode methodClass name
+		               to: (aMutation inputFor: #methodName)
+		               permutation: (aMutation inputFor: #permutations).
 
 	refactoring prepareForExecution.
 	failing := refactoring failedApplicabilityPreconditions.
@@ -57,24 +57,18 @@ RenameMethodMutationOperator >> canRefactor: aNode [
 	^ failing isEmpty
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'mutant generation' }
 RenameMethodMutationOperator >> createRefactoringFor: aNode [
 
-	| refactoring model newName selector permutations permutation |
+	| refactoring model permutations |
 	model := RBNamespace onEnvironment: classEnvironment.
-	selector := aNode selector.
-	permutations := selector count: [ :c | c = $: ].
+	permutations := aNode selector count: [ :c | c = $: ].
 	refactoring := ReRenameMethodRefactoring
 		               model: model
 		               renameMethod: aNode selector
 		               in: aNode methodNode methodClass name
-		               to: ''
+		               to: 'foo' , aNode selector
 		               permutation: (1 to: permutations).
-	newName := nameStrategy forNode: aNode and: refactoring.
-	newName ifNil: [ ^ nil ].
-	permutation := nameStrategy permutationsForNode: aNode.
-	refactoring permutation: permutation.
-	refactoring newName: newName.
 	^ refactoring
 ]
 
@@ -89,28 +83,4 @@ RenameMethodMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseT
 
 
 	^ aCompiledMethod sourceCode copyReplaceFrom: aNode sourceInterval first to: aNode selector size with: 'NEW' , aNode selector
-]
-
-{ #category : 'mutant generation' }
-RenameMethodMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
-
-	| affectedNodes |
-	((aCompiledMethod hasPragmaNamed: #ignoreForMutations) or: [
-		 aCompiledMethod hasPragmaNamed: #ignoreForCoverage ]) ifTrue: [
-		^ #(  ) ].
-
-	affectedNodes := self affectedNodesFor: aParseTree.
-	^ affectedNodes collectWithIndex: [ :affectedNode :index |
-		  RefactoringMutation
-			  for: aCompiledMethod
-			  using: self
-			  nodeNumber: index
-			  ofClass: aCompiledMethod methodClass
-			  withData: affectedNode ]
-]
-
-{ #category : 'accessing' }
-RenameMethodMutationOperator >> nameStrategy: aStrategy [
-
-	nameStrategy := aStrategy 
 ]

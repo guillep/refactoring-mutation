@@ -36,7 +36,14 @@ AddArgumentMutationOperator >> appliesToNode: aNode [
 AddArgumentMutationOperator >> applyMutation: aMutation [
 
 	| refactoring |
-	refactoring := self createRefactoringWith: aMutation data on: (RBNamespace onEnvironment: classEnvironment).
+	
+	refactoring := RBAddParameterRefactoring 
+		  model: (RBNamespace onEnvironment: classEnvironment)
+		  addParameterToMethod: aMutation data selector
+		  in: aMutation data compiledMethod origin
+		  newSelector: (aMutation inputFor: #methodName)
+		  permutation: (aMutation inputFor: #permutations)
+		  newArgs: { RBArgumentName name: 'aFoo' value: 'nil' }
 	
 	refactoring execute
 ]
@@ -56,7 +63,7 @@ AddArgumentMutationOperator >> canRefactor: aNode in: aModel [
 	^ true
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'refactoring' }
 AddArgumentMutationOperator >> createRefactoringWith: aNode on: aModel [
 	| permutations |
 	permutations := (1 to: aNode arguments size) asOrderedCollection.
@@ -74,7 +81,7 @@ AddArgumentMutationOperator >> createRefactoringWith: aNode on: aModel [
 { #category : 'printing' }
 AddArgumentMutationOperator >> description [
 	
-	^ 'Rename all arguments and temporaries found in method body mutation testing'
+	^ 'Add argument to every method'
 ]
 
 { #category : 'private' }
@@ -83,22 +90,4 @@ AddArgumentMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseTr
 	| sep |
 	sep := aCompiledMethod selector isUnary ifTrue: [ '' ] ifFalse: [ ' ' ].
 	^ aCompiledMethod sourceCode copyReplaceFrom: aNode start to: aNode selectorAndArgumentNames size with: aNode selectorAndArgumentNames , sep , 'foo: aFoo'
-]
-
-{ #category : 'mutant generation' }
-AddArgumentMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
-
-	| affectedNodes |
-	((aCompiledMethod hasPragmaNamed: #ignoreForMutations) or: [
-		 aCompiledMethod hasPragmaNamed: #ignoreForCoverage ]) ifTrue: [
-		^ #(  ) ].
-
-	affectedNodes := self affectedNodesFor: aParseTree.
-	^ affectedNodes collectWithIndex: [ :affectedNode :index |
-		  RefactoringMutation
-			  for: aCompiledMethod
-			  using: self
-			  nodeNumber: index
-			  ofClass: aCompiledMethod methodClass
-			  withData: affectedNode ]
 ]

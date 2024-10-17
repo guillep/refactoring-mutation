@@ -22,12 +22,6 @@ ExtractMethodNoPreconditionMutationOperator >> applyMutation: aMutation [
 	refactoring performChanges
 ]
 
-{ #category : 'instance creation' }
-ExtractMethodNoPreconditionMutationOperator >> canRefactor: aNode [
-
-	^ (super canRefactor: aNode) not
-]
-
 { #category : 'private' }
 ExtractMethodNoPreconditionMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
 
