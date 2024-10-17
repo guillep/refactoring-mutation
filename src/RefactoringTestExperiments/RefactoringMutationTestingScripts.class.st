@@ -121,11 +121,23 @@ RefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
 
-	operators := { CompositeExtractMethodMutationOperator new 
+	operators := { CompositeExtractMethodMutationOperator new  
 		classEnvironment: classEnvironment;
 		strategies: {
-			
-		}
+			EmptyIntervalStrategy new .
+			NegativeIntervalStrategy new .
+			OutOfBoundsIntervalStrategy new .
+		} .
+		CompositeExtractMethodMutationOperator new 
+			classEnvironment: classEnvironment;
+			strategies: {
+				MultipleNodeIntervalsStrategy new offset: 2.
+			} .
+		CompositeExtractMethodMutationOperator new 
+			classEnvironment: classEnvironment;
+			strategies: {
+				NodeSourceIntervalStrategy new .
+			}
 	}.
 
 	report := self calculateRefactoringCoverageFor: { ReCompositeExtractMethodRefactoring } using: operators .
@@ -167,15 +179,15 @@ RefactoringMutationTestingScripts class >> runExtractMethod [
 			OutOfBoundsIntervalStrategy new .
 		} .
 		ExtractMethodNoPreconditionMutationOperator new 
-		classEnvironment: classEnvironment;
-		strategies: {
-			MultipleNodeIntervalsStrategy new offset: 2.
-		} .
+			classEnvironment: classEnvironment;
+			strategies: {
+				MultipleNodeIntervalsStrategy new offset: 2.
+			} .
 		ExtractMethodMutationOperator new 
-		classEnvironment: classEnvironment;
-		strategies: {
-			NodeSourceIntervalStrategy new .
-		}
+			classEnvironment: classEnvironment;
+			strategies: {
+				NodeSourceIntervalStrategy new .
+			}
 	}.
 
 	report := self calculateRefactoringCoverageFor: { RBExtractMethodRefactoring } using: operators .

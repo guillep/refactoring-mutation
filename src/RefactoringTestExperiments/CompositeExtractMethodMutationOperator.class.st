@@ -13,7 +13,7 @@ CompositeExtractMethodMutationOperator >> applyMutation: aMutation [
 	model := RBNamespace onEnvironment: classEnvironment.
 	refactoring := ReCompositeExtractMethodRefactoring
 		               model: model
-		               extractInterval: aMutation data
+		               extractInterval: (aMutation inputFor: #interval)
 		               from: aMutation originalMethod selector
 		               to: #foo
 		               in: aMutation originalMethod methodClass name.
