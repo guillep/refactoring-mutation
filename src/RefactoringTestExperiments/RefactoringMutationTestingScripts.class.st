@@ -201,9 +201,8 @@ RefactoringMutationTestingScripts class >> runInlineMethod [
 	"We have to operate on the entire system since Inline Method depends on superclasses which can be Object, Collection, etc.
 	If we scope it to a package or list of classes, that scope should include every superclass of every class that you want to inline."
 	operators := { InlineMethodMutationOperator new
-		strategies: { 
-			SourceIntervalStrategy subclasses collect: [ :each | each new ]
-		 } }.
+		strategies: (SourceIntervalStrategy subclasses collect: [ :each | each new ])
+	}.
 	report := self
 		calculateRefactoringCoverageFor: { RBInlineMethodRefactoring }
 		using: operators.
