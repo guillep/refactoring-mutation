@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-UniqueMethodNameStrategy >> forNode: aNode and: aRefactoirng [
+UniqueMethodNameStrategy >> forNode: aNode and: aModel [
 
-	^ { aRefactoirng uniqueMethodNameFor: aNode arguments size }
+	^ { #foo , aNode selector }
 ]

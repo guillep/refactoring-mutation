@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-MethodNamePermutationsStrategy >> forNode: aNode [
+MethodNamePermutationsStrategy >> forNode: aNode and: aModel [
 
 	^ self subclassResponsibility
 ]

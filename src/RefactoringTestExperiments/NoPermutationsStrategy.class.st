@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-NoPermutationsStrategy >> forNode: aNode [
+NoPermutationsStrategy >> forNode: aNode and: aModel [
 
 	^ self noPermutationsFor: aNode
 ]

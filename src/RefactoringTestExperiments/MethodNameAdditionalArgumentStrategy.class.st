@@ -9,5 +9,5 @@ Class {
 { #category : 'running' }
 MethodNameAdditionalArgumentStrategy >> forNode: aNode and: aModel [
 
-	^ aNode selector , #foo:
+	^ { aNode selector , #foo: }
 ]

@@ -22,6 +22,12 @@ MultipleNodeIntervalsStrategy >> forNode: aNode and: aModel [
 			  (start + num to: last + num) } ]
 ]
 
+{ #category : 'initialization' }
+MultipleNodeIntervalsStrategy >> initialize [
+
+	offset := 2
+]
+
 { #category : 'accessing' }
 MultipleNodeIntervalsStrategy >> offset: aNumber [
 

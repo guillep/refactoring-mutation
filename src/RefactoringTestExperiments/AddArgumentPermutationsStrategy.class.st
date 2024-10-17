@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'running' }
-AddArgumentPermutationsStrategy >> forNode: aNode [
+AddArgumentPermutationsStrategy >> forNode: aNode and: aModel [
 
-	^ self noPermutationsFor: aNode , -1
+	^ (self noPermutationsFor: aNode) asArray , #(-1)
 ]
