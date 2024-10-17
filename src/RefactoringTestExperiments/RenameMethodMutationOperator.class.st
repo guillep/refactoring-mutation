@@ -10,16 +10,28 @@ Class {
 RenameMethodMutationOperator >> affectedNodesFor: aParseTree [
 	"Redefine to only affect nodes in the body"
 
-	^ self appliesToNode: aParseTree methodNode.
+	(self appliesToNode: aParseTree methodNode) ifFalse: [ ^ #() ].
+	
+	^ { aParseTree methodNode }
 ]
 
 { #category : 'instance creation' }
 RenameMethodMutationOperator >> appliesToNode: aNode [
 
+	(aNode methodNode compiledMethod origin isKindOf: TraitedMetaclass)
+		ifTrue: [ ^ false ].
+	(aNode methodNode compiledMethod origin isKindOf: TraitedClass class)
+		ifTrue: [ ^ false ].
+	(aNode methodNode compiledMethod origin isKindOf: TraitedClass)
+		ifTrue: [ ^ false ].
+		
 	(aNode isMethod) ifFalse: [ ^ false ].
 	(self class blackListMethodNames includes: aNode selector) ifTrue: [ ^ false ].
 
-	^ super appliesToNode: aNode
+	aNode methodNode compiledMethod origin isTrait ifTrue: [ ^ false ].
+	aNode sourceInterval ifEmpty: [ ^ false ].
+
+	^ self canRefactor: aNode
 ]
 
 { #category : 'instance creation' }
