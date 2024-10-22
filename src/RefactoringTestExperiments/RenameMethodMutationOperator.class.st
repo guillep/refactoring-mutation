@@ -39,6 +39,8 @@ RenameMethodMutationOperator >> applyMutation: aMutation [
 
 	| refactoring failing model selector |
 
+	(aMutation inputFor: #methodName) ifNil: [ ^ nil ].
+	(aMutation inputFor: #permutations) ifNil: [ ^ nil ].
 	model := RBNamespace onEnvironment: classEnvironment.
 	selector := aMutation data selector.
 	refactoring := ReRenameMethodRefactoring

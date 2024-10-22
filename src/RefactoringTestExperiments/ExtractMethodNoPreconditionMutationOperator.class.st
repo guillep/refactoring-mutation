@@ -10,7 +10,7 @@ Class {
 ExtractMethodNoPreconditionMutationOperator >> applyMutation: aMutation [
 
 	| refactoring |
-	refactoring := self createRefactoringWithInterval: aMutation data andMethodNode: aMutation originalMethod.
+	refactoring := self createRefactoringWithInterval: (aMutation inputFor: #interval) andMethodNode: aMutation originalMethod.
 
 	[ refactoring 
 		prepareForExecution;

@@ -10,6 +10,7 @@ Class {
 CompositeExtractMethodMutationOperator >> applyMutation: aMutation [
 
 	| refactoring model |
+	(aMutation inputFor: #interval) ifNil: [ ^ nil ].
 	model := RBNamespace onEnvironment: classEnvironment.
 	refactoring := ReCompositeExtractMethodRefactoring
 		               model: model

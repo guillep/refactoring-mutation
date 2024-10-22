@@ -10,6 +10,7 @@ Class {
 ExtractMethodMutationOperator >> applyMutation: aMutation [
 
 	| refactoring |
+	(aMutation inputFor: #interval) ifNil: [ ^ nil ].
 	refactoring := self createRefactoringWithInterval: (aMutation inputFor: #interval) andMethodNode: aMutation originalMethod.
 
 	[ refactoring

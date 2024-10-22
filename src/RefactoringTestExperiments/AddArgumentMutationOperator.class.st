@@ -36,14 +36,15 @@ AddArgumentMutationOperator >> appliesToNode: aNode [
 AddArgumentMutationOperator >> applyMutation: aMutation [
 
 	| refactoring |
-	
+	(aMutation inputFor: #methodName) ifNil: [ ^ nil ].
+	(aMutation inputFor: #permutations) ifNil: [ ^ nil ].
 	refactoring := RBAddParameterRefactoring 
 		  model: (RBNamespace onEnvironment: classEnvironment)
 		  addParameterToMethod: aMutation data selector
 		  in: aMutation data compiledMethod origin
 		  newSelector: (aMutation inputFor: #methodName)
 		  permutation: (aMutation inputFor: #permutations)
-		  newArgs: { RBArgumentName name: 'aFoo' value: 'nil' }
+		  newArgs: { RBArgumentName name: 'aFoo' value: 'nil' }.
 	
 	refactoring execute
 ]
