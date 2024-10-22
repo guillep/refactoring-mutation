@@ -9,5 +9,5 @@ Class {
 { #category : 'running' }
 NoPermutationsStrategy >> forNode: aNode and: aModel [
 
-	^ self noPermutationsFor: aNode
+	^ { self noPermutationsFor: aNode }
 ]

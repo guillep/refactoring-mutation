@@ -314,6 +314,7 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 				MethodNameDifferentArityStrategy new .
 				SameNameStrategy new .
 				SuperClassMethodNameStrategy new .
+				NoPermutationsStrategy new .
 			}
 		  }.
 

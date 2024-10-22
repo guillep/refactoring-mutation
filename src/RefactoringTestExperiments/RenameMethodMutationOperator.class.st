@@ -90,7 +90,7 @@ RenameMethodMutationOperator >> description [
 	^ 'Rename a method'
 ]
 
-{ #category : 'instance creation' }
+{ #category : 'private' }
 RenameMethodMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseTree number: aNumber newExpression: aNode [
 
 
