@@ -235,7 +235,7 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 				PseudoVariableSelfAsNameStrategy new .
 				PseudoVariableSuperAsNameStrategy new .
 		  }.
-		RenameArgOrTempInvalidSourceMutationOperator new
+		RenameArgOrTempInvalidInputMutationOperator new
 			classEnvironment: classEnvironment;
 			strategies: { 
 				"Interval strategies"
@@ -248,7 +248,7 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 				NameWithSemicolonStrategy new .
 				SameVariableNameStrategy new .
 		  } .
-		RenameArgOrTempInvalidSourceMutationOperator new
+		RenameArgOrTempInvalidInputMutationOperator new
 			classEnvironment: classEnvironment;
 			strategies: { 
 				"Interval strategies"

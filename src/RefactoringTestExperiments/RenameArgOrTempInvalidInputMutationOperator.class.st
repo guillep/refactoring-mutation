@@ -1,5 +1,5 @@
 Class {
-	#name : 'RenameArgOrTempInvalidSourceMutationOperator',
+	#name : 'RenameArgOrTempInvalidInputMutationOperator',
 	#superclass : 'RenameArgumentOrTemporaryMutationOperator',
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'instance creation' }
-RenameArgOrTempInvalidSourceMutationOperator >> applyMutation: aMutation [
+RenameArgOrTempInvalidInputMutationOperator >> applyMutation: aMutation [
 
 	| refactoring |
 	(aMutation inputFor: #name) ifNil: [ ^ nil ].
@@ -19,9 +19,11 @@ RenameArgOrTempInvalidSourceMutationOperator >> applyMutation: aMutation [
 		  in: aMutation data methodNode compiledMethod origin
 		  selector: aMutation data methodNode selector.
 	
-	refactoring prepareForExecution.
 	
-	[ refactoring checkPreconditions ]
+	[ 
+	refactoring
+		prepareForExecution; 
+		checkPreconditions ]
 		on: RBRefactoringError
 		do: [ :e | "Nothing since we want it to break and we continue" ].
 		
@@ -30,7 +32,8 @@ RenameArgOrTempInvalidSourceMutationOperator >> applyMutation: aMutation [
 ]
 
 { #category : 'testing' }
-RenameArgOrTempInvalidSourceMutationOperator >> canRefactor: aNode in: aModel [
-
-	^ (super canRefactor: aNode in: aModel) not 
+RenameArgOrTempInvalidInputMutationOperator >> canRefactor: aNode in: aModel [
+	"Here we check if we can run this refactoring by checking preconditions.
+	In these cases we know the preconditions would fail, so we run everything."
+	^ true 
 ]
