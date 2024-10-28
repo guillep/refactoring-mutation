@@ -11,7 +11,7 @@ InlineMethodMutationOperator >> affectedNodesFor: aParseTree [
 	"Redefine to only affect nodes in the body"
 
 	^ aParseTree allChildren select: [ :aNode |
-		  aNode isMessage and: [ self appliesToNode: aNode ] ]
+		  (aNode isMessage) and: [ self appliesToNode: aNode ] ]
 ]
 
 { #category : 'instance creation' }
