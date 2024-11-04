@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'applying' }
+MethodNamePermutationsStrategy >> appliesToNode: aNode [
+
+	^ aNode isMethod
+]
+
 { #category : 'as yet unclassified' }
 MethodNamePermutationsStrategy >> forNode: aNode and: aModel [
 

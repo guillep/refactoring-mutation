@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'applying' }
+NameStrategy >> appliesToNode: aNode [
+
+	^ aNode isVariable
+]
+
 { #category : 'running' }
 NameStrategy >> forNode: aNode and: aModel [
 

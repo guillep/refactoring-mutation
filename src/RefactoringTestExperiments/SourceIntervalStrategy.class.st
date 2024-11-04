@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'applying' }
+SourceIntervalStrategy >> appliesToNode: aNode [
+
+	^ true
+]
+
 { #category : 'running' }
 SourceIntervalStrategy >> forNode: aNode and: aModel [
 

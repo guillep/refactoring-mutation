@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'applying' }
+MethodNameStrategy >> appliesToNode: aNode [
+
+	^ aNode isMethod
+]
+
 { #category : 'accessing' }
 MethodNameStrategy >> key [
 

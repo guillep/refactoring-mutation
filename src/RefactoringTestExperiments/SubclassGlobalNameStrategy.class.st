@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'applying' }
+SubclassGlobalNameStrategy >> appliesToNode: aNode [
+
+	^ aNode isGlobalVariable 
+]
+
 { #category : 'running' }
 SubclassGlobalNameStrategy >> forNode: aNode and: aModel [
 

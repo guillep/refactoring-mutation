@@ -6,8 +6,18 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'applying' }
+SuperclassGlobalNameStrategy >> appliesToNode: aNode [
+
+	^ aNode isGlobalVariable 
+]
+
 { #category : 'running' }
 SuperclassGlobalNameStrategy >> forNode: aNode and: aModel [
 
-	^ { (aModel classNamed: aNode name) superclass name }
+	| superclass |
+	superclass := aModel classNamed: aNode name.
+	^ { superclass 
+			ifNotNil: [ superclass superclass name ]
+			ifNil: [ nil ] }
 ]
