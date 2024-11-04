@@ -6,7 +6,7 @@ Class {
 	#tag : 'Core'
 }
 
-{ #category : 'instance creation' }
+{ #category : 'private' }
 AddArgumentMutationOperator >> affectedNodesFor: aParseTree [
 	"Redefine to only affect nodes in the body"
 
@@ -20,63 +20,28 @@ AddArgumentMutationOperator >> affectedNodesFor: aParseTree [
 ]
 
 { #category : 'instance creation' }
-AddArgumentMutationOperator >> appliesToNode: aNode [
-
-	| model |
-	aNode methodNode compiledMethod isExtension ifTrue: [ ^ false ].
-	aNode isMethod ifFalse: [ ^ false ].
-	aNode selector = #initialize ifTrue: [ ^ false ].
-	(self class blackListMethodNames includes: aNode selector) ifTrue: [ ^ false ].
-	model := RBNamespace onEnvironment: classEnvironment.
-
-	^ self canRefactor: aNode in: model
+AddArgumentMutationOperator >> applyMutation: aMutation [
+	
+	| failing |
+	aMutation refactoring prepareForExecution.
+	failing := aMutation refactoring failedApplicabilityPreconditions.
+	failing ifNotEmpty: [ RBRefactoringError signal ].
+	aMutation refactoring privateTransform.
+	aMutation refactoring performChanges
 ]
 
-{ #category : 'instance creation' }
-AddArgumentMutationOperator >> applyMutation: aMutation [
+{ #category : 'refactoring' }
+AddArgumentMutationOperator >> createRefactoringWith: aMutation [
 
-	| refactoring |
 	(aMutation inputFor: #methodName) ifNil: [ ^ nil ].
-	(aMutation inputFor: #permutations) ifNil: [ ^ nil ].
-	refactoring := RBAddParameterRefactoring 
+	(aMutation inputFor: #permutations) ifNil: [ ^ nil ].	
+	^ RBAddParameterRefactoring 
 		  model: (RBNamespace onEnvironment: classEnvironment)
 		  addParameterToMethod: aMutation data selector
 		  in: aMutation data compiledMethod origin
 		  newSelector: (aMutation inputFor: #methodName)
 		  permutation: (aMutation inputFor: #permutations)
 		  newArgs: { RBArgumentName name: 'aFoo' value: 'nil' }.
-	
-	refactoring execute
-]
-
-{ #category : 'testing' }
-AddArgumentMutationOperator >> canRefactor: aNode in: aModel [
-
-	| refactoring |
-	refactoring := self createRefactoringWith: aNode on: aModel.
-
-	[
-	refactoring
-		prepareForExecution;
-		checkPreconditions ]
-		on: RBRefactoringError
-		do: [ ^ false ].
-	^ true
-]
-
-{ #category : 'refactoring' }
-AddArgumentMutationOperator >> createRefactoringWith: aNode on: aModel [
-	| permutations |
-	permutations := (1 to: aNode arguments size) asOrderedCollection.
-	permutations add: -1.
-	
-	^ RBAddParameterRefactoring 
-		  model: aModel
-		  addParameterToMethod: aNode selector
-		  in: aNode compiledMethod origin
-		  newSelector: aNode selector , #foo:
-		  permutation: permutations
-		  newArgs: { RBArgumentName name: 'aFoo' value: 'nil' }
 ]
 
 { #category : 'printing' }

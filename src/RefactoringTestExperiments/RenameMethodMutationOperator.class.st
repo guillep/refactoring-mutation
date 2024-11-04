@@ -6,7 +6,7 @@ Class {
 	#tag : 'Core'
 }
 
-{ #category : 'instance creation' }
+{ #category : 'private' }
 RenameMethodMutationOperator >> affectedNodesFor: aParseTree [
 	"Redefine to only affect nodes in the body"
 
@@ -16,73 +16,30 @@ RenameMethodMutationOperator >> affectedNodesFor: aParseTree [
 ]
 
 { #category : 'instance creation' }
-RenameMethodMutationOperator >> appliesToNode: aNode [
-
-	(aNode methodNode compiledMethod origin isKindOf: TraitedMetaclass)
-		ifTrue: [ ^ false ].
-	(aNode methodNode compiledMethod origin isKindOf: TraitedClass class)
-		ifTrue: [ ^ false ].
-	(aNode methodNode compiledMethod origin isKindOf: TraitedClass)
-		ifTrue: [ ^ false ].
-		
-	(aNode isMethod) ifFalse: [ ^ false ].
-	(self class blackListMethodNames includes: aNode selector) ifTrue: [ ^ false ].
-
-	aNode methodNode compiledMethod origin isTrait ifTrue: [ ^ false ].
-	aNode sourceInterval ifEmpty: [ ^ false ].
-
-	^ self canRefactor: aNode
-]
-
-{ #category : 'instance creation' }
 RenameMethodMutationOperator >> applyMutation: aMutation [
 
-	| refactoring failing model selector |
-
-	(aMutation inputFor: #methodName) ifNil: [ ^ nil ].
-	(aMutation inputFor: #permutations) ifNil: [ ^ nil ].
-	model := RBNamespace onEnvironment: classEnvironment.
-	selector := aMutation data selector.
-	refactoring := ReRenameMethodRefactoring
-		               model: model
-		               renameMethod: selector
-		               in: aMutation data methodNode methodClass name
-		               to: (aMutation inputFor: #methodName)
-		               permutation: (aMutation inputFor: #permutations).
-
-	refactoring prepareForExecution.
-	failing := refactoring failedApplicabilityPreconditions.
-	failing ifNotEmpty: [ RBRefactoringError signal ].
-	refactoring privateTransform.
-	refactoring performChanges
-]
-
-{ #category : 'instance creation' }
-RenameMethodMutationOperator >> canRefactor: aNode [
-
-	| refactoring failing |
-	refactoring := self createRefactoringFor: aNode.
-	refactoring ifNil: [ ^ false ].
-	
-	refactoring prepareForExecution.
-	failing := refactoring failedApplicabilityPreconditions
-		           asOrderedCollection.
-	failing addAll: refactoring failedBreakingChangePreconditions.
-	^ failing isEmpty
+	| failing |
+	aMutation refactoring prepareForExecution.
+	failing := aMutation refactoring failedApplicabilityPreconditions.
+	failing ifNotEmpty: [ RBRefactoringError signalFor: failing ].
+	aMutation refactoring privateTransform.
+	aMutation refactoring performChanges
 ]
 
 { #category : 'mutant generation' }
-RenameMethodMutationOperator >> createRefactoringFor: aNode [
+RenameMethodMutationOperator >> createRefactoringWith: aMutation [
 
 	| refactoring model permutations |
+	(aMutation inputFor: #methodName) ifNil: [ ^ nil ].
+	(aMutation inputFor: #permutations) ifNil: [ ^ nil ].
 	model := RBNamespace onEnvironment: classEnvironment.
-	permutations := aNode selector count: [ :c | c = $: ].
+	permutations := aMutation data selector count: [ :c | c = $: ].
 	refactoring := ReRenameMethodRefactoring
 		               model: model
-		               renameMethod: aNode selector
-		               in: aNode methodNode methodClass name
-		               to: 'foo' , aNode selector
-		               permutation: (1 to: permutations).
+		               renameMethod: aMutation data selector
+		               in: aMutation data methodNode methodClass name
+		               to: (aMutation inputFor: #methodName)
+		               permutation: (aMutation inputFor: #permutations).
 	^ refactoring
 ]
 
