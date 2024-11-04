@@ -9,23 +9,25 @@ Class {
 	#superclass : 'MTMethodMutation',
 	#instVars : [
 		'shouldApplyPreconditions',
-		'inputs'
+		'inputs',
+		'refactoring'
 	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'
 }
 
-{ #category : 'instance creation' }
-RefactoringMutation class >> for: aMethod using: anOperatorApplied nodeNumber: aNodeNumber ofClass: aClass withData: anObject inputs: inputs [
+{ #category : 'as yet unclassified' }
+RefactoringMutation class >> for: aCompiledMethod using: anOperator nodeNumber: anInteger ofClass: aClass withData: aNode inputs: aCollection [
 
-	^ self new
-		  initializeFor: aMethod
-		  using: anOperatorApplied
-		  nodeNumber: aNodeNumber
+	^ (self
+		  for: aCompiledMethod
+		  using: anOperator
+		  nodeNumber: anInteger
 		  ofClass: aClass
-		  withData: anObject;
-		  inputs: inputs
+		  withData: aNode)
+		  inputs: aCollection;
+		  yourself
 ]
 
 { #category : 'installing' }
@@ -50,13 +52,25 @@ RefactoringMutation >> inputFor: aSymbol [
 { #category : 'accessing' }
 RefactoringMutation >> inputs: aDictionary [
 
-	inputs := aDictionary 
+	inputs := aDictionary
 ]
 
 { #category : 'installing' }
 RefactoringMutation >> install [
 
 	operator applyMutation: self
+]
+
+{ #category : 'accessing' }
+RefactoringMutation >> refactoring [
+
+	^ refactoring
+]
+
+{ #category : 'accessing' }
+RefactoringMutation >> refactoring: aRefactoring [
+
+	refactoring := aRefactoring 
 ]
 
 { #category : 'accessing' }

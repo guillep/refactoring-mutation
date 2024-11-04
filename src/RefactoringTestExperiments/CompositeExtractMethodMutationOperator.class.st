@@ -9,6 +9,19 @@ Class {
 { #category : 'instance creation' }
 CompositeExtractMethodMutationOperator >> applyMutation: aMutation [
 
+
+	aMutation shouldApplyPreconditions ifTrue: [
+		[ aMutation refactoring checkApplicabilityPreconditions ]
+			on: RBRefactoringError
+			do: [ self error ] ].
+
+	aMutation refactoring privateTransform.
+	aMutation refactoring performChanges
+]
+
+{ #category : 'mutant generation' }
+CompositeExtractMethodMutationOperator >> createRefactoringWith: aMutation [
+
 	| refactoring model |
 	(aMutation inputFor: #interval) ifNil: [ ^ nil ].
 	model := RBNamespace onEnvironment: classEnvironment.
@@ -18,37 +31,10 @@ CompositeExtractMethodMutationOperator >> applyMutation: aMutation [
 		               from: aMutation originalMethod selector
 		               to: #foo
 		               in: aMutation originalMethod methodClass name.
-
-	refactoring prepareForExecution.
-
+	[ refactoring prepareForExecution ] on: Error do: [ ^ nil ]. "we need to prepare so we can set new name with correct arrity"
 	refactoring newSelector:
 		#foo , ('' join: (refactoring arguments collect: [ :e | '_:' ])).
-
-	aMutation shouldApplyPreconditions ifTrue: [
-		[ refactoring checkApplicabilityPreconditions ]
-			on: RBRefactoringError
-			do: [ self error ] ].
-
-	refactoring privateTransform.
-	refactoring performChanges
-]
-
-{ #category : 'instance creation' }
-CompositeExtractMethodMutationOperator >> canRefactor: aNode [
-
-	| refactoring |
-	refactoring := ReCompositeExtractMethodRefactoring
-		               extractInterval: aNode sourceInterval
-		               from: aNode methodNode selector
-		               to: #foo
-		               in: aNode methodNode methodClass name.
-
-	[ [ refactoring prepareForExecution; checkPreconditions ]
-		on: RBRefactoringError
-		do: [ ^ false ] ]
-			on: RBRefactoringWarning
-			do: [ ^ false ].
-	^ true
+	^ refactoring
 ]
 
 { #category : 'printing' }

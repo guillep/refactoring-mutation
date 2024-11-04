@@ -9,11 +9,7 @@ Class {
 { #category : 'instance creation' }
 ExtractMethodMutationOperator >> applyMutation: aMutation [
 
-	| refactoring |
-	(aMutation inputFor: #interval) ifNil: [ ^ nil ].
-	refactoring := self createRefactoringWithInterval: (aMutation inputFor: #interval) andMethodNode: aMutation originalMethod.
-
-	[ refactoring
+	[ aMutation refactoring
 		prepareForExecution;
 		checkApplicabilityPreconditions;
 		privateTransform
@@ -21,31 +17,18 @@ ExtractMethodMutationOperator >> applyMutation: aMutation [
 		on: RBRefactoringError 
 	 	do: [ :e | self error ].
 
-	refactoring performChanges
-]
-
-{ #category : 'instance creation' }
-ExtractMethodMutationOperator >> canRefactor: aNode [
-
-	| refactoring |
-	refactoring := self createRefactoringWithInterval: aNode sourceInterval andMethodNode: aNode methodNode.
-
-	[
-	refactoring prepareForExecution.
-	refactoring checkPreconditions ]
-		on: RBRefactoringError , RBRefactoringWarning
-		do: [ ^ false ].
-	^ true
+	aMutation refactoring performChanges
 ]
 
 { #category : 'private' }
-ExtractMethodMutationOperator >> createRefactoringWithInterval: anInterval andMethodNode: aMethodNode [
+ExtractMethodMutationOperator >> createRefactoringWith: aMutant [
 
 	| refactoring options |
+	(aMutant inputFor: #interval) ifNil: [ ^ nil ].
 	refactoring := RBExtractMethodRefactoring
-		               extract: anInterval
-		               from: aMethodNode selector
-		               in: aMethodNode methodClass name.
+		               extract: (aMutant inputFor: #interval)
+		               from: aMutant data selector
+		               in: aMutant data methodClass name.
 
 	options := refactoring options copy.
 	options at: #methodName put: [ :aMethodName :ref |

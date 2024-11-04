@@ -42,6 +42,27 @@ RefactoringMutationOperator class >> reset [
 	blackListMethodNames := nil
 ]
 
+{ #category : 'instance creation' }
+RefactoringMutationOperator >> appliesToNode: aMutant [
+	| aNode refactoring |
+	aNode := aMutant data.
+	(aNode methodNode compiledMethod origin isKindOf: TraitedMetaclass)
+		ifTrue: [ ^ false ].
+	(aNode methodNode compiledMethod origin isKindOf: TraitedClass class)
+		ifTrue: [ ^ false ].
+	(aNode methodNode compiledMethod origin isKindOf: TraitedClass)
+		ifTrue: [ ^ false ].
+	aNode methodNode compiledMethod origin isTrait ifTrue: [ ^ false ].
+
+	refactoring := self createRefactoringWith: aMutant.
+	refactoring ifNil: [ ^ false ]. "if we cannot create refactoring given node is not applicable"
+	aMutant refactoring: refactoring.
+	[ aMutant refactoring prepareForExecution ]
+		on: RBRefactoringError
+		do: [ ^ false ].
+	^ true
+]
+
 { #category : 'mutant generation' }
 RefactoringMutationOperator >> cartesianProductForInputs: inputs [
 	"I return cartesian product for given inputs. Look at the example bellow."
@@ -74,6 +95,12 @@ RefactoringMutationOperator >> classEnvironment: aRBEnvironment [
 	classEnvironment := aRBEnvironment 
 ]
 
+{ #category : 'mutant generation' }
+RefactoringMutationOperator >> createRefactoringWith: aMutation [
+
+	^ self subclassResponsibility 
+]
+
 { #category : 'private' }
 RefactoringMutationOperator >> getInputsForNode: affectedNode [
 	"Given a node I return a list of dictionaries where each dictionary contains required inputs for the refactoring."
@@ -84,8 +111,11 @@ RefactoringMutationOperator >> getInputsForNode: affectedNode [
 		ifNotNil: [ RBNamespace onEnvironment: classEnvironment ].
 	inputs := strategies flatCollect: [ :strategy |
 		| results |
-		results := strategy forNode: affectedNode and: model.
-		results collect: [ :r | strategy key -> r ]
+		(strategy appliesToNode: affectedNode)
+			ifTrue: [ 
+				results := strategy forNode: affectedNode and: model.
+				results collect: [ :r | strategy key -> r ] ]
+			ifFalse: [ OrderedCollection with: strategy key -> nil ]
 	].
 	inputs := (inputs groupedBy: [ :assoc | assoc key ]) values.
 	inputs := self cartesianProductForInputs: inputs.
@@ -96,15 +126,14 @@ RefactoringMutationOperator >> getInputsForNode: affectedNode [
 { #category : 'mutant generation' }
 RefactoringMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
 
-	| affectedNodes |
+	| mutants |
 	((aCompiledMethod hasPragmaNamed: #ignoreForMutations) or: [
 		 aCompiledMethod hasPragmaNamed: #ignoreForCoverage ]) ifTrue: [
 		^ #(  ) ].
-
-	affectedNodes := self affectedNodesFor: aParseTree.
-	^ ((affectedNodes collectWithIndex: [ :affectedNode :index |
+	
+	mutants := (aParseTree allChildren collectWithIndex: [ :aNode :index |
 		| inputsList |
-		inputsList := self getInputsForNode: affectedNode.
+		inputsList := self getInputsForNode: aNode.
 		"We create a mutation for each combination of inputs"
 		inputsList collect: [ :inputs |
 		  RefactoringMutation
@@ -112,11 +141,16 @@ RefactoringMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
 			  using: self
 			  nodeNumber: index
 			  ofClass: aCompiledMethod methodClass
-			  withData: affectedNode
-			  inputs: inputs ] ]) 
-		flattened)
-		reject: [ :mutant | mutant isNil ]
-		"Mutants that are nil have inputs that are nil which would create malformed refactoring"
+			  withData: aNode
+			  inputs: inputs ]])
+		flattened.
+	mutants := mutants select: [ :mutant |
+		(self appliesToNode: mutant) and: [ mutant refactoring isNotNil ]
+	].
+	mutants := mutants select: [ :mutant |
+		self canRefactor: mutant
+	].
+	^ mutants
 ]
 
 { #category : 'accessing' }

@@ -41,25 +41,17 @@ SubMethodRefactoringMutationOperator >> allSubsequencesOf: sequences [
 	^ statementSubsequences
 ]
 
-{ #category : 'instance creation' }
-SubMethodRefactoringMutationOperator >> appliesToNode: aNode [
-
-	(aNode methodNode compiledMethod origin isKindOf: TraitedMetaclass)
-		ifTrue: [ ^ false ].
-	(aNode methodNode compiledMethod origin isKindOf: TraitedClass class)
-		ifTrue: [ ^ false ].
-	(aNode methodNode compiledMethod origin isKindOf: TraitedClass)
-		ifTrue: [ ^ false ].
-	aNode methodNode compiledMethod origin isTrait ifTrue: [ ^ false ].
-	aNode sourceInterval ifEmpty: [ ^ false ].
-
-	^ self canRefactor: aNode
-]
-
 { #category : 'testing' }
-SubMethodRefactoringMutationOperator >> canRefactor: aNode [
+SubMethodRefactoringMutationOperator >> canRefactor: aRefactoringMutation [
 
-	^ self subclassResponsibility
+	aRefactoringMutation refactoring ifNil: [ ^ false ]. "if we cannot create refactoring given node is not applicable"
+	[
+	aRefactoringMutation refactoring
+		prepareForExecution;
+		checkPreconditions ]
+		on: RBRefactoringError , RBRefactoringWarning
+		do: [ ^ false ].
+	^ true
 ]
 
 { #category : 'printing' }

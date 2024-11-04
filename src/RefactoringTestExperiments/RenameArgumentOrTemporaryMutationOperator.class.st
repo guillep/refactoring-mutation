@@ -7,56 +7,23 @@ Class {
 }
 
 { #category : 'instance creation' }
-RenameArgumentOrTemporaryMutationOperator >> appliesToNode: aNode [
-
-	| model |
-	aNode methodNode compiledMethod isExtension ifTrue: [ ^ false ].
-	(aNode isTempVariable or: [ aNode isArgumentVariable ]) ifFalse: [ ^ false ].
-	model := RBNamespace onEnvironment: classEnvironment.
-
-	^ self canRefactor: aNode in: model
-]
-
-{ #category : 'instance creation' }
 RenameArgumentOrTemporaryMutationOperator >> applyMutation: aMutation [
-
-	| refactoring |
-	(aMutation inputFor: #name) ifNil: [ ^ nil ].
-	(aMutation inputFor: #interval) ifNil: [ ^ nil ].
-	refactoring := RBRenameArgumentOrTemporaryRefactoring
-		  model: (RBNamespace onEnvironment: classEnvironment)
-		  renameTemporaryFrom: (aMutation inputFor: #interval) 
-		  to: (aMutation inputFor: #name)
-		  in: aMutation data methodNode compiledMethod origin
-		  selector: aMutation data methodNode selector.
 	
-	refactoring execute
-]
-
-{ #category : 'testing' }
-RenameArgumentOrTemporaryMutationOperator >> canRefactor: aNode in: aModel [
-
-	| refactoring |
-	"Check if class is in environment."
-	refactoring := self createRefactoringWith: aNode on: aModel.
-	refactoring ifNil: [ ^ false ].
-
-	[
-	refactoring
-		prepareForExecution;
-		checkPreconditions ]
-		on: RBRefactoringError
-		do: [ ^ false ].
-	^ true
+	aMutation refactoring execute
 ]
 
 { #category : 'mutant generation' }
-RenameArgumentOrTemporaryMutationOperator >> createRefactoringWith: aNode on: aModel [
+RenameArgumentOrTemporaryMutationOperator >> createRefactoringWith: aMutant [
 
+	| model aNode |
+	(aMutant inputFor: #name) ifNil: [ ^ nil ].
+	(aMutant inputFor: #interval) ifNil: [ ^ nil ].
+	model := RBNamespace onEnvironment: classEnvironment.
+	aNode := aMutant data.
 	^ RBRenameArgumentOrTemporaryRefactoring
-		  model: aModel
-		  renameTemporaryFrom: aNode sourceInterval 
-		  to: 'foo' , aNode name
+		  model: model
+		  renameTemporaryFrom: (aMutant inputFor: #interval) 
+		  to: (aMutant inputFor: #name)
 		  in: aNode methodNode compiledMethod origin
 		  selector: aNode methodNode selector
 ]

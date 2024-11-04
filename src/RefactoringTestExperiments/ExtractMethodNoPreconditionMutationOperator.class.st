@@ -9,17 +9,14 @@ Class {
 { #category : 'instance creation' }
 ExtractMethodNoPreconditionMutationOperator >> applyMutation: aMutation [
 
-	| refactoring |
-	refactoring := self createRefactoringWithInterval: (aMutation inputFor: #interval) andMethodNode: aMutation originalMethod.
-
-	[ refactoring 
+	[ aMutation refactoring 
 		prepareForExecution;
 		checkApplicabilityPreconditions
 	]
 		on: RBRefactoringError 
 		do: [ :e | "We ignore the fact the exception happened and continue" ].
-	refactoring privateTransform.
-	refactoring performChanges
+	aMutation refactoring privateTransform.
+	aMutation refactoring performChanges
 ]
 
 { #category : 'private' }
