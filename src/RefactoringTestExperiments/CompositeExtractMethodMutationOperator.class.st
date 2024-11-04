@@ -32,6 +32,7 @@ CompositeExtractMethodMutationOperator >> createRefactoringWith: aMutation [
 		               to: #foo
 		               in: aMutation originalMethod methodClass name.
 	[ refactoring prepareForExecution ] on: Error do: [ ^ nil ]. "we need to prepare so we can set new name with correct arrity"
+	refactoring arguments ifNil: [ ^ nil ]. "if we don't have subtree, we don't have arguments"
 	refactoring newSelector:
 		#foo , ('' join: (refactoring arguments collect: [ :e | '_:' ])).
 	^ refactoring
