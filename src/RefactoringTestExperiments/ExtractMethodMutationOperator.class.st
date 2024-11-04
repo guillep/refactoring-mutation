@@ -27,8 +27,8 @@ ExtractMethodMutationOperator >> createRefactoringWith: aMutant [
 	(aMutant inputFor: #interval) ifNil: [ ^ nil ].
 	refactoring := RBExtractMethodRefactoring
 		               extract: (aMutant inputFor: #interval)
-		               from: aMutant data selector
-		               in: aMutant data methodClass name.
+		               from: aMutant data methodNode selector
+		               in: aMutant data methodNode methodClass name.
 
 	options := refactoring options copy.
 	options at: #methodName put: [ :aMethodName :ref |
