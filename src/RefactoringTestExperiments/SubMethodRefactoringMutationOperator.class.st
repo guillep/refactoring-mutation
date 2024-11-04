@@ -41,19 +41,6 @@ SubMethodRefactoringMutationOperator >> allSubsequencesOf: sequences [
 	^ statementSubsequences
 ]
 
-{ #category : 'testing' }
-SubMethodRefactoringMutationOperator >> canRefactor: aRefactoringMutation [
-
-	aRefactoringMutation refactoring ifNil: [ ^ false ]. "if we cannot create refactoring given node is not applicable"
-	[
-	aRefactoringMutation refactoring
-		prepareForExecution;
-		checkPreconditions ]
-		on: RBRefactoringError , RBRefactoringWarning
-		do: [ ^ false ].
-	^ true
-]
-
 { #category : 'printing' }
 SubMethodRefactoringMutationOperator >> description [
 	^ 'Sub method refactoring mutation operator'

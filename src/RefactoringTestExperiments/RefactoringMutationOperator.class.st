@@ -63,6 +63,19 @@ RefactoringMutationOperator >> appliesToNode: aMutant [
 	^ true
 ]
 
+{ #category : 'testing' }
+RefactoringMutationOperator >> canRefactor: aRefactoringMutation [
+
+	aRefactoringMutation refactoring ifNil: [ ^ false ]. "if we cannot create refactoring given node is not applicable"
+	[
+	aRefactoringMutation refactoring
+		prepareForExecution;
+		checkPreconditions ]
+		on: RBRefactoringError , RBRefactoringWarning
+		do: [ ^ false ].
+	^ true
+]
+
 { #category : 'mutant generation' }
 RefactoringMutationOperator >> cartesianProductForInputs: inputs [
 	"I return cartesian product for given inputs. Look at the example bellow."
