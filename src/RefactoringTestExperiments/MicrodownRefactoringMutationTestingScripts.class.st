@@ -103,3 +103,9 @@ MicrodownRefactoringMutationTestingScripts class >> testPackageNames [
 
 	^ { 'Microdown-Tests' }
 ]
+
+{ #category : 'cleaning' }
+MicrodownRefactoringMutationTestingScripts class >> unloadAndForget [
+	<script>
+	super unloadAndForget 
+]
