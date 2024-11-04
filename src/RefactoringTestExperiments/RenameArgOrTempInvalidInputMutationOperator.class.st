@@ -16,6 +16,6 @@ RenameArgOrTempInvalidInputMutationOperator >> applyMutation: aMutation [
 		on: RBRefactoringError
 		do: [ :e | "Nothing since we want it to break and we continue" ].
 		
-	aMutation privateTransform.
-	aMutation performChanges.
+	aMutation refactoring privateTransform.
+	aMutation refactoring performChanges.
 ]

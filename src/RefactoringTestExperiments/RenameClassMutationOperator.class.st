@@ -17,6 +17,16 @@ RenameClassMutationOperator >> applyMutation: aMutation [
 ]
 
 { #category : 'printing' }
+RenameClassMutationOperator >> createRefactoringWith: aMutation [
+
+	(aMutation inputFor: #name) ifNil: [ ^ nil ].
+	^ ReRenameClassRefactoring
+		  model: (RBNamespace onEnvironment: classEnvironment)
+		  rename: aMutation data name
+		  to: (aMutation inputFor: #name)
+]
+
+{ #category : 'printing' }
 RenameClassMutationOperator >> description [
 	
 	^ 'Rename all classes found in method body mutation testing'
