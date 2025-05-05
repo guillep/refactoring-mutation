@@ -22,6 +22,36 @@ Class {
 }
 
 { #category : 'running' }
+RefactoringMutationTestingScripts class >> addArgumentPreconditionsOperators: classEnvironment [
+
+	^ {
+		  (AddArgumentMutationOperator new
+			   classEnvironment: classEnvironment;
+			   strategies: {
+					   MethodNameAdditionalArgumentStrategy new.
+					   NoPermutationsStrategy new.
+					   SwapFirstTwoPermutationStrategy new }). "good name bad permutations"
+		  (AddArgumentMutationOperator new
+			   classEnvironment: classEnvironment;
+			   strategies: {
+					   SameNameStrategy new.
+					   SuperClassMethodNameStrategy new.
+					   SwapMethodArgumentsStrategy new.
+					   UniqueMethodNameStrategy new.
+					   AddArgumentPermutationsStrategy new }) "good permutations bad name" }
+]
+
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> addArgumentTransformationOperators: classEnvironment [
+
+	^ { (AddArgumentMutationOperator new
+		   classEnvironment: classEnvironment;
+		   strategies: {
+				   MethodNameAdditionalArgumentStrategy new.
+				   AddArgumentPermutationsStrategy new }) }
+]
+
+{ #category : 'running' }
 RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refactoringsList using: operators [
 
 	| testClasses classesToMutate analysis collector coverage report |
@@ -53,6 +83,68 @@ RefactoringMutationTestingScripts class >> classesToMutate [
 			  reject: [ :cls | cls isManifest ] ]
 ]
 
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> compositeExtractMethodPreconditionsOperators: classEnvironment [
+
+	^ {
+		  (CompositeExtractMethodMutationOperator new
+			   classEnvironment: classEnvironment;
+			   strategies: {
+					   EmptyIntervalStrategy new.
+					   NegativeIntervalStrategy new.
+					   OutOfBoundsIntervalStrategy new }).
+		  (CompositeExtractMethodMutationOperator new
+			   classEnvironment: classEnvironment;
+			   strategies: { (MultipleNodeIntervalsStrategy new offset: 2) }) }
+]
+
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> compositeExtractMethodTransformationOperators: classEnvironment [
+
+	^ { (CompositeExtractMethodMutationOperator new
+			   classEnvironment: classEnvironment;
+			   strategies: { NodeSourceIntervalStrategy new }) }
+]
+
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> extractMethodPreconditionsOperators: classEnvironment [
+
+	^ {
+		  (ExtractMethodNoPreconditionMutationOperator new
+			   classEnvironment: classEnvironment;
+			   strategies: {
+					   EmptyIntervalStrategy new.
+					   NegativeIntervalStrategy new.
+					   OutOfBoundsIntervalStrategy new }).
+		  (ExtractMethodNoPreconditionMutationOperator new
+			   classEnvironment: classEnvironment;
+			   strategies: { (MultipleNodeIntervalsStrategy new offset: 2) }) }
+]
+
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> extractMethodTransformationOperators: classEnvironment [
+
+	^ { (ExtractMethodMutationOperator new
+			   classEnvironment: classEnvironment;
+			   strategies: { NodeSourceIntervalStrategy new }) }
+]
+
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> inlineMethodPreconditionsOperators [
+
+	^ { (InlineMethodMutationOperator new strategies:
+		   (SourceIntervalStrategy subclasses 
+				select: [ :each | each name ~= 'NodeSourceIntervalStrategy' ]
+				thenCollect: [ :each | each new ])) }
+]
+
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> inlineMethodTransformationOperators [
+
+	^ { InlineMethodMutationOperator new strategies:
+		   (NodeSourceIntervalStrategy new) }
+]
+
 { #category : 'accessing' }
 RefactoringMutationTestingScripts class >> mutationPackageNames [ 
 
@@ -64,6 +156,102 @@ RefactoringMutationTestingScripts class >> reload [
 	"Does first part of reload which is unload and forget the repository."
 
 	self unloadAndForget 
+]
+
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> renameArgOrTempPreconditionsOperators: classEnvironment [
+
+	^ {
+		  (RenameArgumentOrTemporaryMutationOperator new
+			   classEnvironment: classEnvironment;
+			   strategies: {
+					   NodeSourceIntervalStrategy new.
+					   "Name strategies"
+					   UniqueGlobalNameStrategy new.
+					   ExistingClassGlobalNameStrategy new.
+					   ExistingNonClassGlobalNameStrategy new.
+					   ExistingTraitGlobalNameStrategy new.
+					   NameWithSpaceStrategy new.
+					   PseudoVariableSelfAsNameStrategy new.
+					   PseudoVariableSuperAsNameStrategy new }).
+		  "Invalid name strategies"
+		  (RenameArgOrTempInvalidInputMutationOperator new
+			   classEnvironment: classEnvironment;
+			   strategies: {
+					   NodeSourceIntervalStrategy new.
+					   "Name strategies"
+					   ExistingInstanceVariableNameStrategy new.
+					   ExistingTempOrArgNameStrategy new.
+					   NameStartingWithNumberStrategy new.
+					   NameWithDotStrategy new.
+					   NameWithSemicolonStrategy new.
+					   SameVariableNameStrategy new }).
+		  "Interval strategies"
+		  (RenameArgOrTempInvalidInputMutationOperator new
+			   classEnvironment: classEnvironment;
+			   strategies: {
+					   NegativeIntervalStrategy new.
+					   EmptyIntervalStrategy new.
+					   OutOfBoundsIntervalStrategy new.
+					   (MultipleNodeIntervalsStrategy new offset: 2).
+					   "Name strategies"
+					   UniqueTempNameStrategy new }) }
+]
+
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> renameArgOrTempTransformationOperators: classEnvironment [
+
+	^ { (RenameArgumentOrTemporaryMutationOperator new
+			   classEnvironment: classEnvironment;
+			   strategies: {
+					   NodeSourceIntervalStrategy new.
+					   UniqueTempNameStrategy new }) }
+]
+
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> renameClassPreconditionsOperators: classEnvironment [
+
+	^ { (RenameClassMutationOperator new
+		   classEnvironment: classEnvironment;
+		   strategies: {
+				   ExistingNonClassGlobalNameStrategy new.
+				   ExistingClassGlobalNameStrategy new.
+				   ExistingTraitGlobalNameStrategy new.
+				   SubclassGlobalNameStrategy new.
+				   SuperclassGlobalNameStrategy new }) }
+]
+
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> renameClassTransformationOperators: classEnvironment [
+
+	^ { (RenameClassMutationOperator new
+		   classEnvironment: classEnvironment;
+		   strategies: { UniqueGlobalNameStrategy new }) }
+]
+
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> renameMethodPreconditionsOperators: classEnvironment [
+
+	^ { (RenameMethodMutationOperator new
+			   classEnvironment: classEnvironment;
+			   strategies: {
+						NoPermutationsStrategy new.
+						"Name strategies"
+						MethodNameAdditionalArgumentStrategy new.
+					   MethodNameDifferentArityStrategy new.
+					   SameNameStrategy new.
+					   SuperClassMethodNameStrategy new.
+						SwapMethodArgumentsStrategy new. }) }
+]
+
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> renameMethodTransformationOperators: classEnvironment [
+
+	^ { (RenameMethodMutationOperator new
+			   classEnvironment: classEnvironment;
+			   strategies: {
+					   UniqueMethodNameStrategy new.
+					   NoPermutationsStrategy new }) }
 ]
 
 { #category : 'accessing' }
@@ -80,35 +268,17 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
-	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
+	classEnvironment := RBClassEnvironment classes:
+		                    classesToMutate , testClasses.
 
-	operators := { 
-		AddArgumentMutationOperator new 
-			classEnvironment: classEnvironment;
-			strategies: { 
-				MethodNameAdditionalArgumentStrategy new .
-				AddArgumentPermutationsStrategy new .
-			 }.
-		AddArgumentMutationOperator new 
-			classEnvironment: classEnvironment;
-			strategies: { "good name bad permutations"
-				MethodNameAdditionalArgumentStrategy new .
-				NoPermutationsStrategy new .
-				SwapFirstTwoPermutationStrategy new .
-			 } .
-		AddArgumentMutationOperator new 
-			classEnvironment: classEnvironment;
-			strategies: { "good permutations bad name"
-				SameNameStrategy new .
-				SuperClassMethodNameStrategy new .
-				SwapMethodArgumentsStrategy new .
-				UniqueMethodNameStrategy new .
-				AddArgumentPermutationsStrategy new .
-			} 
-	}.
+	operators := self addArgumentTransformationOperators: classEnvironment.
+	operators := operators , (self addArgumentPreconditionsOperators: classEnvironment).
 
-	report := self calculateRefactoringCoverageFor: { RBAddParameterRefactoring } using: operators .
-	report previewCoverageInDrTests.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { RBAddParameterRefactoring }
+		          using: operators.
+	report previewCoverageInDrTests
 ]
 
 { #category : 'running' }
@@ -119,29 +289,19 @@ RefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
-	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
+	classEnvironment := RBClassEnvironment classes:
+		                    classesToMutate , testClasses.
 
-	operators := { CompositeExtractMethodMutationOperator new  
-		classEnvironment: classEnvironment;
-		strategies: {
-			EmptyIntervalStrategy new .
-			NegativeIntervalStrategy new .
-			OutOfBoundsIntervalStrategy new .
-		} .
-		CompositeExtractMethodMutationOperator new 
-			classEnvironment: classEnvironment;
-			strategies: {
-				MultipleNodeIntervalsStrategy new offset: 2.
-			} .
-		CompositeExtractMethodMutationOperator new 
-			classEnvironment: classEnvironment;
-			strategies: {
-				NodeSourceIntervalStrategy new .
-			}
-	}.
+	operators := self compositeExtractMethodTransformationOperators:
+		             classEnvironment.
+	operators := operators , (self compositeExtractMethodPreconditionsOperators:
+		             classEnvironment).
 
-	report := self calculateRefactoringCoverageFor: { ReCompositeExtractMethodRefactoring } using: operators .
-	report previewCoverageInDrTests.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { ReCompositeExtractMethodRefactoring }
+		          using: operators.
+	report previewCoverageInDrTests
 ]
 
 { #category : 'coverage' }
@@ -169,29 +329,18 @@ RefactoringMutationTestingScripts class >> runExtractMethod [
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
-	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
+	classEnvironment := RBClassEnvironment classes:
+		                    classesToMutate , testClasses.
 
-	operators := { ExtractMethodNoPreconditionMutationOperator new 
-		classEnvironment: classEnvironment;
-		strategies: {
-			EmptyIntervalStrategy new .
-			NegativeIntervalStrategy new .
-			OutOfBoundsIntervalStrategy new .
-		} .
-		ExtractMethodNoPreconditionMutationOperator new 
-			classEnvironment: classEnvironment;
-			strategies: {
-				MultipleNodeIntervalsStrategy new offset: 2.
-			} .
-		ExtractMethodMutationOperator new 
-			classEnvironment: classEnvironment;
-			strategies: {
-				NodeSourceIntervalStrategy new .
-			}
-	}.
+	operators := self extractMethodTransformationOperators:
+		             classEnvironment.
+	operators := operators , (self extractMethodPreconditionsOperators: classEnvironment).
 
-	report := self calculateRefactoringCoverageFor: { RBExtractMethodRefactoring } using: operators .
-	report previewCoverageInDrTests.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { RBExtractMethodRefactoring }
+		          using: operators.
+	report previewCoverageInDrTests
 ]
 
 { #category : 'running' }
@@ -200,13 +349,16 @@ RefactoringMutationTestingScripts class >> runInlineMethod [
 	| operators report |
 	"We have to operate on the entire system since Inline Method depends on superclasses which can be Object, Collection, etc.
 	If we scope it to a package or list of classes, that scope should include every superclass of every class that you want to inline."
-	operators := { InlineMethodMutationOperator new
-		strategies: (SourceIntervalStrategy subclasses collect: [ :each | each new ])
-	}.
+	operators := self inlineMethodTransformationOperators.
+	operators := operators , (self inlineMethodPreconditionsOperators).
+	
 	report := self
-		calculateRefactoringCoverageFor: { RBInlineMethodRefactoring }
-		using: operators.
-	report previewCoverageInDrTests; inspect
+		          calculateRefactoringCoverageFor:
+		          { RBInlineMethodRefactoring }
+		          using: operators.
+	report
+		previewCoverageInDrTests;
+		inspect
 ]
 
 { #category : 'running' }
@@ -217,52 +369,18 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
-	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
+	classEnvironment := RBClassEnvironment classes:
+		                    classesToMutate , testClasses.
 
-	operators := { 
-		RenameArgumentOrTemporaryMutationOperator new
-			classEnvironment: classEnvironment;
-			strategies: { 
-				"Interval strategies"
-				NodeSourceIntervalStrategy new .
-				"Name strategies"
-				UniqueTempNameStrategy new .
-				UniqueGlobalNameStrategy new .
-				ExistingClassGlobalNameStrategy new .
-				ExistingNonClassGlobalNameStrategy new .
-				ExistingTraitGlobalNameStrategy new .
-				NameWithSpaceStrategy new .
-				PseudoVariableSelfAsNameStrategy new .
-				PseudoVariableSuperAsNameStrategy new .
-		  }.
-		RenameArgOrTempInvalidInputMutationOperator new
-			classEnvironment: classEnvironment;
-			strategies: { 
-				"Interval strategies"
-				NodeSourceIntervalStrategy new .
-				"Name strategies"
-				ExistingInstanceVariableNameStrategy new .
-				ExistingTempOrArgNameStrategy new .
-				NameStartingWithNumberStrategy new .
-				NameWithDotStrategy new .
-				NameWithSemicolonStrategy new .
-				SameVariableNameStrategy new .
-		  } .
-		RenameArgOrTempInvalidInputMutationOperator new
-			classEnvironment: classEnvironment;
-			strategies: { 
-				"Interval strategies"
-				NegativeIntervalStrategy new .
-				EmptyIntervalStrategy new .
-				OutOfBoundsIntervalStrategy new .
-				MultipleNodeIntervalsStrategy new offset: 2 . 
-				"Name strategies"
-				UniqueTempNameStrategy new .
-		  }
-	}.
+	operators := self renameArgOrTempTransformationOperators:
+		             classEnvironment.
+	operators := operators , (self renameArgOrTempPreconditionsOperators: classEnvironment).
 
-	report := self calculateRefactoringCoverageFor: { RBRenameArgumentOrTemporaryRefactoring } using: operators .
-	report previewCoverageInDrTests.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { RBRenameArgumentOrTemporaryRefactoring }
+		          using: operators.
+	report previewCoverageInDrTests
 ]
 
 { #category : 'running' }
@@ -273,21 +391,18 @@ RefactoringMutationTestingScripts class >> runRenameClass [
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
-	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses , { Object }.
+	classEnvironment := RBClassEnvironment classes:
+		                    classesToMutate , testClasses , { Object }.
 
-	operators := { RenameClassWithoutPreconditionsMutationOperator new 
-		classEnvironment: classEnvironment; 
-		strategies: { 
-			ExistingNonClassGlobalNameStrategy new . 
-			UniqueGlobalNameStrategy new .
-			ExistingClassGlobalNameStrategy new .
-			ExistingTraitGlobalNameStrategy new .
-			SubclassGlobalNameStrategy new .
-			SuperclassGlobalNameStrategy new .
-		} }.
+	operators := self renameClassTransformationOperators:
+		             classEnvironment.
+	operators := operators , (self renameClassPreconditionsOperators: classEnvironment).
 
-	report := self calculateRefactoringCoverageFor: { ReRenameClassRefactoring } using: operators .
-	report previewCoverageInDrTests.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { ReRenameClassRefactoring }
+		          using: operators.
+	report previewCoverageInDrTests
 ]
 
 { #category : 'running' }
@@ -298,28 +413,18 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
-	classEnvironment := RBClassEnvironment classes: classesToMutate , testClasses.
+	classEnvironment := RBClassEnvironment classes:
+		                    classesToMutate , testClasses.
 
-	operators := {
-		RenameMethodMutationOperator new
-			classEnvironment: classEnvironment;
-			strategies: {
-				UniqueMethodNameStrategy new .
-				NoPermutationsStrategy new.
-				SwapMethodArgumentsStrategy new.
-			}.
-		RenameMethodMutationOperator new
-			classEnvironment: classEnvironment;
-			strategies: {
-				MethodNameDifferentArityStrategy new .
-				SameNameStrategy new .
-				SuperClassMethodNameStrategy new .
-				NoPermutationsStrategy new .
-			}
-		  }.
+	operators := self renameMethodTransformationOperators:
+		             classEnvironment.
+	operators := operators , (self renameMethodPreconditionsOperators: classEnvironment).
 
-	report := self calculateRefactoringCoverageFor: { ReRenameMethodRefactoring . RBChangeMethodNameRefactoring } using: operators .
-	report previewCoverageInDrTests.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { ReRenameMethodRefactoring }
+		          using: operators.
+	report previewCoverageInDrTests
 ]
 
 { #category : 'accessing' }
