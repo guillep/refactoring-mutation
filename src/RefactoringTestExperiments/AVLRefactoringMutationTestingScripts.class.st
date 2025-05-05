@@ -12,7 +12,7 @@ Class {
 { #category : 'accessing' }
 AVLRefactoringMutationTestingScripts class >> mutationPackageNames [
 
-	^ { 'AVL-Tree' }
+	^ { 'Containers-AVL-Tree' }
 ]
 
 { #category : 'cleaning' }
@@ -22,9 +22,9 @@ AVLRefactoringMutationTestingScripts class >> reload [
 	super reload.
 	EpMonitor disableDuring: [
 		Metacello new
-			baseline: 'AVLTree';
-			repository: 'github://pharo-containers/AVL:main';
-			load ]
+  			baseline: 'ContainersAVLTree';
+  			repository: 'github://pharo-containers/AVL:main';
+  			load ]
 ]
 
 { #category : 'accessing' }
@@ -92,7 +92,7 @@ AVLRefactoringMutationTestingScripts class >> runRenameMethod [
 { #category : 'accessing' }
 AVLRefactoringMutationTestingScripts class >> testPackageNames [
 
-	^ { 'AVL-Tree-Tests' }
+	^ { 'Containers-AVL-Tree-Tests' }
 ]
 
 { #category : 'cleaning' }
