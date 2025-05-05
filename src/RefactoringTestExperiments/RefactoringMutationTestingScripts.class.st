@@ -16,6 +16,9 @@ You can invoke Duplicate class refactoring by doing right click on the class -> 
 Class {
 	#name : 'RefactoringMutationTestingScripts',
 	#superclass : 'Object',
+	#classInstVars : [
+		'logger'
+	],
 	#category : 'RefactoringTestExperiments-Scripts',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Scripts'
@@ -261,6 +264,15 @@ RefactoringMutationTestingScripts class >> repositoryNames [
 ]
 
 { #category : 'running' }
+RefactoringMutationTestingScripts class >> run [
+
+	<script>
+	logger := NonInteractiveTranscript onFileNamed: 'Refazzing.log'.
+	self runAllFor: AIAlgorithmsRefactoringMutationTestingScripts.
+	logger close.
+]
+
+{ #category : 'running' }
 RefactoringMutationTestingScripts class >> runAddArgument [
 
 	| testClasses classesToMutate classEnvironment operators report |
@@ -270,15 +282,39 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes:
 		                    classesToMutate , testClasses.
-
+	"Run with transformation operators only"
 	operators := self addArgumentTransformationOperators: classEnvironment.
-	operators := operators , (self addArgumentPreconditionsOperators: classEnvironment).
-
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
 		          using: operators.
-	report previewCoverageInDrTests
+	logger traceCr: 'Add Argument Transformation Operators only:'.
+	logger traceCr: report.
+	logger traceCr: report coverage.
+	"report previewCoverageInDrTests."
+	
+	"Run with transformation and preconditions operators"
+	operators := operators , (self addArgumentPreconditionsOperators: classEnvironment).
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { RBAddParameterRefactoring }
+		          using: operators.
+	logger traceCr: 'Add Argument with Preconditions Operators:'.
+	logger traceCr: report.
+	logger traceCr: report coverage.
+	"report previewCoverageInDrTests"
+]
+
+{ #category : 'as yet unclassified' }
+RefactoringMutationTestingScripts class >> runAllFor: class [
+
+	class runAddArgument.
+	class runCompositeExtractMethod.
+	class runExtractMethod.
+	class runInlineMethod.
+	class runRenameArgOrTemp.
+	class runRenameClass.
+	class runRenameMethod.
 ]
 
 { #category : 'running' }
@@ -294,14 +330,25 @@ RefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 
 	operators := self compositeExtractMethodTransformationOperators:
 		             classEnvironment.
-	operators := operators , (self compositeExtractMethodPreconditionsOperators:
-		             classEnvironment).
-
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { ReCompositeExtractMethodRefactoring }
 		          using: operators.
-	report previewCoverageInDrTests
+	logger traceCr: 'Composite Extract Method Transformation Operators only:'.
+	logger traceCr: report.
+	logger traceCr: report coverage.
+	"report previewCoverageInDrTests."
+	
+	operators := operators , (self compositeExtractMethodPreconditionsOperators:
+		             classEnvironment).
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { ReCompositeExtractMethodRefactoring }
+		          using: operators.
+	logger traceCr: 'Composite Extract Method with Preconditions Operators:'.
+	logger traceCr: report.
+	logger traceCr: report coverage.
+	"report previewCoverageInDrTests"
 ]
 
 { #category : 'coverage' }
@@ -334,13 +381,36 @@ RefactoringMutationTestingScripts class >> runExtractMethod [
 
 	operators := self extractMethodTransformationOperators:
 		             classEnvironment.
-	operators := operators , (self extractMethodPreconditionsOperators: classEnvironment).
-
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBExtractMethodRefactoring }
 		          using: operators.
-	report previewCoverageInDrTests
+	logger traceCr: 'Extract Method Transformation Operators only:'.
+	logger traceCr: report.
+	logger traceCr: report coverage.
+	"report previewCoverageInDrTests"
+
+	operators := operators , (self extractMethodPreconditionsOperators: classEnvironment).
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { RBExtractMethodRefactoring }
+		          using: operators.
+	logger traceCr: 'Extract Method with Precondition Operators:'.
+	logger traceCr: report.
+	logger traceCr: report coverage.
+	"report previewCoverageInDrTests"
+]
+
+{ #category : 'as yet unclassified' }
+RefactoringMutationTestingScripts class >> runFor: class [
+
+	class runAddArgument.
+	class runCompositeExtractMethod.
+	class runExtractMethod.
+	class runInlineMethod.
+	class runRenameArgOrTemp.
+	class runRenameClass.
+	class runRenameMethod.
 ]
 
 { #category : 'running' }
@@ -350,15 +420,24 @@ RefactoringMutationTestingScripts class >> runInlineMethod [
 	"We have to operate on the entire system since Inline Method depends on superclasses which can be Object, Collection, etc.
 	If we scope it to a package or list of classes, that scope should include every superclass of every class that you want to inline."
 	operators := self inlineMethodTransformationOperators.
-	operators := operators , (self inlineMethodPreconditionsOperators).
-	
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBInlineMethodRefactoring }
 		          using: operators.
-	report
-		previewCoverageInDrTests;
-		inspect
+	logger traceCr: 'Inline Method Transformation Operators only:'.
+	logger traceCr: report.
+	logger traceCr: report coverage.
+	"report previewCoverageInDrTests"
+		
+	operators := operators , (self inlineMethodPreconditionsOperators).
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { RBInlineMethodRefactoring }
+		          using: operators.
+	logger traceCr: 'Inline Method with Precondition Operators:'.
+	logger traceCr: report.
+	logger traceCr: report coverage.
+	"report previewCoverageInDrTests"
 ]
 
 { #category : 'running' }
@@ -374,13 +453,24 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 
 	operators := self renameArgOrTempTransformationOperators:
 		             classEnvironment.
-	operators := operators , (self renameArgOrTempPreconditionsOperators: classEnvironment).
-
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBRenameArgumentOrTemporaryRefactoring }
 		          using: operators.
-	report previewCoverageInDrTests
+	logger traceCr: 'Rename Arg or Temp Transformation Operators:'.
+	logger traceCr: report.
+	logger traceCr: report coverage.
+	"report previewCoverageInDrTests"
+	
+	operators := operators , (self renameArgOrTempPreconditionsOperators: classEnvironment).
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { RBRenameArgumentOrTemporaryRefactoring }
+		          using: operators.
+	logger traceCr: 'Rename Arg or Temp with Precondition Operators:'.
+	logger traceCr: report.
+	logger traceCr: report coverage.
+	"report previewCoverageInDrTests"
 ]
 
 { #category : 'running' }
@@ -396,13 +486,24 @@ RefactoringMutationTestingScripts class >> runRenameClass [
 
 	operators := self renameClassTransformationOperators:
 		             classEnvironment.
-	operators := operators , (self renameClassPreconditionsOperators: classEnvironment).
-
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { ReRenameClassRefactoring }
 		          using: operators.
-	report previewCoverageInDrTests
+	logger traceCr: 'Rename Class Transformation Operators:'.
+	logger traceCr: report.
+	logger traceCr: report coverage.
+	"report previewCoverageInDrTests"
+	
+	operators := operators , (self renameClassPreconditionsOperators: classEnvironment).
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { ReRenameClassRefactoring }
+		          using: operators.
+	logger traceCr: 'Rename Class with Precondition Operators:'.
+	logger traceCr: report.
+	logger traceCr: report coverage.
+	"report previewCoverageInDrTests"
 ]
 
 { #category : 'running' }
@@ -418,13 +519,24 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 
 	operators := self renameMethodTransformationOperators:
 		             classEnvironment.
-	operators := operators , (self renameMethodPreconditionsOperators: classEnvironment).
-
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { ReRenameMethodRefactoring }
 		          using: operators.
-	report previewCoverageInDrTests
+	logger traceCr: 'Rename Method Transformation Operators:'.
+	logger traceCr: report.
+	logger traceCr: report coverage.
+	"report previewCoverageInDrTests"
+	
+	operators := operators , (self renameMethodPreconditionsOperators: classEnvironment).
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { ReRenameMethodRefactoring }
+		          using: operators.
+	logger traceCr: 'Rename Method with Precondition Operators:'.
+	logger traceCr: report.
+	logger traceCr: report coverage.
+	"report previewCoverageInDrTests"
 ]
 
 { #category : 'accessing' }
