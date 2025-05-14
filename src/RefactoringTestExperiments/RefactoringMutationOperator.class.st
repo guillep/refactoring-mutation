@@ -80,7 +80,7 @@ RefactoringMutationOperator >> canRefactor: aRefactoringMutation [
 RefactoringMutationOperator >> cartesianProductForInputs: inputs [
 	"I return cartesian product for given inputs. Look at the example bellow."
 
-	"RenameClassMutationOperator new getInputsFromStrategies: ({OrderedCollection new add: (#a -> 1); yourself . OrderedCollection new add: (#b -> 'r'); add: (#b -> 's'); yourself}) >>> {{#a->1. #b->'r'}. {#a->1. #b->'s'}}"
+	"RenameClassMutationOperator new cartesianProductForInputs: ({OrderedCollection new add: (#a -> 1); yourself . OrderedCollection new add: (#b -> 'r'); add: (#b -> 's'); yourself}) >>> {{#a->1. #b->'r'}. {#a->1. #b->'s'}}"
 
 	| arrayOfArray n p cartesianProduct |
 	arrayOfArray := inputs.
