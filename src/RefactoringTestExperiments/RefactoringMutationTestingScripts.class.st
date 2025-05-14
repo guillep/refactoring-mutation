@@ -154,6 +154,11 @@ RefactoringMutationTestingScripts class >> inlineMethodTransformationOperators [
 ]
 
 { #category : 'accessing' }
+RefactoringMutationTestingScripts class >> logger: aWriteStream [ 
+	logger := aWriteStream
+]
+
+{ #category : 'accessing' }
 RefactoringMutationTestingScripts class >> mutationPackageNames [ 
 
 	^ self subclassResponsibility 

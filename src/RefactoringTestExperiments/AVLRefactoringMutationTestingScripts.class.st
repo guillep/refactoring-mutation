@@ -10,11 +10,6 @@ Class {
 }
 
 { #category : 'accessing' }
-AVLRefactoringMutationTestingScripts class >> logger: aWriteStream [ 
-	logger := aWriteStream
-]
-
-{ #category : 'accessing' }
 AVLRefactoringMutationTestingScripts class >> mutationPackageNames [
 
 	^ { 'Containers-AVL-Tree' }
