@@ -138,7 +138,7 @@ RefactoringMutationTestingScripts class >> extractMethodTransformationOperators:
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> inlineMethodPreconditionsOperators [
 
-	^ { (InlineMethodMutationOperator new strategies:
+	^ { (InlineMethodInvalidInputMutationOperator new strategies:
 		   (SourceIntervalStrategy subclasses 
 				select: [ :each | each name ~= 'NodeSourceIntervalStrategy' ]
 				thenCollect: [ :each | each new ])) }
@@ -273,6 +273,7 @@ RefactoringMutationTestingScripts class >> run [
 	| file |
 	file := FileReference fileSystem: FileSystem disk path: Path * 'Artefact-Refazzing.log'.
 	logger := file writeStream.
+	logger nextPutAll: 'Starting Artefact testing'.
 	self runFor: ArtefactRefactoringMutationTestingScripts.
 	logger close.
 	
