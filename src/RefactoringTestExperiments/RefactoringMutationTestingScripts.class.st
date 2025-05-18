@@ -75,8 +75,6 @@ RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refa
 	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
 	report printOn: logger.
 	logger cr.
-	report coverage printOn: logger.
-	logger cr.
 	"report mutationAnalysis generalResult inspect.
 	report coverage inspect.
 	report previewCoverageInDrTests"

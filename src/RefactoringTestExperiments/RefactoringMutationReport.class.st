@@ -71,6 +71,7 @@ RefactoringMutationReport >> printOn: aStream [
 	aStream print: coverage collector methods size.
 	aStream nextPutAll: ')'.
 	aStream nextPut: Character space.
+	aStream nextPutAll: 'Node Coverage: '.
 	aStream print:
 		(100.0 * coverage nodes size / coverage collector nodes size)
 			rounded.
