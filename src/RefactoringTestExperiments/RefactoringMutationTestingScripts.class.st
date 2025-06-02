@@ -75,10 +75,13 @@ RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refa
 	
 	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
 	report printOn: logger.
+	((report mutationAnalysis generalResult terminatedMutants collect: [ :m | m exception ]) groupedBy: [ :e | e class name ]) printOn: logger. "groups error by class"
 	logger cr.
-	"report mutationAnalysis generalResult inspect.
-	report coverage inspect.
-	report previewCoverageInDrTests"
+	self showAnalysisResults ifTrue: [
+		report mutationAnalysis generalResult inspect.
+		report coverage inspect.
+		report previewCoverageInDrTests
+	].
 	^ report
 ]
 
@@ -511,6 +514,12 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 		          { ReRenameMethodRefactoring }
 		          using: operators.
 	"report previewCoverageInDrTests"
+]
+
+{ #category : 'accessing' }
+RefactoringMutationTestingScripts class >> showAnalysisResults [
+
+	^ showResults ifNil: [ showResults := true ]
 ]
 
 { #category : 'accessing' }
