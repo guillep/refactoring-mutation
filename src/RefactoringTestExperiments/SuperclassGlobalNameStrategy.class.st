@@ -17,7 +17,10 @@ SuperclassGlobalNameStrategy >> forNode: aNode and: aModel [
 
 	| superclass |
 	superclass := aModel classNamed: aNode name.
-	^ { superclass 
-			ifNotNil: [ superclass superclass name ]
-			ifNil: [ nil ] }
+	^ { (superclass
+		   ifNotNil: [
+				   superclass superclass
+					   ifNotNil: [ superclass superclass name ]
+					   ifNil: [ nil ] ]
+		   ifNil: [ nil ]) }
 ]
