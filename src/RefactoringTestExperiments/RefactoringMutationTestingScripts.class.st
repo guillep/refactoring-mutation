@@ -280,10 +280,11 @@ RefactoringMutationTestingScripts class >> run [
 
 	<script>
 	| file |
-	file := FileReference fileSystem: FileSystem disk path: Path * 'Artefact-Refazzing.log'.
+	file := FileReference fileSystem: FileSystem disk path: Path * 'Soup-Refazzing.log'.
 	logger := file writeStream.
-	logger nextPutAll: 'Starting Artefact testing'.
-	self runFor: ArtefactRefactoringMutationTestingScripts.
+	logger nextPutAll: 'Starting Soup testing'.
+	showResults := false. "Don't open dialogs showing coverage and mutation results"
+	self runFor: SoupRefactoringMutationTestingScripts.
 	logger close.
 	
 ]
