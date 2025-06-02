@@ -17,7 +17,8 @@ Class {
 	#name : 'RefactoringMutationTestingScripts',
 	#superclass : 'Object',
 	#classInstVars : [
-		'logger'
+		'logger',
+		'showResults'
 	],
 	#category : 'RefactoringTestExperiments-Scripts',
 	#package : 'RefactoringTestExperiments',
@@ -28,13 +29,13 @@ Class {
 RefactoringMutationTestingScripts class >> addArgumentPreconditionsOperators: classEnvironment [
 
 	^ {
-		  (AddArgumentMutationOperator new
+		  (AddArgumentInvalidPreconditionMutationOperator new
 			   classEnvironment: classEnvironment;
 			   strategies: {
 					   MethodNameAdditionalArgumentStrategy new.
 					   NoPermutationsStrategy new.
 					   SwapFirstTwoPermutationStrategy new }). "good name bad permutations"
-		  (AddArgumentMutationOperator new
+		  (AddArgumentInvalidPreconditionMutationOperator new
 			   classEnvironment: classEnvironment;
 			   strategies: {
 					   SameNameStrategy new.
