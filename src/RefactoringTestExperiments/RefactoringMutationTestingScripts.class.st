@@ -80,7 +80,7 @@ RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refa
 	self showAnalysisResults ifTrue: [
 		report mutationAnalysis generalResult inspect.
 		report coverage inspect.
-		report previewCoverageInDrTests
+		"report previewCoverageInDrTests"
 	].
 	^ report
 ]
