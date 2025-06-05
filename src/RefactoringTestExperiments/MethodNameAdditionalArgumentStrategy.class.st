@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+MethodNameAdditionalArgumentStrategy class >> isValidInput [ 
+
+	^ true
+]
+
 { #category : 'running' }
 MethodNameAdditionalArgumentStrategy >> forNode: aNode and: aModel [
 

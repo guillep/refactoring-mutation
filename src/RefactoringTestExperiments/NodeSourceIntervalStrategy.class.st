@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+NodeSourceIntervalStrategy class >> isValidInput [
+
+	^ true
+]
+
 { #category : 'running' }
 NodeSourceIntervalStrategy >> forNode: aNode and: aModel [
 

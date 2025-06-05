@@ -6,6 +6,30 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'as yet unclassified' }
+MethodNamePermutationsStrategy class >> invalidAddArgPermutations [
+
+	^ { NoPermutationsStrategy new . SwapFirstTwoPermutationStrategy new }
+]
+
+{ #category : 'as yet unclassified' }
+MethodNamePermutationsStrategy class >> invalidRenameMethodPermutations [
+
+	^ { AddArgumentPermutationsStrategy new }
+]
+
+{ #category : 'as yet unclassified' }
+MethodNamePermutationsStrategy class >> validAddArgPermutations [
+
+	^ { AddArgumentPermutationsStrategy new }
+]
+
+{ #category : 'as yet unclassified' }
+MethodNamePermutationsStrategy class >> validRenameMethodPermutations [
+
+	^ { NoPermutationsStrategy new }
+]
+
 { #category : 'applying' }
 MethodNamePermutationsStrategy >> appliesToNode: aNode [
 

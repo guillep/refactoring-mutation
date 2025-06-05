@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+ExistingTraitGlobalNameStrategy class >> isValidInput [ 
+
+	^ false
+]
+
 { #category : 'running' }
 ExistingTraitGlobalNameStrategy >> forNode: aNode and: aModel [
 

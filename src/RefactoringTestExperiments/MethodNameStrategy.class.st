@@ -6,6 +6,24 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'as yet unclassified' }
+MethodNameStrategy class >> invalidMethodNames [
+
+	^ self subclasses reject: [ :each | each isValidInput ] thenCollect: [ :each | each new ]
+]
+
+{ #category : 'as yet unclassified' }
+MethodNameStrategy class >> validAddArgMethodNames [
+
+	^ { MethodNameAdditionalArgumentStrategy new }
+]
+
+{ #category : 'as yet unclassified' }
+MethodNameStrategy class >> validRenameMethodNames [
+
+	^ { UniqueMethodNameStrategy new }
+]
+
 { #category : 'applying' }
 MethodNameStrategy >> appliesToNode: aNode [
 
@@ -18,7 +36,7 @@ MethodNameStrategy >> key [
 	^ #methodName
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 MethodNameStrategy >> permutationsForNode: aNode [
 
 	| keywords |

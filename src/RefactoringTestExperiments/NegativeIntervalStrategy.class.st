@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+NegativeIntervalStrategy class >> isValidInput [
+
+	^ false
+]
+
 { #category : 'running' }
 NegativeIntervalStrategy >> forNode: aNode and: aModel [
 

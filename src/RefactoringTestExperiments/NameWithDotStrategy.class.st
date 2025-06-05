@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+NameWithDotStrategy class >> isValidInput [ 
+
+	^ false
+]
+
 { #category : 'running' }
 NameWithDotStrategy >> forNode: aNode and: aModel [
 

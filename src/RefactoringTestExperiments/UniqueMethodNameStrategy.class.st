@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+UniqueMethodNameStrategy class >> isValidInput [ 
+
+	^ true
+]
+
 { #category : 'as yet unclassified' }
 UniqueMethodNameStrategy >> forNode: aNode and: aModel [
 

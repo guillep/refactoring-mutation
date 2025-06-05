@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+SuperClassMethodNameStrategy class >> isValidInput [ 
+
+	^ false
+]
+
 { #category : 'running' }
 SuperClassMethodNameStrategy >> forNode: aNode and: aRefactoring [ 
 

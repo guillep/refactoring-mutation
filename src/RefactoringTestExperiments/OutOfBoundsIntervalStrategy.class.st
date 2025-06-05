@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+OutOfBoundsIntervalStrategy class >> isValidInput [
+
+	^ false
+]
+
 { #category : 'running' }
 OutOfBoundsIntervalStrategy >> forNode: aNode and: aModel [
 

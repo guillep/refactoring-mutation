@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+ExistingInstanceVariableNameStrategy class >> isValidInput [ 
+
+	^ false
+]
+
 { #category : 'running' }
 ExistingInstanceVariableNameStrategy >> forNode: aNode and: aModel [
 

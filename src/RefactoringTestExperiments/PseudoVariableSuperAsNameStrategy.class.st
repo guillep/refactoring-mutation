@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+PseudoVariableSuperAsNameStrategy class >> isValidInput [ 
+
+	^ false
+]
+
 { #category : 'running' }
 PseudoVariableSuperAsNameStrategy >> forNode: aNode and: aModel [
 

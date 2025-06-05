@@ -6,6 +6,24 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'as yet unclassified' }
+NameStrategy class >> invalidGlobalAndVarNames [
+
+	^ self subclasses reject: [ :each | each isValidInput ] thenCollect: [ :each | each new ]
+]
+
+{ #category : 'as yet unclassified' }
+NameStrategy class >> validGlobalNames [
+
+	^ { UniqueGlobalNameStrategy new }
+]
+
+{ #category : 'as yet unclassified' }
+NameStrategy class >> validVarNames [
+
+	^ { UniqueTempNameStrategy new }
+]
+
 { #category : 'applying' }
 NameStrategy >> appliesToNode: aNode [
 

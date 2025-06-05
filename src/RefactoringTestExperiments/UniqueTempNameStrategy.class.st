@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+UniqueTempNameStrategy class >> isValidInput [ 
+
+	^ true
+]
+
 { #category : 'running' }
 UniqueTempNameStrategy >> forNode: aNode and: aModel [
 

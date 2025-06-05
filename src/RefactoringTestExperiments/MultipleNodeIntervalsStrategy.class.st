@@ -9,6 +9,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+MultipleNodeIntervalsStrategy class >> isValidInput [
+
+	^ false
+]
+
 { #category : 'running' }
 MultipleNodeIntervalsStrategy >> forNode: aNode and: aModel [
 

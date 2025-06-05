@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+MethodNameDifferentArityStrategy class >> isValidInput [ 
+
+	^ false
+]
+
 { #category : 'running' }
 MethodNameDifferentArityStrategy >> forNode: aNode and: aRefactoring [
 

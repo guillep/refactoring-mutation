@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+SwapMethodArgumentsStrategy class >> isValidInput [ 
+
+	^ false
+]
+
 { #category : 'running' }
 SwapMethodArgumentsStrategy >> forNode: aNode and: aRefactoring [
 

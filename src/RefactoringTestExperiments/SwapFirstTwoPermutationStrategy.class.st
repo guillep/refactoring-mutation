@@ -6,7 +6,7 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 SwapFirstTwoPermutationStrategy >> forNode: aNode and: aModel [
 
 	| permutations |

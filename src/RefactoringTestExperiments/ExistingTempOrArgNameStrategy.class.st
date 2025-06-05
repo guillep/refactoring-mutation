@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+ExistingTempOrArgNameStrategy class >> isValidInput [ 
+
+	^ false
+]
+
 { #category : 'running' }
 ExistingTempOrArgNameStrategy >> forNode: aNode and: aModel [
 

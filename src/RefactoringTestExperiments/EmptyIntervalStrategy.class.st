@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+EmptyIntervalStrategy class >> isValidInput [
+
+	^ false
+]
+
 { #category : 'running' }
 EmptyIntervalStrategy >> forNode: aNode and: aModel [
 

@@ -6,6 +6,12 @@ Class {
 	#tag : 'Strategy'
 }
 
+{ #category : 'testing' }
+SuperclassGlobalNameStrategy class >> isValidInput [ 
+
+	^ false
+]
+
 { #category : 'applying' }
 SuperclassGlobalNameStrategy >> appliesToNode: aNode [
 
