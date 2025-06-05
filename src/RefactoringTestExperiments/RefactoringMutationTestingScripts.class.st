@@ -304,7 +304,6 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 	self reload.
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
-	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes:
 		                    classesToMutate , testClasses.
 	validInputs := MethodNameStrategy validAddArgMethodNames , MethodNamePermutationsStrategy validAddArgPermutations.
@@ -324,14 +323,14 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 		report := self
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
-		          using: allValidOperator.
+		          using: validOperatorInvalidInputs.
 	
 	allInvalidOperator := self operator: AddArgumentInvalidPreconditionMutationOperator inputs: { invalidInputs . validNameInvalidPerm . invalidNameValidPerm } on: classEnvironment.
 	logger nextPutAll: 'Add Argument Fuzzed with Ignored Failed Preconditions'; cr.
 		report := self
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
-		          using: allValidOperator.
+		          using: allInvalidOperator.
 
 
 	operators := allValidOperator, validOperatorInvalidInputs , allInvalidOperator.
