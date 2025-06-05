@@ -188,7 +188,7 @@ RefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 		          using: invalidOperator.
 
 
-	operators := validOperator , validOperatorInvalidInput, invalidOperator
+	operators := validOperator , validOperatorInvalidInput, invalidOperator.
 	logger nextPutAll: 'Composite Extract Method Union of All Above:'; cr.
 	report := self
 		          calculateRefactoringCoverageFor:
