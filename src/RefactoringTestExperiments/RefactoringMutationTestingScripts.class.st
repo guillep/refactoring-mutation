@@ -26,36 +26,6 @@ Class {
 }
 
 { #category : 'running' }
-RefactoringMutationTestingScripts class >> addArgumentPreconditionsOperators: classEnvironment [
-
-	^ {
-		  (AddArgumentInvalidPreconditionMutationOperator new
-			   classEnvironment: classEnvironment;
-			   strategies: {
-					   MethodNameAdditionalArgumentStrategy new.
-					   NoPermutationsStrategy new.
-					   SwapFirstTwoPermutationStrategy new }). "good name bad permutations"
-		  (AddArgumentInvalidPreconditionMutationOperator new
-			   classEnvironment: classEnvironment;
-			   strategies: {
-					   SameNameStrategy new.
-					   SuperClassMethodNameStrategy new.
-					   SwapMethodArgumentsStrategy new.
-					   UniqueMethodNameStrategy new.
-					   AddArgumentPermutationsStrategy new }) "good permutations bad name" }
-]
-
-{ #category : 'running' }
-RefactoringMutationTestingScripts class >> addArgumentTransformationOperators: classEnvironment [
-
-	^ { (AddArgumentMutationOperator new
-		   classEnvironment: classEnvironment;
-		   strategies: {
-				   MethodNameAdditionalArgumentStrategy new.
-				   AddArgumentPermutationsStrategy new }) }
-]
-
-{ #category : 'running' }
 RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refactoringsList using: operators [
 
 	| testClasses classesToMutate analysis collector coverage report |
@@ -250,31 +220,6 @@ RefactoringMutationTestingScripts class >> renameClassTransformationOperators: c
 	^ { (RenameClassMutationOperator new
 		   classEnvironment: classEnvironment;
 		   strategies: { UniqueGlobalNameStrategy new }) }
-]
-
-{ #category : 'running' }
-RefactoringMutationTestingScripts class >> renameMethodPreconditionsOperators: classEnvironment [
-
-	^ { (RenameMethodMutationOperator new
-			   classEnvironment: classEnvironment;
-			   strategies: {
-						NoPermutationsStrategy new.
-						"Name strategies"
-						MethodNameAdditionalArgumentStrategy new.
-					   MethodNameDifferentArityStrategy new.
-					   SameNameStrategy new.
-					   SuperClassMethodNameStrategy new.
-						SwapMethodArgumentsStrategy new. }) }
-]
-
-{ #category : 'running' }
-RefactoringMutationTestingScripts class >> renameMethodTransformationOperators: classEnvironment [
-
-	^ { (RenameMethodMutationOperator new
-			   classEnvironment: classEnvironment;
-			   strategies: {
-					   UniqueMethodNameStrategy new.
-					   NoPermutationsStrategy new }) }
 ]
 
 { #category : 'accessing' }
