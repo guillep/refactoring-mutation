@@ -166,6 +166,14 @@ RefactoringMutationTestingScripts class >> mutationPackageNames [
 	^ self subclassResponsibility 
 ]
 
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> operator: operator inputs: inputStrategies on: classEnvironment [
+
+	^ operator new
+		  classEnvironment: classEnvironment;
+		  strategies: inputStrategies
+]
+
 { #category : 'cleaning' }
 RefactoringMutationTestingScripts class >> reload [
 	"Does first part of reload which is unload and forget the repository."
@@ -292,30 +300,50 @@ RefactoringMutationTestingScripts class >> run [
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runAddArgument [
 
-	| testClasses classesToMutate classEnvironment operators report |
+	| testClasses classesToMutate classEnvironment operators report validInputs invalidInputs validNameInvalidPerm invalidNameValidPerm allValidOperator validOperatorInvalidInputs allInvalidOperator |
 	self reload.
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes:
 		                    classesToMutate , testClasses.
-	"Run with transformation operators only"
-	operators := self addArgumentTransformationOperators: classEnvironment.
-	logger nextPutAll: 'Add Argument Transformation Operators only:'; cr.
-	report := self
-		          calculateRefactoringCoverageFor:
-		          { RBAddParameterRefactoring }
-		          using: operators.
-	"report previewCoverageInDrTests."
+	validInputs := MethodNameStrategy validAddArgMethodNames.
+	validInputs addAll: MethodNamePermutationsStrategy validAddArgPermutations.
+	invalidInputs := MethodNameStrategy invalidMethodNames.
+	invalidInputs addAll: MethodNamePermutationsStrategy invalidAddArgPermutations.
+	validNameInvalidPerm := MethodNameStrategy validAddArgMethodNames.
+	validNameInvalidPerm addAll: MethodNamePermutationsStrategy invalidAddArgPermutations.
+	invalidNameValidPerm := MethodNameStrategy invalidMethodNames.
+	invalidNameValidPerm addAll: MethodNamePermutationsStrategy validAddArgPermutations.
 	
-	"Run with transformation and preconditions operators"
-	operators := operators , (self addArgumentPreconditionsOperators: classEnvironment).
-	logger nextPutAll: 'Add Argument with Preconditions Operators:'; cr.
+	allValidOperator := self operator: AddArgumentMutationOperator inputs: validInputs on: classEnvironment.
+	logger nextPutAll: 'Add Argument Refactoring:'; cr.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { RBAddParameterRefactoring }
+		          using: allValidOperator.
+	
+	validOperatorInvalidInputs := self operator: AddArgumentMutationOperator inputs: { invalidInputs . validNameInvalidPerm . invalidNameValidPerm } on: classEnvironment.
+	logger nextPutAll: 'Add Argument Refactoring Fuzzed:'; cr.
+		report := self
+		          calculateRefactoringCoverageFor:
+		          { RBAddParameterRefactoring }
+		          using: allValidOperator.
+	
+	allInvalidOperator := self operator: AddArgumentInvalidPreconditionMutationOperator inputs: { invalidInputs . validNameInvalidPerm . invalidNameValidPerm } on: classEnvironment.
+	logger nextPutAll: 'Add Argument Fuzzed with Ignored Failed Preconditions'; cr.
+		report := self
+		          calculateRefactoringCoverageFor:
+		          { RBAddParameterRefactoring }
+		          using: allValidOperator.
+
+
+	operators := allValidOperator, validOperatorInvalidInputs , allInvalidOperator.
+	logger nextPutAll: 'Add Argument Union Of All Above:'; cr.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
 		          using: operators.
-	"report previewCoverageInDrTests"
 ]
 
 { #category : 'running' }
