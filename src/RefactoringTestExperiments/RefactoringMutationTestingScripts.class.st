@@ -201,27 +201,6 @@ RefactoringMutationTestingScripts class >> renameArgOrTempTransformationOperator
 					   UniqueTempNameStrategy new }) }
 ]
 
-{ #category : 'running' }
-RefactoringMutationTestingScripts class >> renameClassPreconditionsOperators: classEnvironment [
-
-	^ { (RenameClassMutationOperator new
-		   classEnvironment: classEnvironment;
-		   strategies: {
-				   ExistingNonClassGlobalNameStrategy new.
-				   ExistingClassGlobalNameStrategy new.
-				   ExistingTraitGlobalNameStrategy new.
-				   SubclassGlobalNameStrategy new.
-				   SuperclassGlobalNameStrategy new }) }
-]
-
-{ #category : 'running' }
-RefactoringMutationTestingScripts class >> renameClassTransformationOperators: classEnvironment [
-
-	^ { (RenameClassMutationOperator new
-		   classEnvironment: classEnvironment;
-		   strategies: { UniqueGlobalNameStrategy new }) }
-]
-
 { #category : 'accessing' }
 RefactoringMutationTestingScripts class >> repositoryNames [
 
@@ -430,25 +409,39 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runRenameClass [
 
-	| testClasses classesToMutate classEnvironment operators report |
+	| testClasses classesToMutate classEnvironment operators report validInputs invalidInputs validOperator validOperatorInvalidInputs invalidOperator |
 	self reload.
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
-	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes:
 		                    classesToMutate , testClasses , { Object }.
 
-	operators := self renameClassTransformationOperators:
-		             classEnvironment.
-	logger nextPutAll: 'Rename Class Transformation Operators:'; cr.
+	validInputs := NameStrategy validGlobalNames.
+	invalidInputs := NameStrategy invalidGlobalAndVarNames.
+	
+	validOperator := self operator: RenameClassMutationOperator inputs: validInputs on: classEnvironment.
+	logger nextPutAll: 'Rename Class Refactoring:'; cr.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { ReRenameClassRefactoring }
-		          using: operators.
-	"report previewCoverageInDrTests"
+		          using: validOperator.
+
+	validOperatorInvalidInputs := self operator: RenameClassMutationOperator inputs: invalidInputs on: classEnvironment.
+	logger nextPutAll: 'Rename Class Refactoring Fuzzed:'; cr.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { ReRenameClassRefactoring }
+		          using: validOperatorInvalidInputs.
+
+	invalidOperator := self operator: RenameClassWithoutPreconditionsMutationOperator inputs: invalidInputs on: classEnvironment.
+	logger nextPutAll: 'Rename Class Fuzzed with Ignored Failed Preconditions:'; cr.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { ReRenameClassRefactoring }
+		          using: invalidOperator.
 	
-	operators := operators , (self renameClassPreconditionsOperators: classEnvironment).
-	logger nextPutAll: 'Rename Class with Precondition Operators:'; cr.
+	operators := validOperator , validOperatorInvalidInputs , invalidOperator.
+	logger nextPutAll: 'Rename Class Union of All Above:'; cr.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { ReRenameClassRefactoring }
