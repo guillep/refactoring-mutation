@@ -169,9 +169,9 @@ RefactoringMutationTestingScripts class >> mutationPackageNames [
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> operator: operator inputs: inputStrategies on: classEnvironment [
 
-	^ operator new
+	^ { operator new
 		  classEnvironment: classEnvironment;
-		  strategies: inputStrategies
+		  strategies: inputStrategies }
 ]
 
 { #category : 'cleaning' }
@@ -307,14 +307,10 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes:
 		                    classesToMutate , testClasses.
-	validInputs := MethodNameStrategy validAddArgMethodNames.
-	validInputs addAll: MethodNamePermutationsStrategy validAddArgPermutations.
-	invalidInputs := MethodNameStrategy invalidMethodNames.
-	invalidInputs addAll: MethodNamePermutationsStrategy invalidAddArgPermutations.
-	validNameInvalidPerm := MethodNameStrategy validAddArgMethodNames.
-	validNameInvalidPerm addAll: MethodNamePermutationsStrategy invalidAddArgPermutations.
-	invalidNameValidPerm := MethodNameStrategy invalidMethodNames.
-	invalidNameValidPerm addAll: MethodNamePermutationsStrategy validAddArgPermutations.
+	validInputs := MethodNameStrategy validAddArgMethodNames , MethodNamePermutationsStrategy validAddArgPermutations.
+	invalidInputs := MethodNameStrategy invalidMethodNames , MethodNamePermutationsStrategy invalidAddArgPermutations.
+	validNameInvalidPerm := MethodNameStrategy validAddArgMethodNames , MethodNamePermutationsStrategy invalidAddArgPermutations.
+	invalidNameValidPerm := MethodNameStrategy invalidMethodNames , MethodNamePermutationsStrategy validAddArgPermutations.
 	
 	allValidOperator := self operator: AddArgumentMutationOperator inputs: validInputs on: classEnvironment.
 	logger nextPutAll: 'Add Argument Refactoring:'; cr.

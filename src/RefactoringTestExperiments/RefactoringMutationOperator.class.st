@@ -122,7 +122,7 @@ RefactoringMutationOperator >> getInputsForNode: affectedNode [
 	model := classEnvironment 
 		ifNil: [ RBNamespace new ]
 		ifNotNil: [ RBNamespace onEnvironment: classEnvironment ].
-	inputs := strategies flatCollect: [ :strategy |
+	inputs := strategies flattened flatCollect: [ :strategy |
 		| results |
 		(strategy appliesToNode: affectedNode)
 			ifTrue: [ 
