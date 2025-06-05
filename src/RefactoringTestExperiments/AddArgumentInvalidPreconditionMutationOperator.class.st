@@ -19,3 +19,12 @@ AddArgumentInvalidPreconditionMutationOperator >> applyMutation: aMutation [
 	aMutation refactoring privateTransform.
 	aMutation refactoring performChanges.
 ]
+
+{ #category : 'mutant generation' }
+AddArgumentInvalidPreconditionMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
+
+	| mutations |
+	mutations := super mutationsFor: aCompiledMethod with: aParseTree.
+	mutations do: [ :e | e doNotApplyPreconditions ].
+	^ mutations
+]

@@ -13,7 +13,7 @@ ExtractMethodNoPreconditionMutationOperator >> applyMutation: aMutation [
 		prepareForExecution;
 		checkApplicabilityPreconditions
 	]
-		on: RBRefactoringError 
+		on: RBRefactoringError , RBRefactoringWarning
 		do: [ :e | "We ignore the fact the exception happened and continue" ].
 	aMutation refactoring privateTransform.
 	aMutation refactoring performChanges

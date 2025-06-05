@@ -12,7 +12,7 @@ CompositeExtractMethodMutationOperator >> applyMutation: aMutation [
 
 	aMutation shouldApplyPreconditions ifTrue: [
 		[ aMutation refactoring checkApplicabilityPreconditions ]
-			on: RBRefactoringError
+			on: RBRefactoringError, RBRefactoringWarning
 			do: [ self error ] ].
 
 	aMutation refactoring privateTransform.
@@ -48,4 +48,13 @@ CompositeExtractMethodMutationOperator >> description [
 CompositeExtractMethodMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseTree number: aNumber newExpression: aNode [
 
 	^ aCompiledMethod sourceCode copyReplaceFrom: aNode first to: aNode last with: ' EXTRACTED '
+]
+
+{ #category : 'mutant generation' }
+CompositeExtractMethodMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
+
+	| mutations |
+	mutations := super mutationsFor: aCompiledMethod with: aParseTree.
+	mutations do: [ :e | e doNotApplyPreconditions ].
+	^ mutations
 ]

@@ -10,7 +10,7 @@ Class {
 RenameMethodInvalidPreconditionsMutationOperator >> applyMutation: aMutation [
 
 	[ aMutation refactoring checkApplicabilityPreconditions ]
-		on: RBRefactoringError
+		on: RBRefactoringError, RBRefactoringWarning
 		do: [ self error ].
 
 	aMutation refactoring privateTransform.
