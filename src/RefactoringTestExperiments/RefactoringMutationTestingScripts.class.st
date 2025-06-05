@@ -514,30 +514,45 @@ RefactoringMutationTestingScripts class >> runRenameClass [
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runRenameMethod [
 
-	| testClasses classesToMutate classEnvironment operators report |
+	| testClasses classesToMutate classEnvironment operators report validInputs invalidInputs validNameInvalidPerm invalidNameValidPerm allValidOperator validOperatorInvalidInputs allInvalidOperator |
 	self reload.
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
-	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes:
 		                    classesToMutate , testClasses.
+		
+	validInputs := MethodNameStrategy validRenameMethodNames , MethodNamePermutationsStrategy validRenameMethodPermutations.
+	invalidInputs := MethodNameStrategy invalidMethodNames , MethodNamePermutationsStrategy invalidRenameMethodPermutations .
+	validNameInvalidPerm := MethodNameStrategy validRenameMethodNames , MethodNamePermutationsStrategy invalidRenameMethodPermutations.
+	invalidNameValidPerm := MethodNameStrategy invalidMethodNames , MethodNamePermutationsStrategy validRenameMethodPermutations.
 
-	operators := self renameMethodTransformationOperators:
-		             classEnvironment.
-	logger nextPutAll: 'Rename Method Transformation Operators:'; cr.
+	allValidOperator := self operator: RenameMethodMutationOperator inputs: validInputs on: classEnvironment.
+	logger nextPutAll: 'Rename Method Refactoring:'; cr.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { ReRenameMethodRefactoring }
-		          using: operators.
-	"report previewCoverageInDrTests"
-	
-	operators := operators , (self renameMethodPreconditionsOperators: classEnvironment).
-	logger nextPutAll: 'Rename Method with Precondition Operators:'; cr.
+		          using: allValidOperator.
+
+	validOperatorInvalidInputs := self operator: RenameMethodMutationOperator inputs: {invalidInputs . invalidNameValidPerm . validNameInvalidPerm } on: classEnvironment.
+	logger nextPutAll: 'Rename Method Refactoring Fuzzed:'; cr.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { ReRenameMethodRefactoring }
+		          using: validOperatorInvalidInputs.
+
+	allInvalidOperator := self operator: RenameMethodInvalidPreconditionsMutationOperator inputs: { invalidInputs . validNameInvalidPerm . invalidNameValidPerm } on: classEnvironment.
+	logger nextPutAll: 'Rename Method Fuzzed with Ignored Failed Preconditions'; cr.
+		report := self
+		          calculateRefactoringCoverageFor:
+		          { RBAddParameterRefactoring }
+		          using: allInvalidOperator.		
+		
+	operators := allValidOperator, validOperatorInvalidInputs , allInvalidOperator.
+	logger nextPutAll: 'Rename Method Union Of All Above:'; cr.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { RBAddParameterRefactoring }
 		          using: operators.
-	"report previewCoverageInDrTests"
 ]
 
 { #category : 'accessing' }
