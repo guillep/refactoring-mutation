@@ -63,68 +63,6 @@ RefactoringMutationTestingScripts class >> classesToMutate [
 			  reject: [ :cls | cls isManifest ] ]
 ]
 
-{ #category : 'running' }
-RefactoringMutationTestingScripts class >> compositeExtractMethodPreconditionsOperators: classEnvironment [
-
-	^ {
-		  (CompositeExtractMethodMutationOperator new
-			   classEnvironment: classEnvironment;
-			   strategies: {
-					   EmptyIntervalStrategy new.
-					   NegativeIntervalStrategy new.
-					   OutOfBoundsIntervalStrategy new }).
-		  (CompositeExtractMethodMutationOperator new
-			   classEnvironment: classEnvironment;
-			   strategies: { (MultipleNodeIntervalsStrategy new offset: 2) }) }
-]
-
-{ #category : 'running' }
-RefactoringMutationTestingScripts class >> compositeExtractMethodTransformationOperators: classEnvironment [
-
-	^ { (CompositeExtractMethodMutationOperator new
-			   classEnvironment: classEnvironment;
-			   strategies: { NodeSourceIntervalStrategy new }) }
-]
-
-{ #category : 'running' }
-RefactoringMutationTestingScripts class >> extractMethodPreconditionsOperators: classEnvironment [
-
-	^ {
-		  (ExtractMethodNoPreconditionMutationOperator new
-			   classEnvironment: classEnvironment;
-			   strategies: {
-					   EmptyIntervalStrategy new.
-					   NegativeIntervalStrategy new.
-					   OutOfBoundsIntervalStrategy new }).
-		  (ExtractMethodNoPreconditionMutationOperator new
-			   classEnvironment: classEnvironment;
-			   strategies: { (MultipleNodeIntervalsStrategy new offset: 2) }) }
-]
-
-{ #category : 'running' }
-RefactoringMutationTestingScripts class >> extractMethodTransformationOperators: classEnvironment [
-
-	^ { (ExtractMethodMutationOperator new
-			   classEnvironment: classEnvironment;
-			   strategies: { NodeSourceIntervalStrategy new }) }
-]
-
-{ #category : 'running' }
-RefactoringMutationTestingScripts class >> inlineMethodPreconditionsOperators [
-
-	^ { (InlineMethodInvalidInputMutationOperator new strategies:
-		   (SourceIntervalStrategy subclasses 
-				select: [ :each | each name ~= 'NodeSourceIntervalStrategy' ]
-				thenCollect: [ :each | each new ])) }
-]
-
-{ #category : 'running' }
-RefactoringMutationTestingScripts class >> inlineMethodTransformationOperators [
-
-	^ { InlineMethodMutationOperator new strategies:
-		   { NodeSourceIntervalStrategy new } }
-]
-
 { #category : 'accessing' }
 RefactoringMutationTestingScripts class >> logger: aWriteStream [ 
 	logger := aWriteStream
@@ -149,56 +87,6 @@ RefactoringMutationTestingScripts class >> reload [
 	"Does first part of reload which is unload and forget the repository."
 
 	self unloadAndForget 
-]
-
-{ #category : 'running' }
-RefactoringMutationTestingScripts class >> renameArgOrTempPreconditionsOperators: classEnvironment [
-
-	^ {
-		  (RenameArgumentOrTemporaryMutationOperator new
-			   classEnvironment: classEnvironment;
-			   strategies: {
-					   NodeSourceIntervalStrategy new.
-					   "Name strategies"
-					   UniqueGlobalNameStrategy new.
-					   ExistingClassGlobalNameStrategy new.
-					   ExistingNonClassGlobalNameStrategy new.
-					   ExistingTraitGlobalNameStrategy new.
-					   NameWithSpaceStrategy new.
-					   PseudoVariableSelfAsNameStrategy new.
-					   PseudoVariableSuperAsNameStrategy new }).
-		  "Invalid name strategies"
-		  (RenameArgOrTempInvalidInputMutationOperator new
-			   classEnvironment: classEnvironment;
-			   strategies: {
-					   NodeSourceIntervalStrategy new.
-					   "Name strategies"
-					   ExistingInstanceVariableNameStrategy new.
-					   ExistingTempOrArgNameStrategy new.
-					   NameStartingWithNumberStrategy new.
-					   NameWithDotStrategy new.
-					   NameWithSemicolonStrategy new.
-					   SameVariableNameStrategy new }).
-		  "Interval strategies"
-		  (RenameArgOrTempInvalidInputMutationOperator new
-			   classEnvironment: classEnvironment;
-			   strategies: {
-					   NegativeIntervalStrategy new.
-					   EmptyIntervalStrategy new.
-					   OutOfBoundsIntervalStrategy new.
-					   (MultipleNodeIntervalsStrategy new offset: 2).
-					   "Name strategies"
-					   UniqueTempNameStrategy new }) }
-]
-
-{ #category : 'running' }
-RefactoringMutationTestingScripts class >> renameArgOrTempTransformationOperators: classEnvironment [
-
-	^ { (RenameArgumentOrTemporaryMutationOperator new
-			   classEnvironment: classEnvironment;
-			   strategies: {
-					   NodeSourceIntervalStrategy new.
-					   UniqueTempNameStrategy new }) }
 ]
 
 { #category : 'accessing' }
@@ -268,31 +156,44 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 
-	| testClasses classesToMutate classEnvironment operators report |
+	| testClasses classesToMutate classEnvironment operators report validInput invalidInput validOperator validOperatorInvalidInput invalidOperator |
 	self reload.
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
-	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes:
 		                    classesToMutate , testClasses.
 
-	operators := self compositeExtractMethodTransformationOperators:
-		             classEnvironment.
-	logger nextPutAll: 'Composite Extract Method Transformation Operators only:'; cr.
-	report := self
-		          calculateRefactoringCoverageFor:
-		          { ReCompositeExtractMethodRefactoring }
-		          using: operators.
-	"report previewCoverageInDrTests."
+	validInput := SourceIntervalStrategy validIntervals.
+	invalidInput := SourceIntervalStrategy invalidIntervals.
 	
-	operators := operators , (self compositeExtractMethodPreconditionsOperators:
-		             classEnvironment).
-	logger nextPutAll: 'Composite Extract Method with Preconditions Operators:'; cr.
+	validOperator := self operator: CompositeExtractMethodMutationOperator inputs: validInput on: classEnvironment.
+	logger nextPutAll: 'Composite Extract Method Refactoring:'; cr.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { ReCompositeExtractMethodRefactoring }
+		          using: validOperator.
+	
+	validOperatorInvalidInput := self operator: CompositeExtractMethodMutationOperator inputs: invalidInput on: classEnvironment.
+	logger nextPutAll: 'Composite Extract Method Fuzzed Refactoring:'; cr.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { ReCompositeExtractMethodRefactoring }
+		          using: validOperatorInvalidInput.
+
+	invalidOperator := self operator: CompositeExtractMethodPreconditionsMutationOperator inputs: invalidInput on: classEnvironment.
+	logger nextPutAll: 'Composite Extract Method Fuzzed with Ingored Failed Preconditions'; cr.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { ReCompositeExtractMethodRefactoring }
+		          using: invalidOperator.
+
+
+	operators := validOperator , validOperatorInvalidInput, invalidOperator
+	logger nextPutAll: 'Composite Extract Method Union of All Above:'; cr.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { ReCompositeExtractMethodRefactoring }
 		          using: operators.
-	"report previewCoverageInDrTests"
 ]
 
 { #category : 'coverage' }
@@ -315,30 +216,44 @@ RefactoringMutationTestingScripts class >> runCoverage [
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runExtractMethod [
 
-	| testClasses classesToMutate classEnvironment operators report |
+	| testClasses classesToMutate classEnvironment operators report validInput invalidInput validOperator validOperatorInvalidInput invalidOperator |
 	self reload.
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
-	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes:
 		                    classesToMutate , testClasses.
 
-	operators := self extractMethodTransformationOperators:
-		             classEnvironment.
-	logger nextPutAll: 'Extract Method Transformation Operators only:'; cr.
+	validInput := SourceIntervalStrategy validIntervals.
+	invalidInput := SourceIntervalStrategy invalidIntervals.
+	
+	validOperator := self operator: ExtractMethodMutationOperator inputs: validInput on: classEnvironment.
+	logger nextPutAll: 'Extract Method Refactoring:'; cr.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBExtractMethodRefactoring }
-		          using: operators.
-	"report previewCoverageInDrTests"
+		          using: validOperator.
+	
+	validOperatorInvalidInput := self operator: ExtractMethodMutationOperator inputs: invalidInput on: classEnvironment.
+	logger nextPutAll: 'Extract Method Fuzzed Refactoring:'; cr.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { RBExtractMethodRefactoring }
+		          using: validOperatorInvalidInput.
 
-	operators := operators , (self extractMethodPreconditionsOperators: classEnvironment).
-	logger nextPutAll: 'Extract Method with Precondition Operators:'; cr.
+	invalidOperator := self operator: ExtractMethodNoPreconditionMutationOperator inputs: invalidInput on: classEnvironment.
+	logger nextPutAll: 'Extract Method Fuzzed with Ingored Failed Preconditions'; cr.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { RBExtractMethodRefactoring }
+		          using: invalidOperator.
+
+
+	operators := validOperator , validOperatorInvalidInput, invalidOperator
+	logger nextPutAll: 'Extract Method Union of All Above:'; cr.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBExtractMethodRefactoring }
 		          using: operators.
-	"report previewCoverageInDrTests"
 ]
 
 { #category : 'running' }
@@ -357,53 +272,86 @@ RefactoringMutationTestingScripts class >> runFor: class [
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runInlineMethod [
 
-	| operators report |
+	| operators report validInputs invalidInputs validOperator validOperatorInvalidInput invalidOperator |
 	"We have to operate on the entire system since Inline Method depends on superclasses which can be Object, Collection, etc.
 	If we scope it to a package or list of classes, that scope should include every superclass of every class that you want to inline."
-	operators := self inlineMethodTransformationOperators.
-	logger nextPutAll: 'Inline Method Transformation Operators only:'; cr.
+	
+	validInputs := NodeSourceIntervalStrategy validIntervals.
+	invalidInputs := NodeSourceIntervalStrategy invalidIntervals.
+	
+	validOperator := self operator: InlineMethodMutationOperator inputs: validInputs on: nil.
+	logger nextPutAll: 'Inline Method Refactoring:'; cr.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBInlineMethodRefactoring }
-		          using: operators.
-	"report previewCoverageInDrTests"
+		          using: validOperator.
+	
+	validOperatorInvalidInput := self operator: InlineMethodMutationOperator inputs: invalidInputs on: nil.
+	logger nextPutAll: 'Inline Method Fuzzed Refactoring:'; cr.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { RBInlineMethodRefactoring }
+		          using: validOperatorInvalidInput.
 		
-	operators := operators , (self inlineMethodPreconditionsOperators).
-	logger nextPutAll: 'Inline Method with Precondition Operators:'; cr.
+	invalidOperator := self operator: InlineMethodInvalidInputMutationOperator inputs: invalidInputs on: nil.
+	logger nextPutAll: 'Inline Method Fuzzed with Ignored Failed Preconditions:'; cr.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { RBInlineMethodRefactoring }
+		          using: invalidOperator.
+	
+		
+	operators := validOperator , validOperatorInvalidInput , invalidOperator.
+	logger nextPutAll: 'Inline Method Union of All Above:'; cr.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBInlineMethodRefactoring }
 		          using: operators.
-	"report previewCoverageInDrTests"
 ]
 
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 
-	| testClasses classesToMutate classEnvironment operators report |
+	| testClasses classesToMutate classEnvironment operators report validInputs validNameInvalidInterval validIntervalInvalidName allInvalidInputs invalidInputs validOperator validOperatorInvalidInputs invalidOperator |
 	self reload.
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
-	"classesToMutate := classesToMutate reject: [ :cls | cls methods contains: [ :method | method isExtension ] ]."
 	classEnvironment := RBClassEnvironment classes:
 		                    classesToMutate , testClasses.
 
-	operators := self renameArgOrTempTransformationOperators:
-		             classEnvironment.
-	logger nextPutAll: 'Rename Arg or Temp Transformation Operators:'; cr.
-	report := self
-		          calculateRefactoringCoverageFor:
-		          { RBRenameArgumentOrTemporaryRefactoring }
-		          using: operators.
-	"report previewCoverageInDrTests"
+	validInputs := NodeSourceIntervalStrategy validIntervals , NameStrategy validVarNames.
+	validNameInvalidInterval := NameStrategy validVarNames , NodeSourceIntervalStrategy invalidIntervals.
+	validIntervalInvalidName := NodeSourceIntervalStrategy validIntervals , NameStrategy invalidGlobalAndVarNames.
+	allInvalidInputs := NodeSourceIntervalStrategy invalidIntervals , NameStrategy invalidGlobalAndVarNames.
+	invalidInputs := validNameInvalidInterval , validIntervalInvalidName , allInvalidInputs.
 	
-	operators := operators , (self renameArgOrTempPreconditionsOperators: classEnvironment).
-	logger nextPutAll: 'Rename Arg or Temp with Precondition Operators:'; cr.
+	validOperator := self operator: RenameArgumentOrTemporaryMutationOperator inputs: validInputs on: classEnvironment.
+	logger nextPutAll: 'Rename Arg or Temp Refactoring:'; cr.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { RBRenameArgumentOrTemporaryRefactoring }
+		          using: validOperator.
+		
+	validOperatorInvalidInputs := self operator: RenameArgumentOrTemporaryMutationOperator inputs: invalidInputs on: classEnvironment.
+	logger nextPutAll: 'Rename Arg or Temp Fuzzed Refactoring:'; cr.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { RBRenameArgumentOrTemporaryRefactoring }
+		          using: validOperatorInvalidInputs.
+		
+	invalidOperator := self operator: RenameArgOrTempInvalidInputMutationOperator inputs: invalidInputs on: classEnvironment.
+	logger nextPutAll: 'Rename Arg or Temp Fuzzed with Ignoring Failed Preconditions:'; cr.
+	report := self
+		          calculateRefactoringCoverageFor:
+		          { RBRenameArgumentOrTemporaryRefactoring }
+		          using: invalidOperator.
+	
+	operators := validOperator, validOperatorInvalidInputs, invalidOperator
+	logger nextPutAll: 'Rename Arg or Temp Union of All Above:'; cr.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBRenameArgumentOrTemporaryRefactoring }
 		          using: operators.
-	"report previewCoverageInDrTests"
 ]
 
 { #category : 'running' }
