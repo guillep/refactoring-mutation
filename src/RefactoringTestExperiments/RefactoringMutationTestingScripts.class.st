@@ -18,7 +18,8 @@ Class {
 	#superclass : 'Object',
 	#classInstVars : [
 		'logger',
-		'showResults'
+		'showResults',
+		'runUnion'
 	],
 	#category : 'RefactoringTestExperiments-Scripts',
 	#package : 'RefactoringTestExperiments',
@@ -100,11 +101,12 @@ RefactoringMutationTestingScripts class >> run [
 
 	<script>
 	| file |
-	file := FileReference fileSystem: FileSystem disk path: Path * 'Soup-Refazzing.log'.
+	file := FileReference fileSystem: FileSystem disk path: Path * 'AVL-Refazzing.log'.
 	logger := file writeStream.
-	logger nextPutAll: 'Starting Soup testing'.
+	logger nextPutAll: 'Starting AVL testing'.
 	showResults := false. "Don't open dialogs showing coverage and mutation results"
-	self runFor: SoupRefactoringMutationTestingScripts.
+	runUnion := false.
+	self runFor: AVLRefactoringMutationTestingScripts.
 	logger close.
 	
 ]
@@ -145,6 +147,7 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 		          { RBAddParameterRefactoring }
 		          using: allInvalidOperator.
 
+	self shouldRunUnion ifFalse: [ ^ self ].
 	operators := allValidOperator, validOperatorInvalidInputs , allInvalidOperator.
 	logger nextPutAll: 'Add Argument Union Of All Above:'; cr.
 	report := self
@@ -187,7 +190,7 @@ RefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 		          { ReCompositeExtractMethodRefactoring }
 		          using: invalidOperator.
 
-
+	self shouldRunUnion ifFalse: [ ^ self ].
 	operators := validOperator , validOperatorInvalidInput, invalidOperator.
 	logger nextPutAll: 'Composite Extract Method Union of All Above:'; cr.
 	report := self
@@ -247,7 +250,7 @@ RefactoringMutationTestingScripts class >> runExtractMethod [
 		          { RBExtractMethodRefactoring }
 		          using: invalidOperator.
 
-
+	self shouldRunUnion ifFalse: [ ^ self ].
 	operators := validOperator , validOperatorInvalidInput, invalidOperator.
 	logger nextPutAll: 'Extract Method Union of All Above:'; cr.
 	report := self
@@ -299,8 +302,8 @@ RefactoringMutationTestingScripts class >> runInlineMethod [
 		          calculateRefactoringCoverageFor:
 		          { RBInlineMethodRefactoring }
 		          using: invalidOperator.
-	
-		
+
+	self shouldRunUnion ifFalse: [ ^ self ].
 	operators := validOperator , validOperatorInvalidInput , invalidOperator.
 	logger nextPutAll: 'Inline Method Union of All Above:'; cr.
 	report := self
@@ -345,7 +348,8 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 		          calculateRefactoringCoverageFor:
 		          { RBRenameArgumentOrTemporaryRefactoring }
 		          using: invalidOperator.
-	
+
+	self shouldRunUnion ifFalse: [ ^ self ].
 	operators := validOperator, validOperatorInvalidInputs, invalidOperator.
 	logger nextPutAll: 'Rename Arg or Temp Union of All Above:'; cr.
 	report := self
@@ -387,7 +391,8 @@ RefactoringMutationTestingScripts class >> runRenameClass [
 		          calculateRefactoringCoverageFor:
 		          { ReRenameClassRefactoring }
 		          using: invalidOperator.
-	
+
+	self shouldRunUnion ifFalse: [ ^ self ].
 	operators := validOperator , validOperatorInvalidInputs , invalidOperator.
 	logger nextPutAll: 'Rename Class Union of All Above:'; cr.
 	report := self
@@ -433,13 +438,20 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
 		          using: allInvalidOperator.		
-		
+
+	self shouldRunUnion ifFalse: [ ^ self ].
 	operators := allValidOperator, validOperatorInvalidInputs , allInvalidOperator.
 	logger nextPutAll: 'Rename Method Union Of All Above:'; cr.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
 		          using: operators.
+]
+
+{ #category : 'asserting' }
+RefactoringMutationTestingScripts class >> shouldRunUnion [
+
+	^ runUnion ifNil: [ runUnion := false ]
 ]
 
 { #category : 'accessing' }
