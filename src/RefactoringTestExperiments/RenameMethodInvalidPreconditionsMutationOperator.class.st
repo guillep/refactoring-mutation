@@ -8,13 +8,16 @@ Class {
 
 { #category : 'instance creation' }
 RenameMethodInvalidPreconditionsMutationOperator >> applyMutation: aMutation [
-
-	[ aMutation refactoring checkApplicabilityPreconditions ]
+	
+	[
+	aMutation refactoring
+		prepareForExecution; 
+		checkPreconditions ]
 		on: RBRefactoringError, RBRefactoringWarning
-		do: [ self error ].
-
+		do: [ :e | "Nothing since we want it to break and we continue" ].
+		
 	aMutation refactoring privateTransform.
-	aMutation refactoring performChanges
+	aMutation refactoring performChanges.
 ]
 
 { #category : 'mutant generation' }
