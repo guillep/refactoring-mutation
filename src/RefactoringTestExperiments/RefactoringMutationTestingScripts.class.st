@@ -248,7 +248,7 @@ RefactoringMutationTestingScripts class >> runExtractMethod [
 		          using: invalidOperator.
 
 
-	operators := validOperator , validOperatorInvalidInput, invalidOperator
+	operators := validOperator , validOperatorInvalidInput, invalidOperator.
 	logger nextPutAll: 'Extract Method Union of All Above:'; cr.
 	report := self
 		          calculateRefactoringCoverageFor:
@@ -276,8 +276,8 @@ RefactoringMutationTestingScripts class >> runInlineMethod [
 	"We have to operate on the entire system since Inline Method depends on superclasses which can be Object, Collection, etc.
 	If we scope it to a package or list of classes, that scope should include every superclass of every class that you want to inline."
 	
-	validInputs := NodeSourceIntervalStrategy validIntervals.
-	invalidInputs := NodeSourceIntervalStrategy invalidIntervals.
+	validInputs := SourceIntervalStrategy validIntervals.
+	invalidInputs := SourceIntervalStrategy invalidIntervals.
 	
 	validOperator := self operator: InlineMethodMutationOperator inputs: validInputs on: nil.
 	logger nextPutAll: 'Inline Method Refactoring:'; cr.
@@ -319,10 +319,10 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	classEnvironment := RBClassEnvironment classes:
 		                    classesToMutate , testClasses.
 
-	validInputs := NodeSourceIntervalStrategy validIntervals , NameStrategy validVarNames.
-	validNameInvalidInterval := NameStrategy validVarNames , NodeSourceIntervalStrategy invalidIntervals.
-	validIntervalInvalidName := NodeSourceIntervalStrategy validIntervals , NameStrategy invalidGlobalAndVarNames.
-	allInvalidInputs := NodeSourceIntervalStrategy invalidIntervals , NameStrategy invalidGlobalAndVarNames.
+	validInputs := SourceIntervalStrategy validIntervals , NameStrategy validVarNames.
+	validNameInvalidInterval := NameStrategy validVarNames , SourceIntervalStrategy invalidIntervals.
+	validIntervalInvalidName := SourceIntervalStrategy validIntervals , NameStrategy invalidGlobalAndVarNames.
+	allInvalidInputs := SourceIntervalStrategy invalidIntervals , NameStrategy invalidGlobalAndVarNames.
 	invalidInputs := validNameInvalidInterval , validIntervalInvalidName , allInvalidInputs.
 	
 	validOperator := self operator: RenameArgumentOrTemporaryMutationOperator inputs: validInputs on: classEnvironment.
@@ -346,7 +346,7 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 		          { RBRenameArgumentOrTemporaryRefactoring }
 		          using: invalidOperator.
 	
-	operators := validOperator, validOperatorInvalidInputs, invalidOperator
+	operators := validOperator, validOperatorInvalidInputs, invalidOperator.
 	logger nextPutAll: 'Rename Arg or Temp Union of All Above:'; cr.
 	report := self
 		          calculateRefactoringCoverageFor:
