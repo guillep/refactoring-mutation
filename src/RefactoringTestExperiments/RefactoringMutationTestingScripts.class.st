@@ -64,6 +64,19 @@ RefactoringMutationTestingScripts class >> classesToMutate [
 			  reject: [ :cls | cls isManifest ] ]
 ]
 
+{ #category : 'logging' }
+RefactoringMutationTestingScripts class >> configureLoggerFor: aTestName [
+
+	| file |
+	file := FileReference
+		        fileSystem: FileSystem disk
+		        path: Path * (aTestName , '-Refazzing.log').
+	logger := file writeStream.
+	logger
+		nextPutAll: 'Starting ';
+		nextPutAll: aTestName 
+]
+
 { #category : 'accessing' }
 RefactoringMutationTestingScripts class >> logger: aWriteStream [ 
 	logger := aWriteStream
@@ -100,15 +113,14 @@ RefactoringMutationTestingScripts class >> repositoryNames [
 RefactoringMutationTestingScripts class >> run [
 
 	<script>
-	| file |
-	file := FileReference fileSystem: FileSystem disk path: Path * 'AVL-Refazzing.log'.
-	logger := file writeStream.
-	logger nextPutAll: 'Starting AVL testing'.
-	showResults := false. "Don't open dialogs showing coverage and mutation results"
-	runUnion := false.
-	self runFor: AVLRefactoringMutationTestingScripts.
-	logger close.
-	
+	[
+		self configureLoggerFor: 'AVL-testing'.
+		showResults := false. "Don't open dialogs showing coverage and mutation results"
+		runUnion := false.
+		self runFor: AVLRefactoringMutationTestingScripts 
+	] ensure: [
+		logger close 
+	]
 ]
 
 { #category : 'running' }
@@ -436,7 +448,7 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 	logger nextPutAll: 'Rename Method Fuzzed with Ignored Failed Preconditions'; cr.
 		report := self
 		          calculateRefactoringCoverageFor:
-		          { RBAddParameterRefactoring }
+		          { ReRenameMethodRefactoring }
 		          using: allInvalidOperator.		
 
 	self shouldRunUnion ifFalse: [ ^ self ].

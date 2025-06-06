@@ -84,9 +84,11 @@ AVLRefactoringMutationTestingScripts class >> runRenameClass [
 
 { #category : 'running' }
 AVLRefactoringMutationTestingScripts class >> runRenameMethod [
+
 	<script>
-	
-	super runRenameMethod 
+	[
+		self configureLoggerFor: 'AIAlgorithms-RenameMethod'.
+		super runRenameMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'accessing' }
