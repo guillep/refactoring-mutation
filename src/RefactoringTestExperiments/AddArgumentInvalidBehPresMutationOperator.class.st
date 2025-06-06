@@ -1,5 +1,5 @@
 Class {
-	#name : 'AddArgumentInvalidPreconditionMutationOperator',
+	#name : 'AddArgumentInvalidBehPresMutationOperator',
 	#superclass : 'AddArgumentMutationOperator',
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
@@ -7,11 +7,11 @@ Class {
 }
 
 { #category : 'mutant generation' }
-AddArgumentInvalidPreconditionMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
+AddArgumentInvalidBehPresMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
 
 	| mutations |
 	mutations := super mutationsFor: aCompiledMethod with: aParseTree.
-	"Does skip all preconditions"
-	mutations do: [ :e | e doNotCheckApplicability; doNotCheckBehaviorPreserving ].
+	"Checks applicability but skips behavior preserving ones"
+	mutations do: [ :e | e doNotCheckBehaviorPreserving ].
 	^ mutations
 ]

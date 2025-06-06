@@ -10,7 +10,11 @@ Class {
 	#instVars : [
 		'shouldApplyPreconditions',
 		'inputs',
-		'refactoring'
+		'refactoring',
+		'shouldCheckApplicability',
+		'shouldCheckBehaviorPreserving',
+		'failedApplicabilityPreconditions',
+		'failedBehaviorPreservingPreconditions'
 	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
@@ -36,11 +40,49 @@ RefactoringMutation >> doNotApplyPreconditions [
 	shouldApplyPreconditions := false
 ]
 
+{ #category : 'accessing' }
+RefactoringMutation >> doNotCheckApplicability [
+
+	shouldCheckApplicability := false
+]
+
+{ #category : 'accessing' }
+RefactoringMutation >> doNotCheckBehaviorPreserving [
+
+	shouldCheckBehaviorPreserving := false
+]
+
+{ #category : 'accessing' }
+RefactoringMutation >> failedApplicabilityPreconditions [
+
+	^ failedApplicabilityPreconditions
+]
+
+{ #category : 'accessing' }
+RefactoringMutation >> failedApplicabilityPreconditions: conditions [
+
+	failedApplicabilityPreconditions := conditions
+]
+
+{ #category : 'accessing' }
+RefactoringMutation >> failedBehaviorPreservingPreconditions [
+
+	^ failedBehaviorPreservingPreconditions
+]
+
+{ #category : 'accessing' }
+RefactoringMutation >> failedBehaviorPreservingPreconditions: conditions [
+
+	failedBehaviorPreservingPreconditions := conditions
+]
+
 { #category : 'installing' }
 RefactoringMutation >> initialize [
 
 	super initialize.
-	shouldApplyPreconditions := true
+	shouldApplyPreconditions := true.
+	shouldCheckApplicability := true.
+	shouldCheckBehaviorPreserving := true.
 ]
 
 { #category : 'as yet unclassified' }
@@ -77,6 +119,18 @@ RefactoringMutation >> refactoring: aRefactoring [
 RefactoringMutation >> shouldApplyPreconditions [
 
 	^ shouldApplyPreconditions
+]
+
+{ #category : 'accessing' }
+RefactoringMutation >> shouldCheckApplicability [
+
+	^ shouldCheckApplicability
+]
+
+{ #category : 'accessing' }
+RefactoringMutation >> shouldCheckBehaviorPreserving [
+
+	^ shouldCheckBehaviorPreserving
 ]
 
 { #category : 'installing' }
