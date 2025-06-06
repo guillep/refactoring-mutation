@@ -46,7 +46,7 @@ RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refa
 	
 	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
 	report printOn: logger.
-	((report mutationAnalysis generalResult terminatedMutants collect: [ :m | m exception ]) groupedBy: [ :e | e class name ]) printOn: logger. "groups error by class"
+	"((report mutationAnalysis generalResult terminatedMutants collect: [ :m | m exception ]) groupedBy: [ :e | e class name ]) printOn: logger." "groups error by class"
 	logger cr.
 	self showAnalysisResults ifTrue: [
 		report mutationAnalysis generalResult inspect.
@@ -133,9 +133,9 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 	classEnvironment := RBClassEnvironment classes:
 		                    classesToMutate , testClasses.
 	validInputs := MethodNameStrategy validAddArgMethodNames , MethodNamePermutationsStrategy validAddArgPermutations.
-	allInvalidInputs := MethodNameStrategy invalidMethodNames , MethodNamePermutationsStrategy invalidAddArgPermutations.
+	allInvalidInputs := MethodNameStrategy invalidAddArgMethodNames , MethodNamePermutationsStrategy invalidAddArgPermutations.
 	validNameInvalidPerm := MethodNameStrategy validAddArgMethodNames , MethodNamePermutationsStrategy invalidAddArgPermutations.
-	invalidNameValidPerm := MethodNameStrategy invalidMethodNames , MethodNamePermutationsStrategy validAddArgPermutations.
+	invalidNameValidPerm := MethodNameStrategy invalidAddArgMethodNames , MethodNamePermutationsStrategy validAddArgPermutations.
 	invalidInputs := invalidNameValidPerm , validNameInvalidPerm , allInvalidInputs.
 	
 	allValidOperator := self operator: AddArgumentMutationOperator inputs: validInputs on: classEnvironment.
@@ -152,6 +152,13 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 		          { RBAddParameterRefactoring }
 		          using: validOperatorInvalidInputs.
 	
+	allInvalidOperator := self operator: AddArgumentInvalidBehPresMutationOperator inputs: invalidInputs on: classEnvironment.
+	logger nextPutAll: 'Add Argument Fuzzed with Ignored Behavior Preserving Preconditions'; cr.
+		report := self
+		          calculateRefactoringCoverageFor:
+		          { RBAddParameterRefactoring }
+		          using: allInvalidOperator.
+
 	allInvalidOperator := self operator: AddArgumentInvalidPreconditionMutationOperator inputs: invalidInputs on: classEnvironment.
 	logger nextPutAll: 'Add Argument Fuzzed with Ignored Failed Preconditions'; cr.
 		report := self
@@ -425,9 +432,9 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 		                    classesToMutate , testClasses.
 		
 	validInputs := MethodNameStrategy validRenameMethodNames , MethodNamePermutationsStrategy validRenameMethodPermutations.
-	allInvalidInputs := MethodNameStrategy invalidMethodNames , MethodNamePermutationsStrategy invalidRenameMethodPermutations .
+	allInvalidInputs := MethodNameStrategy invalidRenameMethodNames , MethodNamePermutationsStrategy invalidRenameMethodPermutations .
 	validNameInvalidPerm := MethodNameStrategy validRenameMethodNames , MethodNamePermutationsStrategy invalidRenameMethodPermutations.
-	invalidNameValidPerm := MethodNameStrategy invalidMethodNames , MethodNamePermutationsStrategy validRenameMethodPermutations.
+	invalidNameValidPerm := MethodNameStrategy invalidRenameMethodNames , MethodNamePermutationsStrategy validRenameMethodPermutations.
 	invalidInputs := invalidNameValidPerm , validNameInvalidPerm , allInvalidInputs.
 
 	allValidOperator := self operator: RenameMethodMutationOperator inputs: validInputs on: classEnvironment.

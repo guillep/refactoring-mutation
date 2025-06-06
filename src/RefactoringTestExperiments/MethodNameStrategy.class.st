@@ -7,9 +7,26 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-MethodNameStrategy class >> invalidMethodNames [
+MethodNameStrategy class >> invalidAddArgMethodNames [
 
-	^ self subclasses reject: [ :each | each isValidInput ] thenCollect: [ :each | each new ]
+	^ { 
+		SameNameStrategy new .
+		SuperClassMethodNameStrategy new.
+		SwapMethodArgumentsStrategy new.
+		UniqueMethodNameStrategy new.
+	 }
+]
+
+{ #category : 'as yet unclassified' }
+MethodNameStrategy class >> invalidRenameMethodNames [
+
+	^ { 
+		MethodNameAdditionalArgumentStrategy new.
+		MethodNameDifferentArityStrategy new.
+		SameNameStrategy new.
+		SuperClassMethodNameStrategy new.
+		SwapMethodArgumentsStrategy new.
+	}
 ]
 
 { #category : 'as yet unclassified' }
