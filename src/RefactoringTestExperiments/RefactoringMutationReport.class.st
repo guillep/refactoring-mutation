@@ -56,6 +56,40 @@ RefactoringMutationReport >> previewCoverageInDrTests [
 ]
 
 { #category : 'printing' }
+RefactoringMutationReport >> printCsvOn: aStream [
+
+	| result |
+	result := mutationAnalysis generalResult.
+	aStream print: result numberOfEvaluatedMutants.
+	aStream nextPutAll: '#'.
+	aStream print: result numberOfKilledMutants.
+	aStream nextPutAll: '#'.
+	aStream print: result numberOfAliveMutants.
+	aStream nextPutAll: '#'.
+	aStream print: result numberOfTerminatedMutants.
+	aStream nextPutAll: '#'.
+	aStream print: result mutationScore.
+	aStream nextPutAll: '#'.
+	aStream print:
+		(100.0 * coverage methods size / coverage collector methods size)
+			rounded.
+	aStream nextPutAll: '%,('.
+	aStream print: coverage methods size.
+	aStream nextPutAll: '/'.
+	aStream print: coverage collector methods size.
+	aStream nextPutAll: '),'.
+	aStream print:
+		(100.0 * coverage nodes size / coverage collector nodes size)
+			rounded.
+	aStream nextPutAll: '%,('.
+	aStream print: coverage nodes size.
+	aStream nextPutAll: '/'.
+	aStream print: coverage collector nodes size.
+	aStream nextPutAll: ')'.
+	aStream nextPut: Character cr.
+]
+
+{ #category : 'printing' }
 RefactoringMutationReport >> printOn: aStream [
 
 	aStream print: mutationAnalysis generalResult.

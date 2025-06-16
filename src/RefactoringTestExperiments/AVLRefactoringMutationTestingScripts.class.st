@@ -35,9 +35,11 @@ AVLRefactoringMutationTestingScripts class >> repositoryNames [
 
 { #category : 'running' }
 AVLRefactoringMutationTestingScripts class >> runAddArgument [
-	<script>
 
-	super runAddArgument
+	<script>
+	[
+		self configureLoggerFor: 'AVL-AddArg'.
+		super runAddArgument ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }

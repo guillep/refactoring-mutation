@@ -45,12 +45,12 @@ RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refa
 	coverage := collector runOn: [ analysis run ].
 	
 	report := RefactoringMutationReport new mutationAnalysis: analysis; coverage: coverage.
-	report printOn: logger.
+	report printCsvOn: logger.
+	"report printOn: logger."
 	"((report mutationAnalysis generalResult terminatedMutants collect: [ :m | m exception ]) groupedBy: [ :e | e class name ]) printOn: logger." "groups error by class"
-	logger cr.
 	self showAnalysisResults ifTrue: [
 		report mutationAnalysis generalResult inspect.
-		report coverage inspect.
+		"report coverage inspect."
 		"report previewCoverageInDrTests"
 	].
 	^ report
@@ -74,7 +74,8 @@ RefactoringMutationTestingScripts class >> configureLoggerFor: aTestName [
 	logger := file writeStream.
 	logger
 		nextPutAll: 'Starting ';
-		nextPutAll: aTestName 
+		nextPutAll: aTestName;
+		cr.
 ]
 
 { #category : 'accessing' }
@@ -139,28 +140,28 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 	invalidInputs := invalidNameValidPerm , validNameInvalidPerm , allInvalidInputs.
 	
 	allValidOperator := self operator: AddArgumentMutationOperator inputs: validInputs on: classEnvironment.
-	logger nextPutAll: 'Add Argument Refactoring:'; cr.
+	logger nextPutAll: 'Add Argument Refactoring,'.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
 		          using: allValidOperator.
 	
 	validOperatorInvalidInputs := self operator: AddArgumentMutationOperator inputs: invalidInputs on: classEnvironment.
-	logger nextPutAll: 'Add Argument Refactoring Fuzzed:'; cr.
+	logger nextPutAll: 'Add Argument Refactoring Fuzzed,'.
 		report := self
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
 		          using: validOperatorInvalidInputs.
 	
 	allInvalidOperator := self operator: AddArgumentInvalidBehPresMutationOperator inputs: invalidInputs on: classEnvironment.
-	logger nextPutAll: 'Add Argument Fuzzed with Ignored Behavior Preserving Preconditions'; cr.
+	logger nextPutAll: 'Add Argument Fuzzed with Ignored Behavior Preserving Preconditions,'.
 		report := self
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
 		          using: allInvalidOperator.
 
 	allInvalidOperator := self operator: AddArgumentInvalidPreconditionMutationOperator inputs: invalidInputs on: classEnvironment.
-	logger nextPutAll: 'Add Argument Fuzzed with Ignored Failed Preconditions'; cr.
+	logger nextPutAll: 'Add Argument Fuzzed with Ignored Failed Preconditions,'.
 		report := self
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
@@ -168,7 +169,7 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 
 	self shouldRunUnion ifFalse: [ ^ self ].
 	operators := allValidOperator, validOperatorInvalidInputs , allInvalidOperator.
-	logger nextPutAll: 'Add Argument Union Of All Above:'; cr.
+	logger nextPutAll: 'Add Argument Union Of All Above,'.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
