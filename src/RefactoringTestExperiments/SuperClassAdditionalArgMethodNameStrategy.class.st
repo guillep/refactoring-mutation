@@ -1,5 +1,5 @@
 Class {
-	#name : 'SuperClassMethodNameStrategy',
+	#name : 'SuperClassAdditionalArgMethodNameStrategy',
 	#superclass : 'MethodNameStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
@@ -7,15 +7,15 @@ Class {
 }
 
 { #category : 'testing' }
-SuperClassMethodNameStrategy class >> isValidInput [ 
+SuperClassAdditionalArgMethodNameStrategy class >> isValidInput [ 
 
 	^ false
 ]
 
 { #category : 'running' }
-SuperClassMethodNameStrategy >> forNode: aNode and: aModel [ 
+SuperClassAdditionalArgMethodNameStrategy >> forNode: aNode and: aModel [ 
 
 	^ aNode methodClass superclass methods 
-			select: [ :method | aNode numArgs = method numArgs and: [ aNode selector ~= method selector ] ] 
+			select: [ :method | aNode numArgs + 1 = method numArgs ] 
 			thenCollect: [ :method | method selector ]
 ]
