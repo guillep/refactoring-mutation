@@ -11,7 +11,7 @@ MethodNameStrategy class >> invalidAddArgMethodNames [
 
 	^ { 
 		SameNameStrategy new .
-		SuperClassMethodNameStrategy new.
+		SuperClassAdditionalArgMethodNameStrategy new.
 		SwapMethodArgumentsStrategy new.
 		UniqueMethodNameStrategy new.
 	 }
