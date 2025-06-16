@@ -61,15 +61,15 @@ RefactoringMutationReport >> printCsvOn: aStream [
 	| result |
 	result := mutationAnalysis generalResult.
 	aStream print: result numberOfEvaluatedMutants.
-	aStream nextPutAll: '#'.
+	aStream nextPutAll: ','.
 	aStream print: result numberOfKilledMutants.
-	aStream nextPutAll: '#'.
+	aStream nextPutAll: ','.
 	aStream print: result numberOfAliveMutants.
-	aStream nextPutAll: '#'.
+	aStream nextPutAll: ','.
 	aStream print: result numberOfTerminatedMutants.
-	aStream nextPutAll: '#'.
+	aStream nextPutAll: ','.
 	aStream print: result mutationScore.
-	aStream nextPutAll: '#'.
+	aStream nextPutAll: ','.
 	aStream print:
 		(100.0 * coverage methods size / coverage collector methods size)
 			rounded.
