@@ -57,21 +57,28 @@ RefactoringMutationOperator >> appliesToNode: aMutant [
 	refactoring := self createRefactoringWith: aMutant.
 	refactoring ifNil: [ ^ false ]. "if we cannot create refactoring given node is not applicable"
 	aMutant refactoring: refactoring.
-	[ aMutant refactoring prepareForExecution ]
-		on: RBRefactoringError
-		do: [ ^ false ].
 	^ true
 ]
 
 { #category : 'testing' }
-RefactoringMutationOperator >> canRefactor: aRefactoringMutation [
+RefactoringMutationOperator >> canRefactor: aMutation [
 
-	aRefactoringMutation refactoring ifNil: [ ^ false ]. "if we cannot create refactoring given node is not applicable"
+	aMutation refactoring ifNil: [ ^ false ]. "if we cannot create refactoring given node is not applicable"
 	[
-	aRefactoringMutation refactoring
-		prepareForExecution;
-		checkPreconditions ]
-		on: RBRefactoringError , RBRefactoringWarning
+		| failing |
+		aMutation shouldCheckApplicability ifTrue: [
+				failing := aMutation refactoring failedApplicabilityPreconditions.
+				aMutation failedApplicabilityPreconditions: failing.
+				failing ifNotEmpty: [ ^ false ] ] ]
+		on: RBRefactoringError
+		do: [ ^ false ].
+	[
+		| failing |
+		aMutation shouldCheckBehaviorPreserving ifTrue: [
+				failing := aMutation refactoring failedBreakingChangePreconditions.
+				aMutation failedBehaviorPreservingPreconditions: failing.
+				failing ifNotEmpty: [ ^ false ] ] ]
+		on: RBRefactoringWarning
 		do: [ ^ false ].
 	^ true
 ]
