@@ -6,20 +6,6 @@ Class {
 	#tag : 'Core'
 }
 
-{ #category : 'instance creation' }
-ExtractMethodMutationOperator >> applyMutation: aMutation [
-
-	[ aMutation refactoring
-		prepareForExecution;
-		checkApplicabilityPreconditions;
-		privateTransform
-	] 
-		on: RBRefactoringError 
-	 	do: [ :e | self error ].
-
-	aMutation refactoring performChanges
-]
-
 { #category : 'private' }
 ExtractMethodMutationOperator >> createRefactoringWith: aMutant [
 

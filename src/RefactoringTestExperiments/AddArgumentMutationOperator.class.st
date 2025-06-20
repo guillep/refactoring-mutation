@@ -19,24 +19,6 @@ AddArgumentMutationOperator >> affectedNodesFor: aParseTree [
 	^ selected
 ]
 
-{ #category : 'instance creation' }
-AddArgumentMutationOperator >> applyMutation: aMutation [
-
-	| failing |
-	aMutation refactoring prepareForExecution.
-	aMutation shouldCheckApplicability ifTrue: [
-			failing := aMutation refactoring failedApplicabilityPreconditions.
-			aMutation failedApplicabilityPreconditions: failing.
-			failing ifNotEmpty: [ RBRefactoringError signal ].
-			aMutation shouldCheckBehaviorPreserving ifTrue: [
-					failing := aMutation refactoring
-						           failedBreakingChangePreconditions.
-					aMutation failedBehaviorPreservingPreconditions: failing.
-					failing ifNotEmpty: [ RBRefactoringWarning signal ] ] ].
-	aMutation refactoring privateTransform.
-	aMutation refactoring performChanges
-]
-
 { #category : 'refactoring' }
 AddArgumentMutationOperator >> createRefactoringWith: aMutation [
 

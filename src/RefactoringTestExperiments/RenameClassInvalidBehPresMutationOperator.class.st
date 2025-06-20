@@ -1,6 +1,6 @@
 Class {
-	#name : 'AddArgumentInvalidBehPresMutationOperator',
-	#superclass : 'AddArgumentMutationOperator',
+	#name : 'RenameClassInvalidBehPresMutationOperator',
+	#superclass : 'RenameClassMutationOperator',
 	#traits : 'TBehaviorPreservingOperator',
 	#classTraits : 'TBehaviorPreservingOperator classTrait',
 	#category : 'RefactoringTestExperiments-Core',

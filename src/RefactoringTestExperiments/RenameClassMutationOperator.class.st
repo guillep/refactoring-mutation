@@ -6,16 +6,6 @@ Class {
 	#tag : 'Core'
 }
 
-{ #category : 'instance creation' }
-RenameClassMutationOperator >> applyMutation: aMutation [
-
-	aMutation refactoring prepareForExecution.
-	aMutation shouldApplyPreconditions ifTrue: [ 
-		aMutation refactoring checkPreconditions ].
-	aMutation refactoring privateTransform.
-	aMutation refactoring performChanges.
-]
-
 { #category : 'printing' }
 RenameClassMutationOperator >> createRefactoringWith: aMutation [
 

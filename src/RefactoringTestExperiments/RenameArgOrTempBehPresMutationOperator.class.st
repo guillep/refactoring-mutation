@@ -1,8 +1,8 @@
 Class {
-	#name : 'RenameArgOrTempInvalidInputMutationOperator',
+	#name : 'RenameArgOrTempBehPresMutationOperator',
 	#superclass : 'RenameArgumentOrTemporaryMutationOperator',
-	#traits : 'TApplicabilityOperatior',
-	#classTraits : 'TApplicabilityOperatior classTrait',
+	#traits : 'TBehaviorPreservingOperator',
+	#classTraits : 'TBehaviorPreservingOperator classTrait',
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'

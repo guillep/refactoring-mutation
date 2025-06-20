@@ -6,12 +6,6 @@ Class {
 	#tag : 'Core'
 }
 
-{ #category : 'instance creation' }
-InlineMethodMutationOperator >> applyMutation: aRefactoringMutation [ 
-
-	aRefactoringMutation refactoring execute
-]
-
 { #category : 'mutant generation' }
 InlineMethodMutationOperator >> createRefactoringWith: aMutation [
 

@@ -1,6 +1,6 @@
 Class {
-	#name : 'AddArgumentInvalidBehPresMutationOperator',
-	#superclass : 'AddArgumentMutationOperator',
+	#name : 'ExtractMethodInvalidBehPresMutationOperator',
+	#superclass : 'ExtractMethodMutationOperator',
 	#traits : 'TBehaviorPreservingOperator',
 	#classTraits : 'TBehaviorPreservingOperator classTrait',
 	#category : 'RefactoringTestExperiments-Core',

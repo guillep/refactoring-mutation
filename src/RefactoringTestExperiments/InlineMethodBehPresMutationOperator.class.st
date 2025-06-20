@@ -1,8 +1,8 @@
 Class {
-	#name : 'InlineMethodInvalidInputMutationOperator',
+	#name : 'InlineMethodBehPresMutationOperator',
 	#superclass : 'InlineMethodMutationOperator',
-	#traits : 'TApplicabilityOperatior',
-	#classTraits : 'TApplicabilityOperatior classTrait',
+	#traits : 'TBehaviorPreservingOperator',
+	#classTraits : 'TBehaviorPreservingOperator classTrait',
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Core'

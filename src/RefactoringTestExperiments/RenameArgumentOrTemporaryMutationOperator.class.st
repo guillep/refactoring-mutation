@@ -6,12 +6,6 @@ Class {
 	#tag : 'Core'
 }
 
-{ #category : 'instance creation' }
-RenameArgumentOrTemporaryMutationOperator >> applyMutation: aMutation [
-	
-	aMutation refactoring execute
-]
-
 { #category : 'mutant generation' }
 RenameArgumentOrTemporaryMutationOperator >> createRefactoringWith: aMutant [
 

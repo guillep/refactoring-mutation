@@ -60,6 +60,24 @@ RefactoringMutationOperator >> appliesToNode: aMutant [
 	^ true
 ]
 
+{ #category : 'instance creation' }
+RefactoringMutationOperator >> applyMutation: aMutation [
+
+	| failing |
+	aMutation refactoring prepareForExecution.
+	aMutation shouldCheckApplicability ifTrue: [
+			failing := aMutation refactoring failedApplicabilityPreconditions.
+			aMutation failedApplicabilityPreconditions: failing.
+			failing ifNotEmpty: [ RBRefactoringError signal ].
+			aMutation shouldCheckBehaviorPreserving ifTrue: [
+					failing := aMutation refactoring
+						           failedBreakingChangePreconditions.
+					aMutation failedBehaviorPreservingPreconditions: failing.
+					failing ifNotEmpty: [ RBRefactoringWarning signal ] ] ].
+	aMutation refactoring privateTransform.
+	aMutation refactoring performChanges
+]
+
 { #category : 'testing' }
 RefactoringMutationOperator >> canRefactor: aMutation [
 

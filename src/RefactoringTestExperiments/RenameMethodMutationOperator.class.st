@@ -15,17 +15,6 @@ RenameMethodMutationOperator >> affectedNodesFor: aParseTree [
 	^ { aParseTree methodNode }
 ]
 
-{ #category : 'instance creation' }
-RenameMethodMutationOperator >> applyMutation: aMutation [
-
-	| failing |
-	aMutation refactoring prepareForExecution.
-	failing := aMutation refactoring failedApplicabilityPreconditions.
-	failing ifNotEmpty: [ RBRefactoringError signalFor: failing ].
-	aMutation refactoring privateTransform.
-	aMutation refactoring performChanges
-]
-
 { #category : 'mutant generation' }
 RenameMethodMutationOperator >> createRefactoringWith: aMutation [
 
