@@ -1,3 +1,6 @@
+"
+I am a trait that is used on mutation operators to make them run only when applicability preconditions fail.
+"
 Trait {
 	#name : 'TApplicabilityOperatior',
 	#category : 'RefactoringTestExperiments-Core',
