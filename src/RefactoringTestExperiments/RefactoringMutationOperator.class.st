@@ -84,6 +84,7 @@ RefactoringMutationOperator >> canRefactor: aMutation [
 	aMutation refactoring ifNil: [ ^ false ]. "if we cannot create refactoring given node is not applicable"
 	[
 		| failing |
+		aMutation refactoring prepareForExecution.
 		aMutation shouldCheckApplicability ifTrue: [
 				failing := aMutation refactoring failedApplicabilityPreconditions.
 				aMutation failedApplicabilityPreconditions: failing.
