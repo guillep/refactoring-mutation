@@ -26,6 +26,7 @@ TApplicabilityOperatior >> canRefactor: aMutant [
 	"take only mutants that fail behavior preserving preconditions"
 	[
 		| failing |
+		aMutant refactoring prepareForExecution.
 		aMutant shouldCheckApplicability ifTrue: [
 				failing := aMutant refactoring failedApplicabilityPreconditions.
 				aMutant failedApplicabilityPreconditions: failing.
