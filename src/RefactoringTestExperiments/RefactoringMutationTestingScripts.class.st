@@ -49,7 +49,7 @@ RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refa
 	"report printOn: logger."
 	"((report mutationAnalysis generalResult terminatedMutants collect: [ :m | m exception ]) groupedBy: [ :e | e class name ]) printOn: logger." "groups error by class"
 	self showAnalysisResults ifTrue: [
-		report mutationAnalysis generalResult inspect.
+		"report mutationAnalysis generalResult inspect."
 		"report coverage inspect."
 		"report previewCoverageInDrTests"
 	].
@@ -115,10 +115,10 @@ RefactoringMutationTestingScripts class >> run [
 
 	<script>
 	[
-		self configureLoggerFor: 'AVL-testing'.
+		self configureLoggerFor: 'Artefact-testing'.
 		showResults := false. "Don't open dialogs showing coverage and mutation results"
 		runUnion := false.
-		self runFor: AVLRefactoringMutationTestingScripts 
+		self runFor: ArtefactRefactoringMutationTestingScripts 
 	] ensure: [
 		logger close 
 	]
