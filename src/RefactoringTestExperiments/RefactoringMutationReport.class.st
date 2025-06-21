@@ -69,7 +69,7 @@ RefactoringMutationReport >> printCsvOn: aStream [
 	aStream print: result numberOfTerminatedMutants.
 	aStream nextPutAll: ','.
 	aStream print: result mutationScore.
-	aStream nextPutAll: ','.
+	aStream nextPutAll: '%,'.
 	aStream print:
 		(100.0 * coverage methods size / coverage collector methods size)
 			rounded.
