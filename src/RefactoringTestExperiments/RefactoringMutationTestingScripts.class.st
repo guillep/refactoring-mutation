@@ -152,7 +152,7 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
 		          using: validOperatorInvalidInputs.
-	
+
 	allInvalidOperator := self operator: AddArgumentInvalidBehPresMutationOperator inputs: invalidInputs on: classEnvironment.
 	logger nextPutAll: 'Add Argument Fuzzed with Ignored Behavior Preserving Preconditions,'.
 		report := self
@@ -202,6 +202,13 @@ RefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 		          calculateRefactoringCoverageFor:
 		          { ReCompositeExtractMethodRefactoring }
 		          using: validOperatorInvalidInput.
+	
+	invalidOperator := self operator: CompositeExtractMethodInvalidBehPresMutationOperator inputs: invalidInput on: classEnvironment.
+	logger nextPutAll: 'Composite Extract Method Fuzzed with Ignored Behavior Preserving Preconditions,'.
+		report := self
+		          calculateRefactoringCoverageFor:
+		          { ReCompositeExtractMethodRefactoring }
+		          using: invalidOperator.
 
 	invalidOperator := self operator: CompositeExtractMethodPreconditionsMutationOperator inputs: invalidInput on: classEnvironment.
 	logger nextPutAll: 'Composite Extract Method Fuzzed with Ingored Failed Preconditions'; cr.
@@ -263,6 +270,13 @@ RefactoringMutationTestingScripts class >> runExtractMethod [
 		          { RBExtractMethodRefactoring }
 		          using: validOperatorInvalidInput.
 
+	invalidOperator := self operator: ExtractMethodInvalidBehPresMutationOperator inputs: invalidInput on: classEnvironment.
+	logger nextPutAll: 'Extract Method Fuzzed with Ignored Behavior Preserving Preconditions,'.
+		report := self
+		          calculateRefactoringCoverageFor:
+		          { RBExtractMethodRefactoring }
+		          using: invalidOperator.
+
 	invalidOperator := self operator: ExtractMethodNoPreconditionMutationOperator inputs: invalidInput on: classEnvironment.
 	logger nextPutAll: 'Extract Method Fuzzed with Ingored Failed Preconditions'; cr.
 	report := self
@@ -315,6 +329,13 @@ RefactoringMutationTestingScripts class >> runInlineMethod [
 		          calculateRefactoringCoverageFor:
 		          { RBInlineMethodRefactoring }
 		          using: validOperatorInvalidInput.
+
+	invalidOperator := self operator: InlineMethodBehPresMutationOperator inputs: invalidInputs on: nil.
+	logger nextPutAll: 'Inline Method Fuzzed with Ignored Behavior Preserving Preconditions,'.
+		report := self
+		          calculateRefactoringCoverageFor:
+		          { RBInlineMethodRefactoring }
+		          using: invalidOperator.
 		
 	invalidOperator := self operator: InlineMethodInvalidInputMutationOperator inputs: invalidInputs on: nil.
 	logger nextPutAll: 'Inline Method Fuzzed with Ignored Failed Preconditions:'; cr.
@@ -361,7 +382,14 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 		          calculateRefactoringCoverageFor:
 		          { RBRenameArgumentOrTemporaryRefactoring }
 		          using: validOperatorInvalidInputs.
-		
+
+	invalidOperator := self operator: RenameArgOrTempBehPresMutationOperator inputs: invalidInputs on: classEnvironment.
+	logger nextPutAll: 'Rename Arg or Temp Fuzzed with Ignored Behavior Preserving Preconditions,'.
+		report := self
+		          calculateRefactoringCoverageFor:
+		          { RBRenameArgumentOrTemporaryRefactoring }
+		          using: invalidOperator.
+
 	invalidOperator := self operator: RenameArgOrTempInvalidInputMutationOperator inputs: invalidInputs on: classEnvironment.
 	logger nextPutAll: 'Rename Arg or Temp Fuzzed with Ignoring Failed Preconditions:'; cr.
 	report := self
@@ -404,6 +432,13 @@ RefactoringMutationTestingScripts class >> runRenameClass [
 		          calculateRefactoringCoverageFor:
 		          { ReRenameClassRefactoring }
 		          using: validOperatorInvalidInputs.
+
+	invalidOperator := self operator: RenameClassInvalidBehPresMutationOperator inputs: invalidInputs on: classEnvironment.
+	logger nextPutAll: 'Rename Class Fuzzed with Ignored Behavior Preserving Preconditions,'.
+		report := self
+		          calculateRefactoringCoverageFor:
+		          { ReRenameClassRefactoring }
+		          using: invalidOperator.
 
 	invalidOperator := self operator: RenameClassWithoutPreconditionsMutationOperator inputs: invalidInputs on: classEnvironment.
 	logger nextPutAll: 'Rename Class Fuzzed with Ignored Failed Preconditions:'; cr.
@@ -451,6 +486,13 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 		          calculateRefactoringCoverageFor:
 		          { ReRenameMethodRefactoring }
 		          using: validOperatorInvalidInputs.
+
+	allInvalidOperator := self operator: RenameMethodInvalidBehPresMutationOperator inputs: invalidInputs on: classEnvironment.
+	logger nextPutAll: 'Rename Method Fuzzed with Ignored Behavior Preserving Preconditions,'.
+		report := self
+		          calculateRefactoringCoverageFor:
+		          { ReRenameMethodRefactoring }
+		          using: allInvalidOperator.
 
 	allInvalidOperator := self operator: RenameMethodInvalidPreconditionsMutationOperator inputs: invalidInputs on: classEnvironment.
 	logger nextPutAll: 'Rename Method Fuzzed with Ignored Failed Preconditions'; cr.
