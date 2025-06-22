@@ -35,9 +35,11 @@ SoupRefactoringMutationTestingScripts class >> repositoryNames [
 
 { #category : 'running' }
 SoupRefactoringMutationTestingScripts class >> runAddArgument [
-	<script>
 
-	super runAddArgument
+	<script>
+	[
+		self configureLoggerFor: 'Soup-AddArg'.
+		super runAddArgument ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
@@ -63,9 +65,11 @@ SoupRefactoringMutationTestingScripts class >> runExtractMethod [
 
 { #category : 'running' }
 SoupRefactoringMutationTestingScripts class >> runInlineMethod [
-	<script>
 
-	super runInlineMethod 
+	<script>
+	[
+		self configureLoggerFor: 'Soup-InlineMethod'.
+		super runInlineMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }

@@ -35,9 +35,11 @@ AIAlgorithmsRefactoringMutationTestingScripts class >> repositoryNames [
 
 { #category : 'running' }
 AIAlgorithmsRefactoringMutationTestingScripts class >> runAddArgument [
-	<script>
 
-	super runAddArgument
+	<script>
+	[
+		self configureLoggerFor: 'AIAlgs-AddArg'.
+		super runAddArgument ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
@@ -63,9 +65,11 @@ AIAlgorithmsRefactoringMutationTestingScripts class >> runExtractMethod [
 
 { #category : 'running' }
 AIAlgorithmsRefactoringMutationTestingScripts class >> runInlineMethod [
-	<script>
 
-	super runInlineMethod 
+	<script>
+	[
+		self configureLoggerFor: 'AIAlgs-InlineMethod'.
+		super runInlineMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }

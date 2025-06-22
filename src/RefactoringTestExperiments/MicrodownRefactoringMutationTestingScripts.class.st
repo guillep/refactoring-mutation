@@ -44,9 +44,11 @@ MicrodownRefactoringMutationTestingScripts class >> repositoryNames [
 
 { #category : 'running' }
 MicrodownRefactoringMutationTestingScripts class >> runAddArgument [
-	<script>
 
-	super runAddArgument
+	<script>
+	[
+		self configureLoggerFor: 'Microdown-AddArg'.
+		super runAddArgument ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
@@ -72,9 +74,11 @@ MicrodownRefactoringMutationTestingScripts class >> runExtractMethod [
 
 { #category : 'running' }
 MicrodownRefactoringMutationTestingScripts class >> runInlineMethod [
-	<script>
 
-	super runInlineMethod 
+	<script>
+	[
+		self configureLoggerFor: 'Microdown-InlineMethod'.
+		super runInlineMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }

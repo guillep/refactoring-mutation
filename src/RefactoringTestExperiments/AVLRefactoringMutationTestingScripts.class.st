@@ -65,9 +65,11 @@ AVLRefactoringMutationTestingScripts class >> runExtractMethod [
 
 { #category : 'running' }
 AVLRefactoringMutationTestingScripts class >> runInlineMethod [
-	<script>
 
-	super runInlineMethod 
+	<script>
+	[
+		self configureLoggerFor: 'AVL-InlineMethod'.
+		super runInlineMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }

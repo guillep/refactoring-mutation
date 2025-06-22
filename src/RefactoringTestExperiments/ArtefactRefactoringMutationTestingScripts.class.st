@@ -41,9 +41,11 @@ ArtefactRefactoringMutationTestingScripts class >> repositoryNames [
 
 { #category : 'running' }
 ArtefactRefactoringMutationTestingScripts class >> runAddArgument [
-	<script>
 
-	super runAddArgument
+	<script>
+	[
+		self configureLoggerFor: 'Artefact-AddArg'.
+		super runAddArgument ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
@@ -69,9 +71,11 @@ ArtefactRefactoringMutationTestingScripts class >> runExtractMethod [
 
 { #category : 'running' }
 ArtefactRefactoringMutationTestingScripts class >> runInlineMethod [
-	<script>
 
-	super runInlineMethod 
+	<script>
+	[
+		self configureLoggerFor: 'Artefact-InlineMethod'.
+		super runInlineMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
