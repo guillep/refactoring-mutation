@@ -317,7 +317,7 @@ RefactoringMutationTestingScripts class >> runInlineMethod [
 	invalidInputs := SourceIntervalStrategy invalidIntervals.
 	
 	validOperator := self operator: InlineMethodMutationOperator inputs: validInputs on: nil.
-	logger nextPutAll: 'Inline Method Refactoring:'; cr.
+	logger nextPutAll: 'Inline Method Refactoring,'.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBInlineMethodRefactoring }
