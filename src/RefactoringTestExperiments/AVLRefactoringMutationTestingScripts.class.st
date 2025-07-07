@@ -38,15 +38,17 @@ AVLRefactoringMutationTestingScripts class >> runAddArgument [
 
 	<script>
 	[
-		self configureLoggerFor: 'AVL-AddArg'.
+		self configureCSVLoggerFor: 'AVL-AddArg'.
 		super runAddArgument ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
 AVLRefactoringMutationTestingScripts class >> runCompositeExtractMethod [
-	<script>
 
-	super runCompositeExtractMethod
+	<script>
+	[
+		self configureCSVLoggerFor: 'AVL-CompositeExtractMethod'.
+		super runCompositeExtractMethod ] ensure: [ logger closed ]
 ]
 
 { #category : 'coverage' }
@@ -59,8 +61,9 @@ AVLRefactoringMutationTestingScripts class >> runCoverage [
 { #category : 'running' }
 AVLRefactoringMutationTestingScripts class >> runExtractMethod [
 	<script>
-
-	super runExtractMethod 
+	[
+		self configureCSVLoggerFor: 'AVL-ExtractMethod'.
+		super runExtractMethod ] ensure: [ logger closed ]
 ]
 
 { #category : 'running' }
@@ -68,22 +71,24 @@ AVLRefactoringMutationTestingScripts class >> runInlineMethod [
 
 	<script>
 	[
-		self configureLoggerFor: 'AVL-InlineMethod'.
+		self configureCSVLoggerFor: 'AVL-InlineMethod'.
 		super runInlineMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
 AVLRefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	<script>
-	
-	super runRenameArgOrTemp 
+	[
+		self configureCSVLoggerFor: 'AVL-RenameArgOrTemp'.
+		super runRenameArgOrTemp ] ensure: [ logger closed ]
 ]
 
 { #category : 'running' }
 AVLRefactoringMutationTestingScripts class >> runRenameClass [
 	<script>
-	
-	super runRenameClass
+	[
+		self configureCSVLoggerFor: 'AVL-RenameClass'.
+		super runRenameClass ] ensure: [ logger closed ]
 ]
 
 { #category : 'running' }
@@ -91,7 +96,7 @@ AVLRefactoringMutationTestingScripts class >> runRenameMethod [
 
 	<script>
 	[
-		self configureLoggerFor: 'AIAlgorithms-RenameMethod'.
+		self configureCSVLoggerFor: 'AVL-RenameMethod'.
 		super runRenameMethod ] ensure: [ logger close ]
 ]
 

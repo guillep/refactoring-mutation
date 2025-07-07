@@ -44,7 +44,7 @@ ArtefactRefactoringMutationTestingScripts class >> runAddArgument [
 
 	<script>
 	[
-		self configureLoggerFor: 'Artefact-AddArg'.
+		self configureCSVLoggerFor: 'Artefact-AddArg'.
 		super runAddArgument ] ensure: [ logger close ]
 ]
 
@@ -74,7 +74,7 @@ ArtefactRefactoringMutationTestingScripts class >> runInlineMethod [
 
 	<script>
 	[
-		self configureLoggerFor: 'Artefact-InlineMethod'.
+		self configureCSVLoggerFor: 'Artefact-InlineMethod'.
 		super runInlineMethod ] ensure: [ logger close ]
 ]
 

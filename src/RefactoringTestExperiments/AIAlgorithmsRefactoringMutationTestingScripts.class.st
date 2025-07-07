@@ -38,7 +38,7 @@ AIAlgorithmsRefactoringMutationTestingScripts class >> runAddArgument [
 
 	<script>
 	[
-		self configureLoggerFor: 'AIAlgs-AddArg'.
+		self configureCSVLoggerFor: 'AIAlgs-AddArg'.
 		super runAddArgument ] ensure: [ logger close ]
 ]
 
@@ -68,7 +68,7 @@ AIAlgorithmsRefactoringMutationTestingScripts class >> runInlineMethod [
 
 	<script>
 	[
-		self configureLoggerFor: 'AIAlgs-InlineMethod'.
+		self configureCSVLoggerFor: 'AIAlgs-InlineMethod'.
 		super runInlineMethod ] ensure: [ logger close ]
 ]
 

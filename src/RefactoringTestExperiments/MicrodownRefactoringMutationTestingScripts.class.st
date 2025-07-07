@@ -47,15 +47,16 @@ MicrodownRefactoringMutationTestingScripts class >> runAddArgument [
 
 	<script>
 	[
-		self configureLoggerFor: 'Microdown-AddArg'.
+		self configureCSVLoggerFor: 'Microdown-AddArg'.
 		super runAddArgument ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
 MicrodownRefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 	<script>
-
-	super runCompositeExtractMethod
+	[
+		self configureCSVLoggerFor: 'Microdown-CompositeExtractMethod'.
+		super runCompositeExtractMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'coverage' }
@@ -68,8 +69,9 @@ MicrodownRefactoringMutationTestingScripts class >> runCoverage [
 { #category : 'running' }
 MicrodownRefactoringMutationTestingScripts class >> runExtractMethod [
 	<script>
-
-	super runExtractMethod 
+	[
+		self configureCSVLoggerFor: 'Microdown-ExtractMethod'.
+		super runExtractMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
@@ -77,29 +79,33 @@ MicrodownRefactoringMutationTestingScripts class >> runInlineMethod [
 
 	<script>
 	[
-		self configureLoggerFor: 'Microdown-InlineMethod'.
+		self configureCSVLoggerFor: 'Microdown-InlineMethod'.
 		super runInlineMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
 MicrodownRefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	<script>
-	
-	super runRenameArgOrTemp 
+	[
+		self configureCSVLoggerFor: 'Microdown-RenameArgOrTemp'.
+		super runRenameArgOrTemp ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
 MicrodownRefactoringMutationTestingScripts class >> runRenameClass [
 	<script>
-	
-	super runRenameClass
+	[
+		self configureCSVLoggerFor: 'Microdown-RenameClass'.
+		super runRenameClass ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
 MicrodownRefactoringMutationTestingScripts class >> runRenameMethod [
+
 	<script>
-	
-	super runRenameMethod 
+	[
+		self configureCSVLoggerFor: 'Microdown-RenameMethod'.
+		super runRenameMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'accessing' }

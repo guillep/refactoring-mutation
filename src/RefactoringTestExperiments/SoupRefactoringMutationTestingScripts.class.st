@@ -38,15 +38,16 @@ SoupRefactoringMutationTestingScripts class >> runAddArgument [
 
 	<script>
 	[
-		self configureLoggerFor: 'Soup-AddArg'.
+		self configureCSVLoggerFor: 'Soup-AddArg'.
 		super runAddArgument ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
 SoupRefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 	<script>
-
-	super runCompositeExtractMethod
+	[
+		self configureCSVLoggerFor: 'Soup-CompositeExtractMethod'.
+		super runCompositeExtractMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'coverage' }
@@ -59,8 +60,9 @@ SoupRefactoringMutationTestingScripts class >> runCoverage [
 { #category : 'running' }
 SoupRefactoringMutationTestingScripts class >> runExtractMethod [
 	<script>
-
-	super runExtractMethod 
+	[
+		self configureCSVLoggerFor: 'Soup-ExtractMethod'.
+		super runExtractMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
@@ -68,29 +70,32 @@ SoupRefactoringMutationTestingScripts class >> runInlineMethod [
 
 	<script>
 	[
-		self configureLoggerFor: 'Soup-InlineMethod'.
+		self configureCSVLoggerFor: 'Soup-InlineMethod'.
 		super runInlineMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
 SoupRefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	<script>
-	
-	super runRenameArgOrTemp 
+	[
+		self configureCSVLoggerFor: 'Soup-RenameArgOrTemp'.
+		super runRenameArgOrTemp ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
 SoupRefactoringMutationTestingScripts class >> runRenameClass [
 	<script>
-	
-	super runRenameClass
+	[
+		self configureCSVLoggerFor: 'Soup-RenameClass'.
+		super runRenameClass ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
 SoupRefactoringMutationTestingScripts class >> runRenameMethod [
 	<script>
-	
-	super runRenameMethod 
+	[
+		self configureCSVLoggerFor: 'Soup-RenameMethod'.
+		super runRenameMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'accessing' }

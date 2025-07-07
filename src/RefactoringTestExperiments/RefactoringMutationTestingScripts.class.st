@@ -65,16 +65,15 @@ RefactoringMutationTestingScripts class >> classesToMutate [
 ]
 
 { #category : 'logging' }
-RefactoringMutationTestingScripts class >> configureLoggerFor: aTestName [
+RefactoringMutationTestingScripts class >> configureCSVLoggerFor: aTestName [
 
 	| file |
 	file := FileReference
 		        fileSystem: FileSystem disk
-		        path: Path * (aTestName , '-Refazzing.log').
+		        path: Path * (aTestName , '-Refazzing.csv').
 	logger := file writeStream.
 	logger
-		nextPutAll: 'Starting ';
-		nextPutAll: aTestName;
+		nextPutAll: 'Refactoring,no mutants,killed,alive,terminated,score,method coverage,covered/total no methods,node coverage,covered/total no nodes';
 		cr.
 ]
 
@@ -115,7 +114,7 @@ RefactoringMutationTestingScripts class >> run [
 
 	<script>
 	[
-		self configureLoggerFor: 'Artefact-testing'.
+		self configureCSVLoggerFor: 'Artefact-testing'.
 		showResults := false. "Don't open dialogs showing coverage and mutation results"
 		runUnion := false.
 		self runFor: ArtefactRefactoringMutationTestingScripts 
