@@ -25,5 +25,5 @@ RenameClassMutationOperator >> description [
 { #category : 'private' }
 RenameClassMutationOperator >> modifiedSourceFor: aCompiledMethod with: aParseTree number: aNumber newExpression: aNode [
 
-	^ aCompiledMethod sourceCode copyReplaceFrom: aNode start to: aNode stop with: 'Foo' , aNode name
+	^ aCompiledMethod sourceCode copyReplaceFrom: aNode sourceInterval first to: aNode sourceInterval last with: 'Foo' , aNode name
 ]
