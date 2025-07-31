@@ -23,24 +23,24 @@ TApplicabilityOperatior >> appliesToMutant: aMutant [
 
 { #category : 'testing' }
 TApplicabilityOperatior >> canRefactor: aMutant [
-	"take only mutants that fail behavior preserving preconditions"
+	"take only mutants that fail applicability preconditions"
 	[
 		| failing |
 		aMutant refactoring prepareForExecution.
 		aMutant shouldCheckApplicability ifTrue: [
 				failing := aMutant refactoring failedApplicabilityPreconditions.
 				aMutant failedApplicabilityPreconditions: failing.
-				failing ifNotEmpty: [ ^ false ] ] ]
+				failing ifNotEmpty: [ ^ true ] ] ]
 		on: RBRefactoringError
-		do: [ ^ false ].
+		do: [ ^ true ].
 	[
 		| failing |
 		aMutant shouldCheckBehaviorPreserving ifTrue: [
 				failing := aMutant refactoring failedBreakingChangePreconditions.
 				aMutant failedBehaviorPreservingPreconditions: failing.
-				failing ifNotEmpty: [ ^ true ] ] ]
+				failing ifNotEmpty: [ ^ false ] ] ]
 		on: RBRefactoringWarning
-		do: [ ^ true ].
+		do: [ ^ false ].
 	^ false
 ]
 
