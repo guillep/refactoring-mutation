@@ -6,6 +6,28 @@ Class {
 	#tag : 'Core'
 }
 
+{ #category : 'instance creation' }
+ExtractMethodMutationOperator >> applyMutation: aMutation [
+
+	| failing |
+	aMutation refactoring prepareForExecution.
+	aMutation refactoring options at: #methodName put: [ :aMethodName :ref |
+		aMethodName
+			selector: #foo , ('' join: (aMutation refactoring parameters collect: [ :e | '_:' ]));
+			yourself ].
+	aMutation shouldCheckApplicability ifTrue: [
+			failing := aMutation refactoring failedApplicabilityPreconditions.
+			aMutation failedApplicabilityPreconditions: failing.
+			failing ifNotEmpty: [ RBRefactoringError signal ].
+			aMutation shouldCheckBehaviorPreserving ifTrue: [
+					failing := aMutation refactoring
+						           failedBreakingChangePreconditions.
+					aMutation failedBehaviorPreservingPreconditions: failing.
+					failing ifNotEmpty: [ RBRefactoringWarning signal ] ] ].
+	aMutation refactoring privateTransform.
+	aMutation refactoring performChanges
+]
+
 { #category : 'private' }
 ExtractMethodMutationOperator >> createRefactoringWith: aMutant [
 

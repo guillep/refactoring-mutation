@@ -153,10 +153,10 @@ RefactoringMutationOperator >> getInputsForNode: affectedNode [
 		(strategy appliesToNode: affectedNode)
 			ifTrue: [ 
 				results := strategy forNode: affectedNode and: model.
-				results collect: [ :r | strategy key -> r ] ]
-			ifFalse: [ OrderedCollection with: strategy key -> nil ]
+				results collect: [ :r | strategy -> r ] ]
+			ifFalse: [ OrderedCollection with: strategy -> nil ]
 	].
-	inputs := (inputs groupedBy: [ :assoc | assoc key ]) values.
+	inputs := (inputs groupedBy: [ :assoc | assoc key key ]) values.
 	inputs := self cartesianProductForInputs: inputs.
 	inputs := inputs collect: [ :input | Dictionary newFrom: input  ].
 	^ inputs

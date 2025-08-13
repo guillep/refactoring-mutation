@@ -88,7 +88,12 @@ RefactoringMutation >> initialize [
 { #category : 'as yet unclassified' }
 RefactoringMutation >> inputFor: aSymbol [ 
 
-	^ inputs at: aSymbol
+	(inputs keysAndValuesDo: [ :k :v | k key = aSymbol ifTrue: [ ^ v ]])
+]
+
+{ #category : 'accessing' }
+RefactoringMutation >> inputs [
+	^ inputs
 ]
 
 { #category : 'accessing' }
