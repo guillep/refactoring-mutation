@@ -15,5 +15,5 @@ UniqueTempNameStrategy class >> isValidInput [
 { #category : 'running' }
 UniqueTempNameStrategy >> forNode: aNode and: aModel [
 
-	^ { #foo , aNode name }
+	^ #foo , aNode name
 ]

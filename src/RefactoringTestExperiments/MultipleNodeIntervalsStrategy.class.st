@@ -21,11 +21,7 @@ MultipleNodeIntervalsStrategy >> forNode: aNode and: aModel [
 	| start last |
 	start := aNode sourceInterval first.
 	last := aNode sourceInterval last.
-	^ (1 to: offset) flatCollect: [ :num |
-		  {
-			  (start + num to: last).
-			  (start to: last + num).
-			  (start + num to: last + num) } ]
+	^ (start + offset to: last + offset)
 ]
 
 { #category : 'initialization' }

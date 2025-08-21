@@ -15,5 +15,5 @@ ExistingNonClassGlobalNameStrategy class >> isValidInput [
 { #category : 'running' }
 ExistingNonClassGlobalNameStrategy >> forNode: aNode and: aModel [
 
-	^ { 'SharedVarA' }
+	^ 'SharedVarA'
 ]

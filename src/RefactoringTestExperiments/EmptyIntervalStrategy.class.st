@@ -15,5 +15,5 @@ EmptyIntervalStrategy class >> isValidInput [
 { #category : 'running' }
 EmptyIntervalStrategy >> forNode: aNode and: aModel [
 
-	^ { aNode start to: aNode start }
+	^ aNode start to: aNode start
 ]

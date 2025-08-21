@@ -15,5 +15,5 @@ PseudoVariableSuperAsNameStrategy class >> isValidInput [
 { #category : 'running' }
 PseudoVariableSuperAsNameStrategy >> forNode: aNode and: aModel [
 
-	^ { 'super' }
+	^ 'super'
 ]

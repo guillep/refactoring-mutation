@@ -89,7 +89,7 @@ RefactoringMutationOperator >> canRefactor: aMutation [
 				failing := aMutation refactoring failedApplicabilityPreconditions.
 				aMutation failedApplicabilityPreconditions: failing.
 				failing ifNotEmpty: [ ^ false ] ] ]
-		on: RBRefactoringError
+		on: RBRefactoringError, Exception
 		do: [ ^ false ].
 	[
 		| failing |
@@ -144,21 +144,19 @@ RefactoringMutationOperator >> createRefactoringWith: aMutation [
 RefactoringMutationOperator >> getInputsForNode: affectedNode [
 	"Given a node I return a list of dictionaries where each dictionary contains required inputs for the refactoring."
 
-	| model inputs |
+	| model inputs applicableStrategies |
 	model := classEnvironment 
 		ifNil: [ RBNamespace new ]
 		ifNotNil: [ RBNamespace onEnvironment: classEnvironment ].
-	inputs := strategies flattened flatCollect: [ :strategy |
-		| results |
-		(strategy appliesToNode: affectedNode)
-			ifTrue: [ 
-				results := strategy forNode: affectedNode and: model.
-				results collect: [ :r | strategy -> r ] ]
-			ifFalse: [ OrderedCollection with: strategy -> nil ]
+	applicableStrategies := strategies flattened select: [ :strategy | strategy appliesToNode: affectedNode ].
+	inputs := applicableStrategies collect: [ :strategy |
+		strategy -> (strategy forNode: affectedNode and: model)
 	].
-	inputs := (inputs groupedBy: [ :assoc | assoc key key ]) values.
-	inputs := self cartesianProductForInputs: inputs.
-	inputs := inputs collect: [ :input | Dictionary newFrom: input  ].
+	"inputs := inputs select: [ :assoc | assoc value isNotNil ]."
+	"inputs := inputs collect: [ :assoc | assoc key key -> assoc ]."
+	"inputs := (inputs groupedBy: [ :assoc | assoc key key ]) values."
+	"inputs := self cartesianProductForInputs: inputs."
+	"inputs := inputs collect: [ :input | Dictionary newFrom: input  ]."
 	^ inputs
 ]
 
@@ -171,17 +169,15 @@ RefactoringMutationOperator >> mutationsFor: aCompiledMethod with: aParseTree [
 		^ #(  ) ].
 	
 	mutants := (aParseTree allChildren collectWithIndex: [ :aNode :index |
-		| inputsList |
-		inputsList := self getInputsForNode: aNode.
 		"We create a mutation for each combination of inputs"
-		inputsList collect: [ :inputs |
+		strategies collect: [ :strategy |
 		  RefactoringMutation
 			  for: aCompiledMethod
 			  using: self
 			  nodeNumber: index
 			  ofClass: aCompiledMethod methodClass
 			  withData: aNode
-			  inputs: inputs ]])
+			  strategy: strategy ]])
 		flattened.
 	mutants := mutants select: [ :mutant |
 		(self appliesToNode: mutant) and: [ mutant refactoring isNotNil ]

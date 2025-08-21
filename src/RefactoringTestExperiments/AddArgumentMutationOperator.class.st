@@ -22,14 +22,16 @@ AddArgumentMutationOperator >> affectedNodesFor: aParseTree [
 { #category : 'refactoring' }
 AddArgumentMutationOperator >> createRefactoringWith: aMutation [
 
-	(aMutation inputFor: #methodName) ifNil: [ ^ nil ].
-	(aMutation inputFor: #permutations) ifNil: [ ^ nil ].	
+	| selector permutations |
+	(aMutation strategy appliesToNode: aMutation data) ifFalse: [ ^ nil ].
+	selector := (aMutation strategy methodNameFor: aMutation) ifNil: [ ^ nil ].
+	permutations := (aMutation strategy permutationsFor: aMutation) ifNil: [ ^ nil ].
 	^ RBAddParameterRefactoring 
 		  model: (RBNamespace onEnvironment: classEnvironment)
 		  addParameterToMethod: aMutation data selector
 		  in: aMutation data compiledMethod origin
-		  newSelector: (aMutation inputFor: #methodName)
-		  permutation: (aMutation inputFor: #permutations)
+		  newSelector: selector
+		  permutation: permutations
 		  newArgs: { RBArgumentName name: 'aFoo' value: 'nil' }.
 ]
 

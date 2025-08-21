@@ -15,5 +15,5 @@ SameVariableNameStrategy class >> isValidInput [
 { #category : 'running' }
 SameVariableNameStrategy >> forNode: aNode and: aModel [
 
-	^ { aNode name }
+	^ aNode name
 ]

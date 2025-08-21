@@ -15,5 +15,5 @@ ExistingClassGlobalNameStrategy class >> isValidInput [
 { #category : 'running' }
 ExistingClassGlobalNameStrategy >> forNode: aNode and: aModel [
 
-	^ { 'Object' }
+	^ 'Object'
 ]

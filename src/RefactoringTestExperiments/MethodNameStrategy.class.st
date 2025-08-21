@@ -53,10 +53,10 @@ MethodNameStrategy >> key [
 	^ #methodName
 ]
 
-{ #category : 'accessing' }
-MethodNameStrategy >> permutationsForNode: aNode [
+{ #category : 'as yet unclassified' }
+MethodNameStrategy >> permutationsFor: aMutant [
 
 	| keywords |
-	keywords := aNode selector count: [ :c | c = $: ].
+	keywords := aMutant data selector count: [ :c | c = $: ].
 	^ 1 to: keywords
 ]

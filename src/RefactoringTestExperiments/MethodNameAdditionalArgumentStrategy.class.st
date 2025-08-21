@@ -15,5 +15,17 @@ MethodNameAdditionalArgumentStrategy class >> isValidInput [
 { #category : 'running' }
 MethodNameAdditionalArgumentStrategy >> forNode: aNode and: aModel [
 
-	^ { aNode selector , #foo: }
+	^ aNode selector , #foo:
+]
+
+{ #category : 'as yet unclassified' }
+MethodNameAdditionalArgumentStrategy >> methodNameFor: aMutant [
+
+	^ aMutant data selector , #foo:
+]
+
+{ #category : 'as yet unclassified' }
+MethodNameAdditionalArgumentStrategy >> permutationsFor: aMutant [
+
+	^ (super permutationsFor: aMutant) asArray , #(-1)
 ]

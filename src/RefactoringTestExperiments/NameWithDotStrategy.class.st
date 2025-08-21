@@ -15,5 +15,5 @@ NameWithDotStrategy class >> isValidInput [
 { #category : 'running' }
 NameWithDotStrategy >> forNode: aNode and: aModel [
 
-	^ { 'not.allowed' }
+	^ 'not.allowed'
 ]

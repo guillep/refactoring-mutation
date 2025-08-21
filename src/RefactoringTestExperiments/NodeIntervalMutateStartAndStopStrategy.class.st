@@ -19,5 +19,5 @@ NodeIntervalMutateStartAndStopStrategy class >> isValidInput [
 { #category : 'running' }
 NodeIntervalMutateStartAndStopStrategy >> forNode: aNode and: aModel [
 
-	^ { aNode sourceInterval }
+	^ aNode sourceInterval
 ]

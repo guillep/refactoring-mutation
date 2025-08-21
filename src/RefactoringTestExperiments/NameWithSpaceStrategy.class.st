@@ -15,5 +15,5 @@ NameWithSpaceStrategy class >> isValidInput [
 { #category : 'running' }
 NameWithSpaceStrategy >> forNode: aNode and: aModel [
 
-	^ { 'should not pass' }
+	^ 'should not pass'
 ]

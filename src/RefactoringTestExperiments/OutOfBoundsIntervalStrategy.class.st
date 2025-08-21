@@ -15,5 +15,5 @@ OutOfBoundsIntervalStrategy class >> isValidInput [
 { #category : 'running' }
 OutOfBoundsIntervalStrategy >> forNode: aNode and: aModel [
 
-	^ { aNode start to: aNode methodNode sourceCode size + 1 }
+	^ aNode start to: aNode methodNode sourceCode size + 1
 ]

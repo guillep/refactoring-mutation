@@ -15,7 +15,29 @@ SuperClassAdditionalArgMethodNameStrategy class >> isValidInput [
 { #category : 'running' }
 SuperClassAdditionalArgMethodNameStrategy >> forNode: aNode and: aModel [ 
 
-	^ aNode methodClass superclass methods 
+	| methods |
+	methods := aNode methodClass superclass methods 
 			select: [ :method | aNode numArgs + 1 = method numArgs ] 
-			thenCollect: [ :method | method selector ]
+			thenCollect: [ :method | method selector ].
+	methods ifEmpty: [ ^ nil ].
+	^ methods first
+			
+]
+
+{ #category : 'running' }
+SuperClassAdditionalArgMethodNameStrategy >> methodNameFor: aMutant [ 
+
+	| methods |
+	methods := aMutant data methodClass superclass methods 
+			select: [ :method | aMutant data numArgs + 1 = method numArgs ] 
+			thenCollect: [ :method | method selector ].
+	methods ifEmpty: [ ^ nil ].
+	^ methods first
+			
+]
+
+{ #category : 'running' }
+SuperClassAdditionalArgMethodNameStrategy >> permutationsFor: aMutant [ 
+
+	^ (super permutationsFor: aMutant) asArray , #(-1)
 ]

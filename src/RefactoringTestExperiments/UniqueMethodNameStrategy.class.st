@@ -15,5 +15,11 @@ UniqueMethodNameStrategy class >> isValidInput [
 { #category : 'as yet unclassified' }
 UniqueMethodNameStrategy >> forNode: aNode and: aModel [
 
-	^ { #foo , aNode selector }
+	^ #foo , aNode selector
+]
+
+{ #category : 'as yet unclassified' }
+UniqueMethodNameStrategy >> methodNameFor: aMutant [
+
+	^ #foo , aMutant data selector
 ]

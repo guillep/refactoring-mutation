@@ -38,7 +38,7 @@ SoupRefactoringMutationTestingScripts class >> runAddArgument [
 
 	<script>
 	[
-		self configureCSVLoggerFor: 'Soup-AddArg'.
+		self configureCSVLoggerFor: 'Soup-AddArg-f'.
 		super runAddArgument ] ensure: [ logger close ]
 ]
 
@@ -46,7 +46,7 @@ SoupRefactoringMutationTestingScripts class >> runAddArgument [
 SoupRefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 	<script>
 	[
-		self configureCSVLoggerFor: 'Soup-CompositeExtractMethod'.
+		self configureCSVLoggerFor: 'Soup-CompositeExtractMethod-f'.
 		super runCompositeExtractMethod ] ensure: [ logger close ]
 ]
 

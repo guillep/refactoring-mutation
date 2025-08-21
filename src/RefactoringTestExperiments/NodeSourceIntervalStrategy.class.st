@@ -15,5 +15,5 @@ NodeSourceIntervalStrategy class >> isValidInput [
 { #category : 'running' }
 NodeSourceIntervalStrategy >> forNode: aNode and: aModel [
 
-	^ { aNode sourceInterval }
+	^ aNode sourceInterval
 ]

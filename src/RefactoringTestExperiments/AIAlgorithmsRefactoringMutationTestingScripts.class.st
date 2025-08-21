@@ -44,9 +44,11 @@ AIAlgorithmsRefactoringMutationTestingScripts class >> runAddArgument [
 
 { #category : 'running' }
 AIAlgorithmsRefactoringMutationTestingScripts class >> runCompositeExtractMethod [
-	<script>
 
-	super runCompositeExtractMethod
+	<script>
+	[
+		self configureCSVLoggerFor: 'AIAlgs-CompositeEM'.
+		super runCompositeExtractMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'coverage' }
@@ -58,9 +60,11 @@ AIAlgorithmsRefactoringMutationTestingScripts class >> runCoverage [
 
 { #category : 'running' }
 AIAlgorithmsRefactoringMutationTestingScripts class >> runExtractMethod [
-	<script>
 
-	super runExtractMethod 
+	<script>
+	[
+		self configureCSVLoggerFor: 'AIAlgs-ExtractMethod'.
+		super runExtractMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
@@ -74,23 +78,29 @@ AIAlgorithmsRefactoringMutationTestingScripts class >> runInlineMethod [
 
 { #category : 'running' }
 AIAlgorithmsRefactoringMutationTestingScripts class >> runRenameArgOrTemp [
+
 	<script>
-	
-	super runRenameArgOrTemp 
+	[
+		self configureCSVLoggerFor: 'AIAlgs-RenameArgOrTemp'.
+		super runRenameArgOrTemp ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
 AIAlgorithmsRefactoringMutationTestingScripts class >> runRenameClass [
+
 	<script>
-	
-	super runRenameClass
+	[
+		self configureCSVLoggerFor: 'AIAlgs-RenameClass'.
+		super runRenameClass ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
 AIAlgorithmsRefactoringMutationTestingScripts class >> runRenameMethod [
+
 	<script>
-	
-	super runRenameMethod 
+	[
+		self configureCSVLoggerFor: 'AIAlgs-RenameMethod'.
+		super runRenameMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'accessing' }

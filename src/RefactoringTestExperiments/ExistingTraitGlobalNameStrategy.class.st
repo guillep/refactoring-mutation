@@ -15,5 +15,5 @@ ExistingTraitGlobalNameStrategy class >> isValidInput [
 { #category : 'running' }
 ExistingTraitGlobalNameStrategy >> forNode: aNode and: aModel [
 
-	^ { 'RBTDummy' }
+	^ 'RBTDummy'
 ]

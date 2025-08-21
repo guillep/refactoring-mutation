@@ -15,5 +15,5 @@ NameWithSemicolonStrategy class >> isValidInput [
 { #category : 'running' }
 NameWithSemicolonStrategy >> forNode: aNode and: aModel [
 
-	^ { 'not;allowed' }
+	^ 'not;allowed'
 ]

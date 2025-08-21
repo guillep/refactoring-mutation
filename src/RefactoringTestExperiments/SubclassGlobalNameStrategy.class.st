@@ -23,7 +23,7 @@ SubclassGlobalNameStrategy >> forNode: aNode and: aModel [
 
 	| class |
 	class := aModel classNamed: aNode name.
-	^ { class subclasses
+	^ class subclasses
 			ifEmpty: [ nil ]
-			ifNotEmpty: [ class subclasses first name ] }
+			ifNotEmpty: [ class subclasses first name ]
 ]

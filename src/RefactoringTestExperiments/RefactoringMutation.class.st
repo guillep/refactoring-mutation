@@ -14,7 +14,8 @@ Class {
 		'shouldCheckApplicability',
 		'shouldCheckBehaviorPreserving',
 		'failedApplicabilityPreconditions',
-		'failedBehaviorPreservingPreconditions'
+		'failedBehaviorPreservingPreconditions',
+		'strategy'
 	],
 	#category : 'RefactoringTestExperiments-Core',
 	#package : 'RefactoringTestExperiments',
@@ -31,6 +32,19 @@ RefactoringMutation class >> for: aCompiledMethod using: anOperator nodeNumber: 
 		  ofClass: aClass
 		  withData: aNode)
 		  inputs: aCollection;
+		  yourself
+]
+
+{ #category : 'instance creation' }
+RefactoringMutation class >> for: aCompiledMethod using: anOperator nodeNumber: anInteger ofClass: aClass withData: aNode strategy: aStrategy [ 
+
+	^ (self
+		  for: aCompiledMethod
+		  using: anOperator
+		  nodeNumber: anInteger
+		  ofClass: aClass
+		  withData: aNode)
+		  strategy: aStrategy;
 		  yourself
 ]
 
@@ -88,7 +102,8 @@ RefactoringMutation >> initialize [
 { #category : 'as yet unclassified' }
 RefactoringMutation >> inputFor: aSymbol [ 
 
-	(inputs keysAndValuesDo: [ :k :v | k key = aSymbol ifTrue: [ ^ v ]])
+	inputs key key = aSymbol ifTrue: [ ^ inputs value ].
+	^ nil
 ]
 
 { #category : 'accessing' }
@@ -136,6 +151,16 @@ RefactoringMutation >> shouldCheckApplicability [
 RefactoringMutation >> shouldCheckBehaviorPreserving [
 
 	^ shouldCheckBehaviorPreserving
+]
+
+{ #category : 'accessing' }
+RefactoringMutation >> strategy [ 
+	^ strategy
+]
+
+{ #category : 'accessing' }
+RefactoringMutation >> strategy: aStrategy [ 
+	strategy := aStrategy
 ]
 
 { #category : 'installing' }

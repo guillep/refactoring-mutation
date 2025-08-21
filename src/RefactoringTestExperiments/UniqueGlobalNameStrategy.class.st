@@ -15,5 +15,5 @@ UniqueGlobalNameStrategy class >> isValidInput [
 { #category : 'running' }
 UniqueGlobalNameStrategy >> forNode: aNode and: aModel [
 
-	^ { 'UniqueNameInTheSystem' }
+	^ 'UniqueNameInTheSystem'
 ]

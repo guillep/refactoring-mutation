@@ -15,5 +15,5 @@ NameStartingWithNumberStrategy class >> isValidInput [
 { #category : 'running' }
 NameStartingWithNumberStrategy >> forNode: aNode and: aModel [
 
-	^ { '1uniqueName' }
+	^ '1uniqueName'
 ]

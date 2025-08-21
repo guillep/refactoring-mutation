@@ -15,5 +15,5 @@ NegativeIntervalStrategy class >> isValidInput [
 { #category : 'running' }
 NegativeIntervalStrategy >> forNode: aNode and: aModel [
 
-	^ { aNode stop to: aNode start }
+	^ aNode stop to: aNode start
 ]

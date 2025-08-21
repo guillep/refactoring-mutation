@@ -15,7 +15,21 @@ MethodNameDifferentArityStrategy class >> isValidInput [
 { #category : 'running' }
 MethodNameDifferentArityStrategy >> forNode: aNode and: aRefactoring [
 
-	^ { aNode selector isBinary
+	^ aNode selector isBinary
 		  ifTrue: [ #foo:foo: ]
-		  ifFalse: [ aNode selector , 'foo:' ] }
+		  ifFalse: [ aNode selector , 'foo:' ]
+]
+
+{ #category : 'running' }
+MethodNameDifferentArityStrategy >> methodNameFor: aMutant [
+
+	^ aMutant data selector isBinary
+		  ifTrue: [ #foo:foo: ]
+		  ifFalse: [ aMutant data selector , 'foo:' ]
+]
+
+{ #category : 'running' }
+MethodNameDifferentArityStrategy >> permutationsFor: aMutant [
+
+	^ (super permutationsFor: aMutant) asArray , #(-1)
 ]

@@ -18,17 +18,17 @@ RenameMethodMutationOperator >> affectedNodesFor: aParseTree [
 { #category : 'mutant generation' }
 RenameMethodMutationOperator >> createRefactoringWith: aMutation [
 
-	| refactoring model permutations |
-	(aMutation inputFor: #methodName) ifNil: [ ^ nil ].
-	(aMutation inputFor: #permutations) ifNil: [ ^ nil ].
+	| refactoring model name permutations |
+	(aMutation strategy appliesToNode: aMutation data) ifFalse: [ ^ nil ].
+	name := (aMutation strategy methodNameFor: aMutation ) ifNil: [ ^ nil ].
+	permutations := (aMutation strategy permutationsFor: aMutation ) ifNil: [ ^ nil ].
 	model := RBNamespace onEnvironment: classEnvironment.
-	permutations := aMutation data selector count: [ :c | c = $: ].
 	refactoring := ReRenameMethodRefactoring
 		               model: model
 		               renameMethod: aMutation data selector
 		               in: aMutation data methodNode methodClass name
-		               to: (aMutation inputFor: #methodName)
-		               permutation: (aMutation inputFor: #permutations).
+		               to: name
+		               permutation: permutations.
 	^ refactoring
 ]
 

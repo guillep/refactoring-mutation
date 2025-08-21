@@ -9,15 +9,16 @@ Class {
 { #category : 'mutant generation' }
 RenameArgumentOrTemporaryMutationOperator >> createRefactoringWith: aMutant [
 
-	| model aNode |
-	(aMutant inputFor: #name) ifNil: [ ^ nil ].
-	(aMutant inputFor: #interval) ifNil: [ ^ nil ].
+	| model aNode name interval |
 	model := RBNamespace onEnvironment: classEnvironment.
 	aNode := aMutant data.
+	"if input is not supplied, take valid values"
+	name := (aMutant inputFor: #name) ifNil: [ #uniqueFooName ].
+	interval := (aMutant inputFor: #interval) ifNil: [ aNode sourceInterval ].
 	^ RBRenameArgumentOrTemporaryRefactoring
 		  model: model
-		  renameTemporaryFrom: (aMutant inputFor: #interval) 
-		  to: (aMutant inputFor: #name)
+		  renameTemporaryFrom: interval
+		  to: name
 		  in: aNode methodNode compiledMethod origin
 		  selector: aNode methodNode selector
 ]

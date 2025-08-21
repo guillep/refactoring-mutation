@@ -15,5 +15,5 @@ PseudoVariableSelfAsNameStrategy class >> isValidInput [
 { #category : 'running' }
 PseudoVariableSelfAsNameStrategy >> forNode: aNode and: aModel [
 
-	^ { 'self' }
+	^ 'self'
 ]

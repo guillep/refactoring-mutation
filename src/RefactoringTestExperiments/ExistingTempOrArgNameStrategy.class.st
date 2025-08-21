@@ -17,7 +17,7 @@ ExistingTempOrArgNameStrategy >> forNode: aNode and: aModel [
 
 	| existingNames |
 	existingNames := aNode methodNode allDefinedVariables reject: [ :var | var = aNode name ].
-	^ { existingNames
+	^ existingNames
 		  ifEmpty: [ nil ]
-		  ifNotEmpty: [ existingNames first ] }
+		  ifNotEmpty: [ existingNames first ]
 ]

@@ -15,5 +15,11 @@ SameNameStrategy class >> isValidInput [
 { #category : 'running' }
 SameNameStrategy >> forNode: aNode and: aRefactoring [
 
-	^ { aNode selector }
+	^ aNode selector
+]
+
+{ #category : 'running' }
+SameNameStrategy >> methodNameFor: aMutant [
+
+	^ aMutant data selector
 ]
