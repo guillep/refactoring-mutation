@@ -43,6 +43,19 @@ SoupRefactoringMutationTestingScripts class >> runAddArgument [
 ]
 
 { #category : 'running' }
+SoupRefactoringMutationTestingScripts class >> runAll [
+
+	<script>
+	self runAddArgument.
+	self runCompositeExtractMethod.
+	self runExtractMethod.
+	self runInlineMethod.
+	self runRenameArgOrTemp.
+	self runRenameClass.
+	self runRenameMethod
+]
+
+{ #category : 'running' }
 SoupRefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 	<script>
 	[

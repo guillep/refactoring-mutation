@@ -9,13 +9,13 @@ Class {
 { #category : 'mutant generation' }
 InlineMethodMutationOperator >> createRefactoringWith: aMutation [
 
-	| refactoring options model |
-	(aMutation inputFor: #interval) ifNil: [ ^ nil ].
+	| refactoring options model interval |
+	interval := (aMutation strategy forNode: aMutation data and: model) ifNil: [ ^ nil ].
 	model := RBNamespace new. "We have to operate on the entire system since Inline Method depends on superclasses which can be Object, Collection, etc."
 	"IF we scope it to a package or list of classes, that scope should include every superclass of every class that you want to inline."
 	refactoring := RBInlineMethodRefactoring
 						  model: model
-		               inline: (aMutation inputFor: #interval)
+		               inline: interval
 		               inMethod: aMutation originalMethod selector
 		               forClass: aMutation originalMethod methodClass name.
 

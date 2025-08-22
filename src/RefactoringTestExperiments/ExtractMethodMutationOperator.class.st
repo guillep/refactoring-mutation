@@ -31,10 +31,10 @@ ExtractMethodMutationOperator >> applyMutation: aMutation [
 { #category : 'private' }
 ExtractMethodMutationOperator >> createRefactoringWith: aMutant [
 
-	| refactoring options |
-	(aMutant inputFor: #interval) ifNil: [ ^ nil ].
+	| refactoring options interval |
+	interval := (aMutant strategy forNode: aMutant data and: nil) ifNil: [ ^ nil ].
 	refactoring := RBExtractMethodRefactoring
-		               extract: (aMutant inputFor: #interval)
+		               extract: interval
 		               from: aMutant data methodNode selector
 		               in: aMutant data methodNode methodClass name.
 

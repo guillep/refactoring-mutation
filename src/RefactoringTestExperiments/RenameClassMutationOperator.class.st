@@ -9,11 +9,14 @@ Class {
 { #category : 'printing' }
 RenameClassMutationOperator >> createRefactoringWith: aMutation [
 
-	(aMutation inputFor: #name) ifNil: [ ^ nil ].
+	| model name |
+	model := RBNamespace onEnvironment: classEnvironment.
+	(aMutation strategy appliesToNode: aMutation data) ifFalse: [ ^ nil ].
+	name := (aMutation strategy nameFor: aMutation and: model) ifNil: [ ^ nil ].
 	^ ReRenameClassRefactoring
-		  model: (RBNamespace onEnvironment: classEnvironment)
+		  model: model
 		  rename: aMutation data name
-		  to: (aMutation inputFor: #name)
+		  to: name
 ]
 
 { #category : 'printing' }

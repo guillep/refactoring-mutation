@@ -1,6 +1,6 @@
 Class {
 	#name : 'NameWithSemicolonStrategy',
-	#superclass : 'NameStrategy',
+	#superclass : 'VariableNameStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Strategy'
@@ -14,6 +14,12 @@ NameWithSemicolonStrategy class >> isValidInput [
 
 { #category : 'running' }
 NameWithSemicolonStrategy >> forNode: aNode and: aModel [
+
+	^ 'not;allowed'
+]
+
+{ #category : 'running' }
+NameWithSemicolonStrategy >> tempNameFor: aMutant [
 
 	^ 'not;allowed'
 ]

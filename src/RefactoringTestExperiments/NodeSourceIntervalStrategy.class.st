@@ -17,3 +17,9 @@ NodeSourceIntervalStrategy >> forNode: aNode and: aModel [
 
 	^ aNode sourceInterval
 ]
+
+{ #category : 'running' }
+NodeSourceIntervalStrategy >> intervalFor: aMutant [
+
+	^ aMutant data sourceInterval
+]

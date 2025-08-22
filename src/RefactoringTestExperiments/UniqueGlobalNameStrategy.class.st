@@ -1,6 +1,6 @@
 Class {
 	#name : 'UniqueGlobalNameStrategy',
-	#superclass : 'NameStrategy',
+	#superclass : 'ClassNameStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Strategy'
@@ -14,6 +14,18 @@ UniqueGlobalNameStrategy class >> isValidInput [
 
 { #category : 'running' }
 UniqueGlobalNameStrategy >> forNode: aNode and: aModel [
+
+	^ 'UniqueNameInTheSystem'
+]
+
+{ #category : 'running' }
+UniqueGlobalNameStrategy >> nameFor: aMutant [
+
+	^ 'UniqueNameInTheSystem'
+]
+
+{ #category : 'running' }
+UniqueGlobalNameStrategy >> nameFor: aMutant and: model [
 
 	^ 'UniqueNameInTheSystem'
 ]

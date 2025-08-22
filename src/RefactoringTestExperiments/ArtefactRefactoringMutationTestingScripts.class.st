@@ -49,10 +49,25 @@ ArtefactRefactoringMutationTestingScripts class >> runAddArgument [
 ]
 
 { #category : 'running' }
-ArtefactRefactoringMutationTestingScripts class >> runCompositeExtractMethod [
-	<script>
+ArtefactRefactoringMutationTestingScripts class >> runAll [
 
-	super runCompositeExtractMethod
+	<script>
+	self runAddArgument.
+	self runCompositeExtractMethod.
+	self runExtractMethod.
+	self runInlineMethod.
+	self runRenameArgOrTemp.
+	self runRenameClass.
+	self runRenameMethod
+]
+
+{ #category : 'running' }
+ArtefactRefactoringMutationTestingScripts class >> runCompositeExtractMethod [
+
+	<script>
+	[
+		self configureCSVLoggerFor: 'Artefact-CompositeExtractMethod'.
+		super runCompositeExtractMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'coverage' }
@@ -64,9 +79,11 @@ ArtefactRefactoringMutationTestingScripts class >> runCoverage [
 
 { #category : 'running' }
 ArtefactRefactoringMutationTestingScripts class >> runExtractMethod [
-	<script>
 
-	super runExtractMethod 
+	<script>
+	[
+		self configureCSVLoggerFor: 'Artefact-ExtractMethod'.
+		super runExtractMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
@@ -80,23 +97,29 @@ ArtefactRefactoringMutationTestingScripts class >> runInlineMethod [
 
 { #category : 'running' }
 ArtefactRefactoringMutationTestingScripts class >> runRenameArgOrTemp [
+
 	<script>
-	
-	super runRenameArgOrTemp 
+	[
+		self configureCSVLoggerFor: 'Artefact-RenameArgOrTemp'.
+		super runRenameArgOrTemp ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
 ArtefactRefactoringMutationTestingScripts class >> runRenameClass [
-	<script>
 
-	super runRenameClass 
+	<script>
+	[
+		self configureCSVLoggerFor: 'Artefact-RenameClass'.
+		super runRenameClass ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
 ArtefactRefactoringMutationTestingScripts class >> runRenameMethod [
+
 	<script>
-	
-	super runRenameMethod 
+	[
+		self configureCSVLoggerFor: 'Artefact-RenameMEthod'.
+		super runRenameMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'accessing' }

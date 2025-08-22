@@ -1,6 +1,6 @@
 Class {
 	#name : 'NameWithDotStrategy',
-	#superclass : 'NameStrategy',
+	#superclass : 'VariableNameStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Strategy'
@@ -14,6 +14,12 @@ NameWithDotStrategy class >> isValidInput [
 
 { #category : 'running' }
 NameWithDotStrategy >> forNode: aNode and: aModel [
+
+	^ 'not.allowed'
+]
+
+{ #category : 'running' }
+NameWithDotStrategy >> tempNameFor: aMutant [
 
 	^ 'not.allowed'
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : 'UniqueTempNameStrategy',
-	#superclass : 'NameStrategy',
+	#superclass : 'VariableNameStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Strategy'
@@ -16,4 +16,10 @@ UniqueTempNameStrategy class >> isValidInput [
 UniqueTempNameStrategy >> forNode: aNode and: aModel [
 
 	^ #foo , aNode name
+]
+
+{ #category : 'running' }
+UniqueTempNameStrategy >> tempNameFor: aMutant [
+
+	^ #foo , aMutant data name
 ]

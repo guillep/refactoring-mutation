@@ -33,7 +33,7 @@ UUIDRefactoringMutationTestingScripts class >> runAddArgument [
 
 	<script>
 	[
-		self configureCSVLoggerFor: 'Soup-AddArg'.
+		self configureCSVLoggerFor: 'UUID-AddArg'.
 		super runAddArgument ] ensure: [ logger close ]
 ]
 
@@ -41,7 +41,7 @@ UUIDRefactoringMutationTestingScripts class >> runAddArgument [
 UUIDRefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 	<script>
 	[
-		self configureCSVLoggerFor: 'Soup-CompositeExtractMethod'.
+		self configureCSVLoggerFor: 'UUID-CompositeExtractMethod'.
 		super runCompositeExtractMethod ] ensure: [ logger close ]
 ]
 
@@ -56,7 +56,7 @@ UUIDRefactoringMutationTestingScripts class >> runCoverage [
 UUIDRefactoringMutationTestingScripts class >> runExtractMethod [
 	<script>
 	[
-		self configureCSVLoggerFor: 'Soup-ExtractMethod'.
+		self configureCSVLoggerFor: 'UUID-ExtractMethod'.
 		super runExtractMethod ] ensure: [ logger close ]
 ]
 
@@ -65,7 +65,7 @@ UUIDRefactoringMutationTestingScripts class >> runInlineMethod [
 
 	<script>
 	[
-		self configureCSVLoggerFor: 'Soup-InlineMethod'.
+		self configureCSVLoggerFor: 'UUID-InlineMethod'.
 		super runInlineMethod ] ensure: [ logger close ]
 ]
 
@@ -73,7 +73,7 @@ UUIDRefactoringMutationTestingScripts class >> runInlineMethod [
 UUIDRefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	<script>
 	[
-		self configureCSVLoggerFor: 'Soup-RenameArgOrTemp'.
+		self configureCSVLoggerFor: 'UUID-RenameArgOrTemp'.
 		super runRenameArgOrTemp ] ensure: [ logger close ]
 ]
 
@@ -81,7 +81,7 @@ UUIDRefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 UUIDRefactoringMutationTestingScripts class >> runRenameClass [
 	<script>
 	[
-		self configureCSVLoggerFor: 'Soup-RenameClass'.
+		self configureCSVLoggerFor: 'UUID-RenameClass'.
 		super runRenameClass ] ensure: [ logger close ]
 ]
 
@@ -89,7 +89,7 @@ UUIDRefactoringMutationTestingScripts class >> runRenameClass [
 UUIDRefactoringMutationTestingScripts class >> runRenameMethod [
 	<script>
 	[
-		self configureCSVLoggerFor: 'Soup-RenameMethod'.
+		self configureCSVLoggerFor: 'UUID-RenameMethod'.
 		super runRenameMethod ] ensure: [ logger close ]
 ]
 

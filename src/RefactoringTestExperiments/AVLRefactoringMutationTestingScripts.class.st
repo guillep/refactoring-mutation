@@ -43,6 +43,19 @@ AVLRefactoringMutationTestingScripts class >> runAddArgument [
 ]
 
 { #category : 'running' }
+AVLRefactoringMutationTestingScripts class >> runAll [
+
+	<script>
+	self runAddArgument.
+	self runCompositeExtractMethod.
+	self runExtractMethod.
+	self runInlineMethod.
+	self runRenameArgOrTemp.
+	self runRenameClass.
+	self runRenameMethod
+]
+
+{ #category : 'running' }
 AVLRefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 
 	<script>

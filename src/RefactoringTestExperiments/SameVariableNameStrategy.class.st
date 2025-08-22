@@ -1,6 +1,6 @@
 Class {
 	#name : 'SameVariableNameStrategy',
-	#superclass : 'NameStrategy',
+	#superclass : 'VariableNameStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Strategy'
@@ -16,4 +16,10 @@ SameVariableNameStrategy class >> isValidInput [
 SameVariableNameStrategy >> forNode: aNode and: aModel [
 
 	^ aNode name
+]
+
+{ #category : 'running' }
+SameVariableNameStrategy >> tempNameFor: aMutant [
+
+	^ aMutant data name
 ]

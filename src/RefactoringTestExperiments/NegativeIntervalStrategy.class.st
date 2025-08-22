@@ -17,3 +17,9 @@ NegativeIntervalStrategy >> forNode: aNode and: aModel [
 
 	^ aNode stop to: aNode start
 ]
+
+{ #category : 'running' }
+NegativeIntervalStrategy >> intervalFor: aMutant [
+
+	^ aMutant data stop to: aMutant data start
+]

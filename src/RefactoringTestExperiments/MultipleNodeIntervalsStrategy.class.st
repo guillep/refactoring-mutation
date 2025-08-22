@@ -30,6 +30,15 @@ MultipleNodeIntervalsStrategy >> initialize [
 	offset := 2
 ]
 
+{ #category : 'running' }
+MultipleNodeIntervalsStrategy >> intervalFor: aMutant [
+
+	| start last |
+	start := aMutant data sourceInterval first.
+	last := aMutant data sourceInterval last.
+	^ (start + offset to: last + offset)
+]
+
 { #category : 'accessing' }
 MultipleNodeIntervalsStrategy >> offset: aNumber [
 

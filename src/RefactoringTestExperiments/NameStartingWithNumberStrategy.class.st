@@ -1,6 +1,6 @@
 Class {
 	#name : 'NameStartingWithNumberStrategy',
-	#superclass : 'NameStrategy',
+	#superclass : 'VariableNameStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Strategy'
@@ -14,6 +14,12 @@ NameStartingWithNumberStrategy class >> isValidInput [
 
 { #category : 'running' }
 NameStartingWithNumberStrategy >> forNode: aNode and: aModel [
+
+	^ '1uniqueName'
+]
+
+{ #category : 'running' }
+NameStartingWithNumberStrategy >> tempNameFor: aMutant [
 
 	^ '1uniqueName'
 ]

@@ -7,9 +7,15 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-NameStrategy class >> invalidGlobalAndVarNames [
+NameStrategy class >> invalidGlobalNames [
 
-	^ self subclasses reject: [ :each | each isValidInput ] thenCollect: [ :each | each new ]
+	^ ClassNameStrategy subclasses reject: [ :each | each isValidInput ] thenCollect: [ :each | each new ]
+]
+
+{ #category : 'as yet unclassified' }
+NameStrategy class >> invalidVarNames [
+
+	^ VariableNameStrategy subclasses reject: [ :each | each isValidInput ] thenCollect: [ :each | each new ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -24,16 +30,16 @@ NameStrategy class >> validVarNames [
 	^ { UniqueTempNameStrategy new }
 ]
 
-{ #category : 'applying' }
-NameStrategy >> appliesToNode: aNode [
-
-	^ aNode isVariable
-]
-
 { #category : 'running' }
 NameStrategy >> forNode: aNode and: aModel [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : 'running' }
+NameStrategy >> intervalFor: aMutant [
+
+	^ aMutant data sourceInterval
 ]
 
 { #category : 'accessing' }

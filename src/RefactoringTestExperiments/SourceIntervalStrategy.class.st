@@ -24,6 +24,12 @@ SourceIntervalStrategy >> appliesToNode: aNode [
 	^ true
 ]
 
+{ #category : 'as yet unclassified' }
+SourceIntervalStrategy >> classNameFor: aMutant [
+
+	^ 'UniqueNameInTheSystem'
+]
+
 { #category : 'running' }
 SourceIntervalStrategy >> forNode: aNode and: aModel [
 
@@ -34,4 +40,10 @@ SourceIntervalStrategy >> forNode: aNode and: aModel [
 SourceIntervalStrategy >> key [
 
 	^ #interval
+]
+
+{ #category : 'as yet unclassified' }
+SourceIntervalStrategy >> tempNameFor: aMutant [
+
+	^ #foo , aMutant data name
 ]

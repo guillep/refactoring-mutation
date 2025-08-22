@@ -9,12 +9,12 @@ Class {
 { #category : 'mutant generation' }
 CompositeExtractMethodMutationOperator >> createRefactoringWith: aMutation [
 
-	| refactoring model |
-	(aMutation inputFor: #interval) ifNil: [ ^ nil ].
+	| refactoring model interval |
+	interval := (aMutation strategy forNode: aMutation data and: model) ifNil: [ ^ nil ].
 	model := RBNamespace onEnvironment: classEnvironment.
 	refactoring := ReCompositeExtractMethodRefactoring
 		               model: model
-		               extractInterval: (aMutation inputFor: #interval)
+		               extractInterval: interval
 		               from: aMutation originalMethod selector
 		               to: #foo
 		               in: aMutation originalMethod methodClass name.

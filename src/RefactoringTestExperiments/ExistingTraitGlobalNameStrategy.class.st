@@ -1,6 +1,6 @@
 Class {
 	#name : 'ExistingTraitGlobalNameStrategy',
-	#superclass : 'NameStrategy',
+	#superclass : 'ClassNameStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Strategy'
@@ -14,6 +14,24 @@ ExistingTraitGlobalNameStrategy class >> isValidInput [
 
 { #category : 'running' }
 ExistingTraitGlobalNameStrategy >> forNode: aNode and: aModel [
+
+	^ 'RBTDummy'
+]
+
+{ #category : 'running' }
+ExistingTraitGlobalNameStrategy >> nameFor: aMutant [
+
+	^ 'RBTDummy'
+]
+
+{ #category : 'running' }
+ExistingTraitGlobalNameStrategy >> nameFor: aMutant and: model [
+
+	^ 'RBTDummy'
+]
+
+{ #category : 'running' }
+ExistingTraitGlobalNameStrategy >> tempNameFor: aMutant [
 
 	^ 'RBTDummy'
 ]

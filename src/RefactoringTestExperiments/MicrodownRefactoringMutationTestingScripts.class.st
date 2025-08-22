@@ -52,6 +52,19 @@ MicrodownRefactoringMutationTestingScripts class >> runAddArgument [
 ]
 
 { #category : 'running' }
+MicrodownRefactoringMutationTestingScripts class >> runAll [
+
+	<script>
+	self runAddArgument.
+	self runCompositeExtractMethod.
+	self runExtractMethod.
+	self runInlineMethod.
+	self runRenameArgOrTemp.
+	self runRenameClass.
+	self runRenameMethod
+]
+
+{ #category : 'running' }
 MicrodownRefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 	<script>
 	[

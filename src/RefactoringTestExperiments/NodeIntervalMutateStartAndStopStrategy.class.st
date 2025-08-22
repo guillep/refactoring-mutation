@@ -21,3 +21,9 @@ NodeIntervalMutateStartAndStopStrategy >> forNode: aNode and: aModel [
 
 	^ aNode sourceInterval
 ]
+
+{ #category : 'running' }
+NodeIntervalMutateStartAndStopStrategy >> intervalFor: aMutant [
+
+	^ aMutant data sourceInterval
+]

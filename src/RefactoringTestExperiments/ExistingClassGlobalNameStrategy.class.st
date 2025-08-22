@@ -1,6 +1,6 @@
 Class {
 	#name : 'ExistingClassGlobalNameStrategy',
-	#superclass : 'NameStrategy',
+	#superclass : 'ClassNameStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Strategy'
@@ -14,6 +14,24 @@ ExistingClassGlobalNameStrategy class >> isValidInput [
 
 { #category : 'running' }
 ExistingClassGlobalNameStrategy >> forNode: aNode and: aModel [
+
+	^ 'Object'
+]
+
+{ #category : 'running' }
+ExistingClassGlobalNameStrategy >> nameFor: aMutant [
+
+	^ 'Object'
+]
+
+{ #category : 'running' }
+ExistingClassGlobalNameStrategy >> nameFor: aMutant and: model [
+
+	^ 'Object'
+]
+
+{ #category : 'running' }
+ExistingClassGlobalNameStrategy >> tempNameFor: aMutant [
 
 	^ 'Object'
 ]

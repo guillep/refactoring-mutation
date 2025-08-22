@@ -1,6 +1,6 @@
 Class {
 	#name : 'ExistingInstanceVariableNameStrategy',
-	#superclass : 'NameStrategy',
+	#superclass : 'VariableNameStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Strategy'
@@ -18,4 +18,12 @@ ExistingInstanceVariableNameStrategy >> forNode: aNode and: aModel [
 	^ aNode methodNode methodClass instVarNames
 		  ifEmpty: [ nil ]
 		  ifNotEmpty: [ aNode methodNode methodClass instVarNames first ]
+]
+
+{ #category : 'running' }
+ExistingInstanceVariableNameStrategy >> tempNameFor: aMutant [
+
+	^ aMutant data methodNode methodClass instVarNames
+		  ifEmpty: [ nil ]
+		  ifNotEmpty: [ aMutant data methodNode methodClass instVarNames first ]
 ]

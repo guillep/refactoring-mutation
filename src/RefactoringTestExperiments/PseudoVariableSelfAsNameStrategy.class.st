@@ -1,6 +1,6 @@
 Class {
 	#name : 'PseudoVariableSelfAsNameStrategy',
-	#superclass : 'NameStrategy',
+	#superclass : 'VariableNameStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Strategy'
@@ -14,6 +14,12 @@ PseudoVariableSelfAsNameStrategy class >> isValidInput [
 
 { #category : 'running' }
 PseudoVariableSelfAsNameStrategy >> forNode: aNode and: aModel [
+
+	^ 'self'
+]
+
+{ #category : 'running' }
+PseudoVariableSelfAsNameStrategy >> tempNameFor: aMutant [
 
 	^ 'self'
 ]

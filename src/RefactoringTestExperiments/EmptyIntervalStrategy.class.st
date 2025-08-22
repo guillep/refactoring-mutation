@@ -17,3 +17,9 @@ EmptyIntervalStrategy >> forNode: aNode and: aModel [
 
 	^ aNode start to: aNode start
 ]
+
+{ #category : 'running' }
+EmptyIntervalStrategy >> intervalFor: aMutant [
+
+	^ aMutant data start to: aMutant data start
+]

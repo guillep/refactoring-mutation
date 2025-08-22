@@ -392,7 +392,7 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	validInterval := SourceIntervalStrategy validIntervals.
 	validName := NameStrategy validVarNames.
 	invalidInterval := SourceIntervalStrategy invalidIntervals.
-	invalidName := NameStrategy invalidGlobalAndVarNames.	
+	invalidName := NameStrategy invalidVarNames.	
 
 	validOperator := self operator: RenameArgumentOrTemporaryMutationOperator inputs: validName on: classEnvironment.
 	logger nextPutAll: 'Rename Arg or Temp Refactoring valid name'.
@@ -457,7 +457,7 @@ RefactoringMutationTestingScripts class >> runRenameClass [
 		                    classesToMutate , testClasses , { Object }.
 
 	validInputs := NameStrategy validGlobalNames.
-	invalidInputs := NameStrategy invalidGlobalAndVarNames.
+	invalidInputs := NameStrategy invalidGlobalNames.
 	
 	validOperator := self operator: RenameClassMutationOperator inputs: validInputs on: classEnvironment.
 	logger nextPutAll: 'Rename Class Refactoring,'.
