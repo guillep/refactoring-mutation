@@ -19,7 +19,7 @@ RenameMethodMutationOperator >> affectedNodesFor: aParseTree [
 RenameMethodMutationOperator >> createRefactoringWith: aMutation [
 
 	| refactoring model name permutations |
-	(aMutation strategy appliesToNode: aMutation data) ifFalse: [ ^ nil ].
+	aMutation appliesToNode ifFalse: [ ^ nil ].
 	name := (aMutation strategy methodNameFor: aMutation ) ifNil: [ ^ nil ].
 	permutations := (aMutation strategy permutationsFor: aMutation ) ifNil: [ ^ nil ].
 	model := RBNamespace onEnvironment: classEnvironment.

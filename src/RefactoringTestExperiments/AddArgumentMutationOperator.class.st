@@ -19,11 +19,11 @@ AddArgumentMutationOperator >> affectedNodesFor: aParseTree [
 	^ selected
 ]
 
-{ #category : 'refactoring' }
+{ #category : 'mutant generation' }
 AddArgumentMutationOperator >> createRefactoringWith: aMutation [
 
 	| selector permutations |
-	(aMutation strategy appliesToNode: aMutation data) ifFalse: [ ^ nil ].
+	aMutation appliesToNode ifFalse: [ ^ nil ].
 	selector := (aMutation strategy methodNameFor: aMutation) ifNil: [ ^ nil ].
 	permutations := (aMutation strategy permutationsFor: aMutation) ifNil: [ ^ nil ].
 	^ RBAddParameterRefactoring 

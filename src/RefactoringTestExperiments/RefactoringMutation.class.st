@@ -48,6 +48,12 @@ RefactoringMutation class >> for: aCompiledMethod using: anOperator nodeNumber: 
 		  yourself
 ]
 
+{ #category : 'accessing' }
+RefactoringMutation >> appliesToNode [
+
+	^ strategy appliesToNode: data
+]
+
 { #category : 'installing' }
 RefactoringMutation >> doNotApplyPreconditions [
 

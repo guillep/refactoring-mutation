@@ -6,12 +6,12 @@ Class {
 	#tag : 'Core'
 }
 
-{ #category : 'printing' }
+{ #category : 'mutant generation' }
 RenameClassMutationOperator >> createRefactoringWith: aMutation [
 
 	| model name |
 	model := RBNamespace onEnvironment: classEnvironment.
-	(aMutation strategy appliesToNode: aMutation data) ifFalse: [ ^ nil ].
+	aMutation appliesToNode ifFalse: [ ^ nil ].
 	name := (aMutation strategy nameFor: aMutation and: model) ifNil: [ ^ nil ].
 	^ ReRenameClassRefactoring
 		  model: model

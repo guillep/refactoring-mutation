@@ -9,5 +9,5 @@ Class {
 { #category : 'applying' }
 ClassNameStrategy >> appliesToNode: aNode [
 
-	^ aNode isClass
+	^ aNode isVariable
 ]
