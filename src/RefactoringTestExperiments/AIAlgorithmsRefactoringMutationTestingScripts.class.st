@@ -43,6 +43,19 @@ AIAlgorithmsRefactoringMutationTestingScripts class >> runAddArgument [
 ]
 
 { #category : 'running' }
+AIAlgorithmsRefactoringMutationTestingScripts class >> runAll [
+
+	<script>
+	self runAddArgument.
+	self runCompositeExtractMethod.
+	self runExtractMethod.
+	self runInlineMethod.
+	self runRenameArgOrTemp.
+	self runRenameClass.
+	self runRenameMethod
+]
+
+{ #category : 'running' }
 AIAlgorithmsRefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 
 	<script>

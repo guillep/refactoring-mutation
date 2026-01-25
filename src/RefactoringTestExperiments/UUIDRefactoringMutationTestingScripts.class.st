@@ -38,6 +38,19 @@ UUIDRefactoringMutationTestingScripts class >> runAddArgument [
 ]
 
 { #category : 'running' }
+UUIDRefactoringMutationTestingScripts class >> runAll [
+
+	<script>
+	self runAddArgument.
+	self runCompositeExtractMethod.
+	self runExtractMethod.
+	self runInlineMethod.
+	self runRenameArgOrTemp.
+	self runRenameClass.
+	self runRenameMethod
+]
+
+{ #category : 'running' }
 UUIDRefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 	<script>
 	[
