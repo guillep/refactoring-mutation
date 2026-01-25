@@ -70,6 +70,8 @@ RefactoringMutationReport >> printCsvOn: aStream [
 	aStream nextPutAll: ','.
 	aStream print: result mutationScore.
 	aStream nextPutAll: '%,'.
+	aStream print: result elapsedTime.
+	aStream nextPutAll: ','.
 	aStream print:
 		(100.0 * coverage methods size / coverage collector methods size)
 			rounded.
@@ -93,6 +95,8 @@ RefactoringMutationReport >> printCsvOn: aStream [
 RefactoringMutationReport >> printOn: aStream [
 
 	aStream print: mutationAnalysis generalResult.
+	aStream nextPut: Character space.
+	aStream print: mutationAnalysis generalResult elapsedTime.
 	aStream nextPut: Character space.
 	aStream nextPutAll: 'Method coverage: '.
 	aStream print:

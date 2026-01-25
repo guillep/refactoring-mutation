@@ -49,7 +49,8 @@ RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refa
 	"report printOn: logger."
 	"((report mutationAnalysis generalResult terminatedMutants collect: [ :m | m exception ]) groupedBy: [ :e | e class name ]) printOn: logger." "groups error by class"
 	self showAnalysisResults ifTrue: [
-		report mutationAnalysis generalResult inspect.
+		report inspect.
+		"report mutationAnalysis generalResult inspect."
 		"report coverage inspect."
 		"report previewCoverageInDrTests"
 	].
@@ -395,14 +396,14 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	invalidName := NameStrategy invalidVarNames.	
 
 	validOperator := self operator: RenameArgumentOrTemporaryMutationOperator inputs: validName on: classEnvironment.
-	logger nextPutAll: 'Rename Arg or Temp Refactoring valid name'.
+	logger nextPutAll: 'Rename Arg or Temp Refactoring valid name,'.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBRenameArgumentOrTemporaryRefactoring }
 		          using: validOperator.
 
 	validOperator := self operator: RenameArgumentOrTemporaryMutationOperator inputs: validInterval on: classEnvironment.
-	logger nextPutAll: 'Rename Arg or Temp Refactoring valid interval'.
+	logger nextPutAll: 'Rename Arg or Temp Refactoring valid interval,'.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBRenameArgumentOrTemporaryRefactoring }
