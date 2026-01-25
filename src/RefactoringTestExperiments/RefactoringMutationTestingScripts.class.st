@@ -455,11 +455,11 @@ RefactoringMutationTestingScripts class >> runRenameClass [
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
 	classEnvironment := RBClassEnvironment classes:
-		                    classesToMutate , testClasses , { Object }.
+		                    classesToMutate , testClasses , { Object . RBTDummy }.
 
 	validInputs := NameStrategy validGlobalNames.
 	invalidInputs := NameStrategy invalidGlobalNames.
-	
+
 	validOperator := self operator: RenameClassMutationOperator inputs: validInputs on: classEnvironment.
 	logger nextPutAll: 'Rename Class Refactoring,'.
 	report := self
