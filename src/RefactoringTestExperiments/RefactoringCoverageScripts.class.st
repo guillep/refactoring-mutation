@@ -62,7 +62,7 @@ RefactoringCoverageScripts class >> printCoverage: coverage on: aStream [
 	aStream nextPutAll: '/'.
 	aStream print: coverage collector nodes size.
 	aStream nextPutAll: ')'.
-	aStream cr.
+	aStream lf.
 ]
 
 { #category : 'running' }
