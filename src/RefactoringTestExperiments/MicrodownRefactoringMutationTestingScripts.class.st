@@ -28,7 +28,7 @@ MicrodownRefactoringMutationTestingScripts class >> reload [
 			onConflict: [ :e | e useIncoming ];
 			onUpgrade: [ :e | e useIncoming ];
 			ignoreImage;
-			load: 'Tests' ]
+			load: 'Microdown-Tests' ]
 			on: MCMergeOrLoadWarning
 			do: [ :e | e load ] ].
 	BeautifulComments class compile: 'renderComment: aString of: aClassOrPackage 
