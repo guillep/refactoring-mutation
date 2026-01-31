@@ -132,7 +132,7 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
 	classEnvironment := RBClassEnvironment classes:
-		                    classesToMutate , testClasses.
+		                    classesToMutate , testClasses , { TStyledElement }.
 	validName := MethodNameStrategy validAddArgMethodNames.
 	invalidName := MethodNameStrategy invalidAddArgMethodNames.
 	validPermutations := MethodNamePermutationsStrategy validAddArgPermutations.
@@ -165,7 +165,7 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
 		          using: validOperatorInvalidInputs.
-
+"
 	allInvalidOperator := self operator: AddArgumentInvalidBehPresMutationOperator inputs: invalidName on: classEnvironment.
 	logger nextPutAll: 'Add Argument Fuzzed with Ignored name Behavior Preserving Preconditions,'.
 		report := self
@@ -192,7 +192,7 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 		report := self
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
-		          using: allInvalidOperator.
+		          using: allInvalidOperator."
 
 	self shouldRunUnion ifFalse: [ ^ self ].
 	operators := allValidOperator, validOperatorInvalidInputs , allInvalidOperator.
