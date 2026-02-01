@@ -75,7 +75,7 @@ RefactoringMutationTestingScripts class >> configureCSVLoggerFor: aTestName [
 	logger := file writeStream.
 	logger
 		nextPutAll: 'Refactoring,no mutants,killed,alive,terminated,score,method coverage,covered/total no methods,node coverage,covered/total no nodes';
-		cr.
+		lf.
 ]
 
 { #category : 'accessing' }
