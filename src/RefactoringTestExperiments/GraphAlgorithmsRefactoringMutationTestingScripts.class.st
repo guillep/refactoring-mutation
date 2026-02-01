@@ -2,7 +2,7 @@
 I am a helper class that just defines 'Microdown' as target project and defines delegate method that invoke scripts from my superclass.
 "
 Class {
-	#name : 'AIAlgorithmsRefactoringMutationTestingScripts',
+	#name : 'GraphAlgorithmsRefactoringMutationTestingScripts',
 	#superclass : 'RefactoringMutationTestingScripts',
 	#category : 'RefactoringTestExperiments-Scripts',
 	#package : 'RefactoringTestExperiments',
@@ -10,13 +10,13 @@ Class {
 }
 
 { #category : 'accessing' }
-AIAlgorithmsRefactoringMutationTestingScripts class >> mutationPackageNames [
+GraphAlgorithmsRefactoringMutationTestingScripts class >> mutationPackageNames [
 
 	^ { 'AI-Algorithms-Graph' }
 ]
 
 { #category : 'cleaning' }
-AIAlgorithmsRefactoringMutationTestingScripts class >> reload [
+GraphAlgorithmsRefactoringMutationTestingScripts class >> reload [
 
 	<script>
 	super reload.
@@ -28,22 +28,22 @@ AIAlgorithmsRefactoringMutationTestingScripts class >> reload [
 ]
 
 { #category : 'accessing' }
-AIAlgorithmsRefactoringMutationTestingScripts class >> repositoryNames [ 
+GraphAlgorithmsRefactoringMutationTestingScripts class >> repositoryNames [ 
 
 	^ { 'graph-algorithms' }
 ]
 
 { #category : 'running' }
-AIAlgorithmsRefactoringMutationTestingScripts class >> runAddArgument [
+GraphAlgorithmsRefactoringMutationTestingScripts class >> runAddArgument [
 
 	<script>
 	[
-		self configureCSVLoggerFor: 'AIAlgs-AddArg'.
+		self configureCSVLoggerFor: 'GraphAlgs-AddArg'.
 		super runAddArgument ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
-AIAlgorithmsRefactoringMutationTestingScripts class >> runAll [
+GraphAlgorithmsRefactoringMutationTestingScripts class >> runAll [
 
 	<script>
 	self runAddArgument.
@@ -56,74 +56,74 @@ AIAlgorithmsRefactoringMutationTestingScripts class >> runAll [
 ]
 
 { #category : 'running' }
-AIAlgorithmsRefactoringMutationTestingScripts class >> runCompositeExtractMethod [
+GraphAlgorithmsRefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 
 	<script>
 	[
-		self configureCSVLoggerFor: 'AIAlgs-CompositeEM'.
+		self configureCSVLoggerFor: 'GraphAlgs-CompositeEM'.
 		super runCompositeExtractMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'coverage' }
-AIAlgorithmsRefactoringMutationTestingScripts class >> runCoverage [
+GraphAlgorithmsRefactoringMutationTestingScripts class >> runCoverage [
 	<script>
 	
 	super runCoverage
 ]
 
 { #category : 'running' }
-AIAlgorithmsRefactoringMutationTestingScripts class >> runExtractMethod [
+GraphAlgorithmsRefactoringMutationTestingScripts class >> runExtractMethod [
 
 	<script>
 	[
-		self configureCSVLoggerFor: 'AIAlgs-ExtractMethod'.
+		self configureCSVLoggerFor: 'GraphAlgs-ExtractMethod'.
 		super runExtractMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
-AIAlgorithmsRefactoringMutationTestingScripts class >> runInlineMethod [
+GraphAlgorithmsRefactoringMutationTestingScripts class >> runInlineMethod [
 
 	<script>
 	[
-		self configureCSVLoggerFor: 'AIAlgs-InlineMethod'.
+		self configureCSVLoggerFor: 'GraphAlgs-InlineMethod'.
 		super runInlineMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
-AIAlgorithmsRefactoringMutationTestingScripts class >> runRenameArgOrTemp [
+GraphAlgorithmsRefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 
 	<script>
 	[
-		self configureCSVLoggerFor: 'AIAlgs-RenameArgOrTemp'.
+		self configureCSVLoggerFor: 'GraphAlgs-RenameArgOrTemp'.
 		super runRenameArgOrTemp ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
-AIAlgorithmsRefactoringMutationTestingScripts class >> runRenameClass [
+GraphAlgorithmsRefactoringMutationTestingScripts class >> runRenameClass [
 
 	<script>
 	[
-		self configureCSVLoggerFor: 'AIAlgs-RenameClass'.
+		self configureCSVLoggerFor: 'GraphAlgs-RenameClass'.
 		super runRenameClass ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
-AIAlgorithmsRefactoringMutationTestingScripts class >> runRenameMethod [
+GraphAlgorithmsRefactoringMutationTestingScripts class >> runRenameMethod [
 
 	<script>
 	[
-		self configureCSVLoggerFor: 'AIAlgs-RenameMethod'.
+		self configureCSVLoggerFor: 'GraphAlgs-RenameMethod'.
 		super runRenameMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'accessing' }
-AIAlgorithmsRefactoringMutationTestingScripts class >> testPackageNames [
+GraphAlgorithmsRefactoringMutationTestingScripts class >> testPackageNames [
 
 	^ { 'AI-Algorithms-Graph-Tests' }
 ]
 
 { #category : 'cleaning' }
-AIAlgorithmsRefactoringMutationTestingScripts class >> unloadAndForget [
+GraphAlgorithmsRefactoringMutationTestingScripts class >> unloadAndForget [
 	<script>
 	
 	super unloadAndForget 
