@@ -396,28 +396,28 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	invalidName := NameStrategy invalidVarNames.	
 
 	validOperator := self operator: RenameArgumentOrTemporaryMutationOperator inputs: validName on: classEnvironment.
-	logger nextPutAll: 'Rename Arg or Temp Refactoring valid name,'.
+	logger nextPutAll: 'Rename Variable Refactoring valid name,'.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBRenameArgumentOrTemporaryRefactoring }
 		          using: validOperator.
 
 	validOperator := self operator: RenameArgumentOrTemporaryMutationOperator inputs: validInterval on: classEnvironment.
-	logger nextPutAll: 'Rename Arg or Temp Refactoring valid interval,'.
+	logger nextPutAll: 'Rename Variable Refactoring valid interval,'.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBRenameArgumentOrTemporaryRefactoring }
 		          using: validOperator.
 
 	validOperatorInvalidInputs := self operator: RenameArgumentOrTemporaryMutationOperator inputs: invalidInterval on: classEnvironment.
-	logger nextPutAll: 'Rename Arg or Temp Fuzzed Interval Refactoring,'.
+	logger nextPutAll: 'Rename Variable Fuzzed Interval Refactoring,'.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBRenameArgumentOrTemporaryRefactoring }
 		          using: validOperatorInvalidInputs.
 	
 	validOperatorInvalidInputs := self operator: RenameArgumentOrTemporaryMutationOperator inputs: invalidName on: classEnvironment.
-	logger nextPutAll: 'Rename Arg or Temp Fuzzed Name Refactoring,'.
+	logger nextPutAll: 'Rename Variable Fuzzed Name Refactoring,'.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBRenameArgumentOrTemporaryRefactoring }
@@ -425,14 +425,14 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 		
 
 	invalidOperator := self operator: RenameArgOrTempBehPresMutationOperator inputs: invalidName on: classEnvironment.
-	logger nextPutAll: 'Rename Arg or Temp Fuzzed Name with Ignored Behavior Preserving Preconditions,'.
+	logger nextPutAll: 'Rename Variable Fuzzed Name with Ignored Behavior Preserving Preconditions,'.
 		report := self
 		          calculateRefactoringCoverageFor:
 		          { RBRenameArgumentOrTemporaryRefactoring }
 		          using: invalidOperator.
 
 	invalidOperator := self operator: RenameArgOrTempInvalidInputMutationOperator inputs: invalidName on: classEnvironment.
-	logger nextPutAll: 'Rename Arg or Temp Fuzzed Name with Ignoring Failed Preconditions,'.
+	logger nextPutAll: 'Rename Variable Fuzzed Name with Ignoring Failed Preconditions,'.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBRenameArgumentOrTemporaryRefactoring }
@@ -440,7 +440,7 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 
 	self shouldRunUnion ifFalse: [ ^ self ].
 	operators := validOperator, validOperatorInvalidInputs, invalidOperator.
-	logger nextPutAll: 'Rename Arg or Temp Union of All Above,'.
+	logger nextPutAll: 'Rename Variable Union of All Above,'.
 	report := self
 		          calculateRefactoringCoverageFor:
 		          { RBRenameArgumentOrTemporaryRefactoring }
