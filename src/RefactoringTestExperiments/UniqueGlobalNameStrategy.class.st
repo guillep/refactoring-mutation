@@ -21,7 +21,7 @@ UniqueGlobalNameStrategy >> forNode: aNode and: aModel [
 { #category : 'running' }
 UniqueGlobalNameStrategy >> nameFor: aMutant [
 
-	^ 'UniqueNameInTheSystem'
+	^ 'Foo', aMutant data name
 ]
 
 { #category : 'running' }
