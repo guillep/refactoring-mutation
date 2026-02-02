@@ -61,7 +61,7 @@ AVLRefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 	<script>
 	[
 		self configureCSVLoggerFor: 'AVL-CompositeExtractMethod'.
-		super runCompositeExtractMethod ] ensure: [ logger closed ]
+		super runCompositeExtractMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'coverage' }
@@ -76,7 +76,7 @@ AVLRefactoringMutationTestingScripts class >> runExtractMethod [
 	<script>
 	[
 		self configureCSVLoggerFor: 'AVL-ExtractMethod'.
-		super runExtractMethod ] ensure: [ logger closed ]
+		super runExtractMethod ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
@@ -93,7 +93,7 @@ AVLRefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 	<script>
 	[
 		self configureCSVLoggerFor: 'AVL-RenameArgOrTemp'.
-		super runRenameArgOrTemp ] ensure: [ logger closed ]
+		super runRenameArgOrTemp ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
@@ -101,7 +101,7 @@ AVLRefactoringMutationTestingScripts class >> runRenameClass [
 	<script>
 	[
 		self configureCSVLoggerFor: 'AVL-RenameClass'.
-		super runRenameClass ] ensure: [ logger closed ]
+		super runRenameClass ] ensure: [ logger close ]
 ]
 
 { #category : 'running' }
