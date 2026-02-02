@@ -27,5 +27,5 @@ UniqueGlobalNameStrategy >> nameFor: aMutant [
 { #category : 'running' }
 UniqueGlobalNameStrategy >> nameFor: aMutant and: model [
 
-	^ 'UniqueNameInTheSystem'
+	^ 'Foo', aMutant data name
 ]
