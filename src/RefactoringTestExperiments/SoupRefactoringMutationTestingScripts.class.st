@@ -23,7 +23,7 @@ SoupRefactoringMutationTestingScripts class >> reload [
 	EpMonitor disableDuring: [
 		Metacello new
 			baseline: 'Soup';
-			repository: 'github://pharo-contributions/Soup';
+			repository: 'github://pharo-contributions/Soup:15b2d1101eb90fc3c9be6299d1693c5fffd417bf';
 			load ]
 ]
 

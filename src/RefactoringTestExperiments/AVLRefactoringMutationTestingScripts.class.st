@@ -23,14 +23,14 @@ AVLRefactoringMutationTestingScripts class >> reload [
 	EpMonitor disableDuring: [
 		Metacello new
   			baseline: 'ContainersAVLTree';
-  			repository: 'github://pharo-containers/AVL:main';
+  			repository: 'github://pharo-containers/Container-AVL:v0.9';
   			load ]
 ]
 
 { #category : 'accessing' }
 AVLRefactoringMutationTestingScripts class >> repositoryNames [
 
-	^ { 'AVL' }
+	^ { 'Container-AVL' }
 ]
 
 { #category : 'running' }

@@ -22,7 +22,7 @@ GraphAlgorithmsRefactoringMutationTestingScripts class >> reload [
 	super reload.
 	EpMonitor disableDuring: [
 		Metacello new
-			repository: 'github://pharo-ai/graph-algorithms';
+			repository: 'github://pharo-ai/graph-algorithms:v1.2.7';
 			baseline: 'AIGraphAlgorithms';
 			load ]
 ]
