@@ -24,7 +24,7 @@ ArtefactRefactoringMutationTestingScripts class >> reload [
 		[
 		Metacello new
 			baseline: 'Artefact';
-			repository: 'github://pharo-contributions/Artefact:development/src';
+			repository: 'github://pharo-contributions/Artefact:0865285a1b21cac534ab3d3620d87b1b1c05c5aa/src';
 			onConflict: [ :e | e useIncoming ];
 			onUpgrade: [ :e | e useIncoming ];
 			ignoreImage;

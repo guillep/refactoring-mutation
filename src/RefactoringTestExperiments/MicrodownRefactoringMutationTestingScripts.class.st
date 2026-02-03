@@ -24,7 +24,7 @@ MicrodownRefactoringMutationTestingScripts class >> reload [
 		[
 		Metacello new
 			baseline: 'Microdown';
-			repository: 'github://Pillar-markup/Microdown:dev/src';
+			repository: 'github://Pillar-markup/Microdown:Pharo13/src';
 			onConflict: [ :e | e useIncoming ];
 			onUpgrade: [ :e | e useIncoming ];
 			ignoreImage;
