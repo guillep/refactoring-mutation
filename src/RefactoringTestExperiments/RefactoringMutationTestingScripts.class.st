@@ -74,7 +74,7 @@ RefactoringMutationTestingScripts class >> configureCSVLoggerFor: aTestName [
 		        path: Path * (aTestName , '-Refazzing.csv').
 	logger := file writeStream.
 	logger
-		nextPutAll: 'Refactoring,no mutants,killed,alive,terminated,score,method coverage,covered/total no methods,node coverage,covered/total no nodes';
+		nextPutAll: 'Refactoring,no mutants,killed,alive,terminated,score,execution time (s),method coverage %,covered/total methods,node coverage %,covered/total nodes';
 		lf.
 ]
 

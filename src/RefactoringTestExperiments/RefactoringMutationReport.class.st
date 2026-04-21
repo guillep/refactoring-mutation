@@ -14,6 +14,11 @@ Class {
 	#tag : 'Core'
 }
 
+{ #category : 'data access' }
+RefactoringMutationReport >> aliveMutants [
+	^ mutationAnalysis generalResult numberOfAliveMutants
+]
+
 { #category : 'accessing' }
 RefactoringMutationReport >> coverage [
 	^ coverage
@@ -23,6 +28,21 @@ RefactoringMutationReport >> coverage [
 RefactoringMutationReport >> coverage: aDTCoverageResult [
 
 	coverage := aDTCoverageResult
+]
+
+{ #category : 'data access' }
+RefactoringMutationReport >> executionTime [
+	^ mutationAnalysis generalResult elapsedTime
+]
+
+{ #category : 'data access' }
+RefactoringMutationReport >> killedMutants [
+	^ mutationAnalysis generalResult numberOfKilledMutants
+]
+
+{ #category : 'data access' }
+RefactoringMutationReport >> methodsCovered [
+	^ coverage methods size
 ]
 
 { #category : 'accessing' }
@@ -35,6 +55,12 @@ RefactoringMutationReport >> mutationAnalysis [
 RefactoringMutationReport >> mutationAnalysis: aMTAnalysis [
 
 	mutationAnalysis := aMTAnalysis
+]
+
+{ #category : 'data access' }
+RefactoringMutationReport >> mutationScore [
+	"Return mutation score as a decimal (0-1)"
+	^ mutationAnalysis generalResult mutationScore
 ]
 
 { #category : 'coverage' }
@@ -118,4 +144,14 @@ RefactoringMutationReport >> printOn: aStream [
 	aStream nextPutAll: '/'.
 	aStream print: coverage collector nodes size.
 	aStream nextPutAll: ')'
+]
+
+{ #category : 'data access' }
+RefactoringMutationReport >> totalMethods [
+	^ coverage collector methods size
+]
+
+{ #category : 'data access' }
+RefactoringMutationReport >> totalMutants [
+	^ mutationAnalysis generalResult numberOfEvaluatedMutants
 ]
