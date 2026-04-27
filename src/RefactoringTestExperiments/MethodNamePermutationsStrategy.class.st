@@ -30,13 +30,13 @@ MethodNamePermutationsStrategy class >> validRenameMethodPermutations [
 	^ { NoPermutationsStrategy new }
 ]
 
-{ #category : 'applying' }
+{ #category : 'checking' }
 MethodNamePermutationsStrategy >> appliesToNode: aNode [
 
 	^ aNode isMethod
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 MethodNamePermutationsStrategy >> forNode: aNode and: aModel [
 
 	^ self subclassResponsibility
@@ -48,10 +48,20 @@ MethodNamePermutationsStrategy >> key [
 	^ #permutations
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
+MethodNamePermutationsStrategy >> methodNameFor: aMutant [ 
+	^ self subclassResponsibility
+]
+
+{ #category : 'running' }
 MethodNamePermutationsStrategy >> noPermutationsFor: aNode [
 
 	| keywords |
 	keywords := aNode selector count: [ :c | c = $: ].
 	^ 1 to: keywords
+]
+
+{ #category : 'running' }
+MethodNamePermutationsStrategy >> permutationsFor: aMutant [ 
+	^ self subclassResponsibility
 ]

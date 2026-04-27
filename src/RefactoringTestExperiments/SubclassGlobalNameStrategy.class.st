@@ -12,7 +12,7 @@ SubclassGlobalNameStrategy class >> isValidInput [
 	^ false
 ]
 
-{ #category : 'applying' }
+{ #category : 'checking' }
 SubclassGlobalNameStrategy >> appliesToNode: aNode [
 
 	^ aNode isGlobalVariable 

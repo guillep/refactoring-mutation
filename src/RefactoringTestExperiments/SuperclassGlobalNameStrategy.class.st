@@ -12,7 +12,7 @@ SuperclassGlobalNameStrategy class >> isValidInput [
 	^ false
 ]
 
-{ #category : 'applying' }
+{ #category : 'checking' }
 SuperclassGlobalNameStrategy >> appliesToNode: aNode [
 
 	^ aNode isGlobalVariable 

@@ -1,6 +1,6 @@
 Class {
 	#name : 'NameStrategy',
-	#superclass : 'Object',
+	#superclass : 'AbstractStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Strategy'
@@ -28,6 +28,12 @@ NameStrategy class >> validGlobalNames [
 NameStrategy class >> validVarNames [
 
 	^ { UniqueTempNameStrategy new }
+]
+
+{ #category : 'checking' }
+NameStrategy >> appliesToNode: aNode [
+
+	^ true
 ]
 
 { #category : 'running' }

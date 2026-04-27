@@ -6,8 +6,14 @@ Class {
 	#tag : 'Strategy'
 }
 
-{ #category : 'applying' }
+{ #category : 'checking' }
 VariableNameStrategy >> appliesToNode: aNode [
 
 	^ aNode isVariable
+]
+
+{ #category : 'running' }
+VariableNameStrategy >> forNode: aNode and: aModel [
+
+	^ self subclassResponsibility 
 ]

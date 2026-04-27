@@ -18,13 +18,13 @@ SourceIntervalStrategy class >> validIntervals [
 	^ self subclasses select: [ :each | each isValidInput ] thenCollect: [ :each | each new ]
 ]
 
-{ #category : 'applying' }
+{ #category : 'checking' }
 SourceIntervalStrategy >> appliesToNode: aNode [
 
 	^ true
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SourceIntervalStrategy >> classNameFor: aMutant [
 
 	^ 'UniqueNameInTheSystem'
@@ -36,13 +36,18 @@ SourceIntervalStrategy >> forNode: aNode and: aModel [
 	^ self subclassResponsibility 
 ]
 
+{ #category : 'running' }
+SourceIntervalStrategy >> intervalFor: aMutant [ 
+	^ self subclassResponsibility
+]
+
 { #category : 'accessing' }
 SourceIntervalStrategy >> key [
 
 	^ #interval
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 SourceIntervalStrategy >> tempNameFor: aMutant [
 
 	^ #foo , aMutant data name

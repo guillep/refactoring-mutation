@@ -41,10 +41,15 @@ MethodNameStrategy class >> validRenameMethodNames [
 	^ { UniqueMethodNameStrategy new }
 ]
 
-{ #category : 'applying' }
+{ #category : 'checking' }
 MethodNameStrategy >> appliesToNode: aNode [
 
 	^ aNode isMethod
+]
+
+{ #category : 'running' }
+MethodNameStrategy >> forNode: aNode and: aModel [ 
+	^ self subclassResponsibility
 ]
 
 { #category : 'accessing' }
@@ -53,7 +58,12 @@ MethodNameStrategy >> key [
 	^ #methodName
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
+MethodNameStrategy >> methodNameFor: aMutant [ 
+	^ self subclassResponsibility
+]
+
+{ #category : 'running' }
 MethodNameStrategy >> permutationsFor: aMutant [
 
 	| keywords |

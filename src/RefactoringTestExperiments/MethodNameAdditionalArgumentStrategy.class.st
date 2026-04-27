@@ -18,13 +18,13 @@ MethodNameAdditionalArgumentStrategy >> forNode: aNode and: aModel [
 	^ aNode selector , #foo:
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 MethodNameAdditionalArgumentStrategy >> methodNameFor: aMutant [
 
 	^ aMutant data selector , #foo:
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 MethodNameAdditionalArgumentStrategy >> permutationsFor: aMutant [
 
 	^ (super permutationsFor: aMutant) asArray , #(-1)
