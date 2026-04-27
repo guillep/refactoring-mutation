@@ -604,3 +604,7 @@ RefactoringMutationTestingScripts class >> unloadAndForget [
 		]
 	]
 ]
+
+{ #category : 'see class side' }
+RefactoringMutationTestingScripts >> seeClassSide [
+]
