@@ -123,3 +123,7 @@ SoupRefactoringMutationTestingScripts class >> unloadAndForget [
 	
 	super unloadAndForget 
 ]
+
+{ #category : 'see class side' }
+SoupRefactoringMutationTestingScripts >> seeClassSide [ 
+]

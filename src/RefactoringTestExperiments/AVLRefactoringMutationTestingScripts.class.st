@@ -125,3 +125,7 @@ AVLRefactoringMutationTestingScripts class >> unloadAndForget [
 	
 	super unloadAndForget 
 ]
+
+{ #category : 'see class side' }
+AVLRefactoringMutationTestingScripts >> seeClassSide [ 
+]

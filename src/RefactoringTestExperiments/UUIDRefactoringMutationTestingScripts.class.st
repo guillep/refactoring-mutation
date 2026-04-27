@@ -118,3 +118,7 @@ UUIDRefactoringMutationTestingScripts class >> unloadAndForget [
 	
 	super unloadAndForget 
 ]
+
+{ #category : 'see class side' }
+UUIDRefactoringMutationTestingScripts >> seeClassSide [ 
+]

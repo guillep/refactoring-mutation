@@ -132,3 +132,7 @@ MicrodownRefactoringMutationTestingScripts class >> unloadAndForget [
 	<script>
 	super unloadAndForget 
 ]
+
+{ #category : 'see class side' }
+MicrodownRefactoringMutationTestingScripts >> seeClassSide [ 
+]

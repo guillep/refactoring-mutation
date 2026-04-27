@@ -1,6 +1,6 @@
 Class {
 	#name : 'MethodNamePermutationsStrategy',
-	#superclass : 'Object',
+	#superclass : 'AbstractStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Strategy'

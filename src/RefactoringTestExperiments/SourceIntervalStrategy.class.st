@@ -1,6 +1,6 @@
 Class {
 	#name : 'SourceIntervalStrategy',
-	#superclass : 'Object',
+	#superclass : 'AbstractStrategy',
 	#category : 'RefactoringTestExperiments-Strategy',
 	#package : 'RefactoringTestExperiments',
 	#tag : 'Strategy'

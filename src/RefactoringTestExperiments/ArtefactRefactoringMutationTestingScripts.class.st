@@ -127,3 +127,7 @@ ArtefactRefactoringMutationTestingScripts class >> testPackageNames [
 
 	^ { 'Artefact-Core-Tests' }
 ]
+
+{ #category : 'see class side' }
+ArtefactRefactoringMutationTestingScripts >> seeClassSide [ 
+]

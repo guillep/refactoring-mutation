@@ -128,3 +128,7 @@ GraphAlgorithmsRefactoringMutationTestingScripts class >> unloadAndForget [
 	
 	super unloadAndForget 
 ]
+
+{ #category : 'see class side' }
+GraphAlgorithmsRefactoringMutationTestingScripts >> seeClassSide [ 
+]
