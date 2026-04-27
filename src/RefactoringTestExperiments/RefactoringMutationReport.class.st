@@ -115,6 +115,7 @@ RefactoringMutationReport >> printCsvOn: aStream [
 	aStream print: coverage collector nodes size.
 	aStream nextPutAll: ')'.
 	aStream nextPut: Character lf.
+	aStream flush.
 ]
 
 { #category : 'printing' }
