@@ -8,7 +8,6 @@ Class {
 	#name : 'RefactoringMutation',
 	#superclass : 'MTMethodMutation',
 	#instVars : [
-		'shouldApplyPreconditions',
 		'inputs',
 		'refactoring',
 		'shouldCheckApplicability',
@@ -54,12 +53,6 @@ RefactoringMutation >> appliesToNode [
 	^ strategy appliesToNode: data
 ]
 
-{ #category : 'installing' }
-RefactoringMutation >> doNotApplyPreconditions [
-
-	shouldApplyPreconditions := false
-]
-
 { #category : 'accessing' }
 RefactoringMutation >> doNotCheckApplicability [
 
@@ -96,11 +89,10 @@ RefactoringMutation >> failedBehaviorPreservingPreconditions: conditions [
 	failedBehaviorPreservingPreconditions := conditions
 ]
 
-{ #category : 'installing' }
+{ #category : 'initialization' }
 RefactoringMutation >> initialize [
 
 	super initialize.
-	shouldApplyPreconditions := true.
 	shouldCheckApplicability := true.
 	shouldCheckBehaviorPreserving := true.
 ]
@@ -139,12 +131,6 @@ RefactoringMutation >> refactoring [
 RefactoringMutation >> refactoring: aRefactoring [
 
 	refactoring := aRefactoring 
-]
-
-{ #category : 'accessing' }
-RefactoringMutation >> shouldApplyPreconditions [
-
-	^ shouldApplyPreconditions
 ]
 
 { #category : 'accessing' }
