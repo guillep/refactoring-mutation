@@ -29,6 +29,16 @@ Class {
 { #category : 'running' }
 RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refactoringsList using: operators [
 
+	^ self
+		  calculateRefactoringCoverageFor: refactoringsList
+		  using: operators
+		  testSelectionStrategy:
+		  MTSelectingFromCoverageTestSelectionStrategy
+]
+
+{ #category : 'running' }
+RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refactoringsList using: operators testSelectionStrategy: testingSelectionStrategy [
+
 	| testClasses classesToMutate analysis collector coverage report |
 	self reload.
 	testClasses := self testPackageNames flatCollect: [ :package | ((PackageOrganizer default packageNamed: package) definedClasses select: [ :cls | cls isTestCase ])].
@@ -37,6 +47,7 @@ RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refa
 	analysis := MTAnalysis new
 		            classesToMutate: classesToMutate;
 		            testClasses: testClasses;
+					  testSelectionStrategy: testingSelectionStrategy;
 		            operators: operators.
 
 	"Calculate coverage of refactoring code while running mutation testing."
@@ -171,7 +182,8 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 		report := self
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
-		          using: allInvalidOperator.
+		          using: allInvalidOperator
+					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy.
 
 	allInvalidOperator := self operator: AddArgumentInvalidPreconditionMutationOperator inputs: invalidName on: classEnvironment.
 	logger nextPutAll: 'Add Argument Fuzzed with Ignored Failed name Preconditions,'.
@@ -235,7 +247,8 @@ RefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 		report := self
 		          calculateRefactoringCoverageFor:
 		          { ReCompositeExtractMethodRefactoring }
-		          using: invalidOperator.
+		          using: invalidOperator
+					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy.
 
 	invalidOperator := self operator: CompositeExtractMethodPreconditionsMutationOperator inputs: invalidInput on: classEnvironment.
 	logger nextPutAll: 'Composite Extract Method Fuzzed with Ignored Failed Preconditions,'.
@@ -302,7 +315,8 @@ RefactoringMutationTestingScripts class >> runExtractMethod [
 		report := self
 		          calculateRefactoringCoverageFor:
 		          { RBExtractMethodRefactoring }
-		          using: invalidOperator.
+		          using: invalidOperator
+					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy.
 
 	invalidOperator := self operator: ExtractMethodNoPreconditionMutationOperator inputs: invalidInput on: classEnvironment.
 	logger nextPutAll: 'Extract Method Fuzzed with Ignored Failed Precondition,'.
@@ -362,7 +376,8 @@ RefactoringMutationTestingScripts class >> runInlineMethod [
 		report := self
 		          calculateRefactoringCoverageFor:
 		          { RBInlineMethodRefactoring }
-		          using: invalidOperator.
+		          using: invalidOperator
+					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy.
 		
 	invalidOperator := self operator: InlineMethodInvalidInputMutationOperator inputs: invalidInputs on: nil.
 	logger nextPutAll: 'Inline Method Fuzzed with Ignored Failed Preconditions,'.
@@ -429,7 +444,8 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 		report := self
 		          calculateRefactoringCoverageFor:
 		          { RBRenameArgumentOrTemporaryRefactoring }
-		          using: invalidOperator.
+		          using: invalidOperator
+					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy.
 
 	invalidOperator := self operator: RenameArgOrTempInvalidInputMutationOperator inputs: invalidName on: classEnvironment.
 	logger nextPutAll: 'Rename Variable Fuzzed Name with Ignoring Failed Preconditions,'.
@@ -479,7 +495,8 @@ RefactoringMutationTestingScripts class >> runRenameClass [
 		report := self
 		          calculateRefactoringCoverageFor:
 		          { ReRenameClassRefactoring }
-		          using: invalidOperator.
+		          using: invalidOperator
+					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy.
 
 	invalidOperator := self operator: RenameClassWithoutPreconditionsMutationOperator inputs: invalidInputs on: classEnvironment.
 	logger nextPutAll: 'Rename Class Fuzzed with Ignored Failed Preconditions,'.
@@ -546,7 +563,8 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 		report := self
 		          calculateRefactoringCoverageFor:
 		          { ReRenameMethodRefactoring }
-		          using: allInvalidOperator.
+		          using: allInvalidOperator
+					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy.
 
 	allInvalidOperator := self operator: RenameMethodInvalidPreconditionsMutationOperator inputs: invalidName on: classEnvironment.
 	logger nextPutAll: 'Rename Method Fuzzed with Ignored Failed name Preconditions,'.

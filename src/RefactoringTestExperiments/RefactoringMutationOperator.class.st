@@ -42,6 +42,12 @@ RefactoringMutationOperator class >> reset [
 	blackListMethodNames := nil
 ]
 
+{ #category : 'private' }
+RefactoringMutationOperator >> affectedNodesFor: aParseTree [
+
+	^ self subclassResponsibility 
+]
+
 { #category : 'instance creation' }
 RefactoringMutationOperator >> appliesToNode: aMutant [
 	| aNode refactoring |

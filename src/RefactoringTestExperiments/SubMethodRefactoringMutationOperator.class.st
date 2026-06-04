@@ -6,7 +6,7 @@ Class {
 	#tag : 'Core'
 }
 
-{ #category : 'instance creation' }
+{ #category : 'private' }
 SubMethodRefactoringMutationOperator >> affectedNodesFor: aParseTree [
 	"Redefine to only affect nodes in the body"
 
