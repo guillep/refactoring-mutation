@@ -148,7 +148,7 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 	invalidName := MethodNameStrategy invalidAddArgMethodNames.
 	validPermutations := MethodNamePermutationsStrategy validAddArgPermutations.
 	invalidPermutations := MethodNamePermutationsStrategy invalidAddArgPermutations.
-	
+
 	allValidOperator := self operator: AddArgumentMutationOperator inputs: validName on: classEnvironment.
 	logger nextPutAll: 'Add Argument Refactoring name,'.
 	report := self
@@ -197,7 +197,8 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 		report := self
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
-		          using: allInvalidOperator.
+		          using: allInvalidOperator
+					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy new.
 
 	allInvalidOperator := self operator: AddArgumentInvalidPreconditionMutationOperator inputs: invalidPermutations on: classEnvironment.
 	logger nextPutAll: 'Add Argument Fuzzed with Ignored Failed permutations Preconditions,'.
@@ -223,11 +224,11 @@ RefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 	testClasses := self testClasses.
 	classesToMutate := self classesToMutate.
 	classEnvironment := RBClassEnvironment classes:
-		                    classesToMutate , testClasses.
+		                    classesToMutate , testClasses, { TStyledElement }.
 
 	validInput := SourceIntervalStrategy validIntervals.
 	invalidInput := SourceIntervalStrategy invalidIntervals.
-	
+
 	validOperator := self operator: CompositeExtractMethodMutationOperator inputs: validInput on: classEnvironment.
 	logger nextPutAll: 'Composite Extract Method Refactoring,'.
 	report := self
@@ -248,7 +249,7 @@ RefactoringMutationTestingScripts class >> runCompositeExtractMethod [
 		          calculateRefactoringCoverageFor:
 		          { ReCompositeExtractMethodRefactoring }
 		          using: invalidOperator
-					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy.
+					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy new.
 
 	invalidOperator := self operator: CompositeExtractMethodPreconditionsMutationOperator inputs: invalidInput on: classEnvironment.
 	logger nextPutAll: 'Composite Extract Method Fuzzed with Ignored Failed Preconditions,'.
@@ -295,7 +296,7 @@ RefactoringMutationTestingScripts class >> runExtractMethod [
 
 	validInput := SourceIntervalStrategy validIntervals.
 	invalidInput := SourceIntervalStrategy invalidIntervals.
-	
+
 	validOperator := self operator: ExtractMethodMutationOperator inputs: validInput on: classEnvironment.
 	logger nextPutAll: 'Extract Method Refactoring,'.
 	report := self
@@ -316,7 +317,7 @@ RefactoringMutationTestingScripts class >> runExtractMethod [
 		          calculateRefactoringCoverageFor:
 		          { RBExtractMethodRefactoring }
 		          using: invalidOperator
-					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy.
+					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy new.
 
 	invalidOperator := self operator: ExtractMethodNoPreconditionMutationOperator inputs: invalidInput on: classEnvironment.
 	logger nextPutAll: 'Extract Method Fuzzed with Ignored Failed Precondition,'.
@@ -356,7 +357,7 @@ RefactoringMutationTestingScripts class >> runInlineMethod [
 	
 	validInputs := SourceIntervalStrategy validIntervals.
 	invalidInputs := SourceIntervalStrategy invalidIntervals.
-	
+
 	validOperator := self operator: InlineMethodMutationOperator inputs: validInputs on: nil.
 	logger nextPutAll: 'Inline Method Refactoring,'.
 	report := self
@@ -377,8 +378,8 @@ RefactoringMutationTestingScripts class >> runInlineMethod [
 		          calculateRefactoringCoverageFor:
 		          { RBInlineMethodRefactoring }
 		          using: invalidOperator
-					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy.
-		
+					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy new.
+
 	invalidOperator := self operator: InlineMethodInvalidInputMutationOperator inputs: invalidInputs on: nil.
 	logger nextPutAll: 'Inline Method Fuzzed with Ignored Failed Preconditions,'.
 	report := self
@@ -445,7 +446,7 @@ RefactoringMutationTestingScripts class >> runRenameArgOrTemp [
 		          calculateRefactoringCoverageFor:
 		          { RBRenameArgumentOrTemporaryRefactoring }
 		          using: invalidOperator
-					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy.
+					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy new.
 
 	invalidOperator := self operator: RenameArgOrTempInvalidInputMutationOperator inputs: invalidName on: classEnvironment.
 	logger nextPutAll: 'Rename Variable Fuzzed Name with Ignoring Failed Preconditions,'.
@@ -496,7 +497,7 @@ RefactoringMutationTestingScripts class >> runRenameClass [
 		          calculateRefactoringCoverageFor:
 		          { ReRenameClassRefactoring }
 		          using: invalidOperator
-					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy.
+					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy new.
 
 	invalidOperator := self operator: RenameClassWithoutPreconditionsMutationOperator inputs: invalidInputs on: classEnvironment.
 	logger nextPutAll: 'Rename Class Fuzzed with Ignored Failed Preconditions,'.
@@ -564,14 +565,14 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 		          calculateRefactoringCoverageFor:
 		          { ReRenameMethodRefactoring }
 		          using: allInvalidOperator
-					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy.
+					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy new.
 
 	allInvalidOperator := self operator: RenameMethodInvalidPreconditionsMutationOperator inputs: invalidName on: classEnvironment.
 	logger nextPutAll: 'Rename Method Fuzzed with Ignored Failed name Preconditions,'.
 		report := self
 		          calculateRefactoringCoverageFor:
 		          { ReRenameMethodRefactoring }
-		          using: allInvalidOperator.		
+		          using: allInvalidOperator.
 
 	self shouldRunUnion ifFalse: [ ^ self ].
 	operators := allValidOperator, validOperatorInvalidInputs , allInvalidOperator.

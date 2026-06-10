@@ -96,6 +96,7 @@ RefactoringCoverageScripts class >> runCoverageFor: refactoringClasses with: tes
 	suite addTests: (testClasses flatCollect: [ :cls | cls methods select: [ :m | m isTestMethod ] thenCollect: [ :m | cls selector: m selector ] ]).
 	coverage := collector runOn: [ suite run ].  "Setup, execute and teardown."
 	self printCoverage: coverage on: self logger.
+	showResults ifNil: [ ^ self ].
 	showResults ifFalse: [ ^ self ].
 	coverage inspect.
 	self previewCoverageInDrTests: coverage
