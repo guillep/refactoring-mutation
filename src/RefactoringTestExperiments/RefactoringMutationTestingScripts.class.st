@@ -183,7 +183,7 @@ RefactoringMutationTestingScripts class >> runAddArgument [
 		          calculateRefactoringCoverageFor:
 		          { RBAddParameterRefactoring }
 		          using: allInvalidOperator
-					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy.
+					testSelectionStrategy: MTAllTestsMethodsRunningTestSelectionStrategy new.
 
 	allInvalidOperator := self operator: AddArgumentInvalidPreconditionMutationOperator inputs: invalidName on: classEnvironment.
 	logger nextPutAll: 'Add Argument Fuzzed with Ignored Failed name Preconditions,'.
