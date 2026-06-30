@@ -33,7 +33,7 @@ RefactoringMutationTestingScripts class >> calculateRefactoringCoverageFor: refa
 		  calculateRefactoringCoverageFor: refactoringsList
 		  using: operators
 		  testSelectionStrategy:
-		  MTSelectingFromCoverageTestSelectionStrategy
+		  MTSelectingFromCoverageTestSelectionStrategy new
 ]
 
 { #category : 'running' }
