@@ -579,7 +579,7 @@ RefactoringMutationTestingScripts class >> runRenameMethod [
 	logger nextPutAll: 'Rename Method Union Of All Above,'.
 	report := self
 		          calculateRefactoringCoverageFor:
-		          { RBAddParameterRefactoring }
+		          { ReRenameMethodRefactoring }
 		          using: operators.
 ]
 
