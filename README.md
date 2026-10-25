@@ -4,8 +4,11 @@ This project contains mutation operators and scripts for utilising mutation-test
 
 ## Requirements
 
-- Pharo (this code is typically used with recent Pharo versions)
+- Pharo 13 (the experiments used the Pharo 13.1 64-bit image, sources `dbc010a`)
+- The refactoring engine patches on branch `refazzing-latest-pharo13` of [balsa-sarenac/pharo](https://github.com/balsa-sarenac/pharo/tree/refazzing-latest-pharo13), commit `e862ce2f`. Most of them fix engine bugs that blocked the experiments. Load the changed packages into the image with Iceberg before loading this project.
 - Metacello
+
+The baseline pins MuTalk to commit `c4ad8eb4` of [balsa-sarenac/mutalk](https://github.com/balsa-sarenac/mutalk). The scripts pin each target project to the version used in the experiments.
 
 ## Load (file-based)
 

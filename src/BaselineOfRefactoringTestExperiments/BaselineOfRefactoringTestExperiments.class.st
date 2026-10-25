@@ -13,7 +13,7 @@ BaselineOfRefactoringTestExperiments >> baseline: spec [
 		do: [
 			spec
 				baseline: 'MuTalk'
-				with: [ spec repository: 'github://pharo-contributions/mutalk/src' ].
+				with: [ spec repository: 'github://balsa-sarenac/mutalk:c4ad8eb459aed6d768ad8e2c698ceb078d0a8b87/src' ].
 
 			spec 
 				package: 'RefactoringTestExperiments'
